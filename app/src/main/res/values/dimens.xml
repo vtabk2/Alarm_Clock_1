@@ -2,4 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="text_battery_activity_main_marginTop">20dp</dimen>
+    <dimen name="image_alarm_activity_main_marginBottom">25dp</dimen>
+    <dimen name="text_clock_activity_main_textSize">120sp</dimen>
+    <dimen name="text_clock2_activity_main_textSize">60sp</dimen>
+    <dimen name="linearLayout_activity_main_paddingEnd">20dp</dimen>
+    <dimen name="linearLayout_activity_main_paddingStart">0dp</dimen>
 </resources>

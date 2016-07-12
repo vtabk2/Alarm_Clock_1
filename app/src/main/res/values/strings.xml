@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AlarmClock</string>
+    <string name="app_name">Alarm Clock</string>
+    <string name="text_hide_hour">88:88</string>
+    <string name="text_hide_second">88</string>
 </resources>
