@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openActivity(RepeatActivity.class);
                 break;
             case R.id.image_alarm:
-                // TODO: 12/07/2016
+                openActivity(ListAlarmsActivity.class);
                 break;
             case R.id.image_timer:
                 // TODO: 12/07/2016

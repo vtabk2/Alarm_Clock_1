@@ -23,4 +23,16 @@
     <string name="everysaturday">Every Saturday</string>
     <string name="everysunday">Every Sunday</string>
     <string name="everyday">EveryDay</string>
+    <string name="sample_time">8:00</string>
+    <string name="sample_day">Mon, Tue, Wed, Thu, Fri, Sat, Sun</string>
+    <string name="add_alarm">add alarm</string>
+    <string name="alarms">Alarms</string>
+    <string name="sample_note">Good morning everyone, my name is AlarmClockFree</string>
+    <string name="delete_mutiple_alarms">Delete multiple alarms</string>
+    <string name="delete_all_alarms">Delete all alarms</string>
+    <string name="delete_selected">delete selected</string>
+    <string name="cancel">cancel</string>
+    <string name="title_delete_all_alarms">Delete all alarms</string>
+    <string name="message_delete_all_alarms">Are you sure you want to delete all alarms?</string>
+    <string name="data_empty">There is no alarm</string>
 </resources>

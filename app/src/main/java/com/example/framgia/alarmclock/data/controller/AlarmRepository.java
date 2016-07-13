@@ -21,7 +21,7 @@ public class AlarmRepository {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                mRealm.copyToRealm(alarm);
+                mRealm.copyToRealmOrUpdate(alarm);
             }
         });
     }

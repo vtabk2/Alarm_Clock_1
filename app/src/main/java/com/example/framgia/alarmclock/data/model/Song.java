@@ -17,6 +17,10 @@ public class Song extends RealmObject {
     public Song() {
     }
 
+    public Song(int id) {
+        // TODO: 13/07/2016 default song
+    }
+
     public Song(int id, String path, String name) {
         mId = id;
         mPath = path;

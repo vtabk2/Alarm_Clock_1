@@ -1,6 +1,12 @@
 package com.example.framgia.alarmclock.data.model;
 
+import com.example.framgia.alarmclock.data.Constants;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -17,14 +23,19 @@ public class Alarm extends RealmObject {
     private int mSnoozeTime;
     private String mNote;
     private boolean mIsEnabled;
-    private Repeat mRepeatDay;
+    private Repeat mRepeat;
+    private boolean mIsChecked;
 
     public Alarm() {
     }
 
+    public Alarm(int id) {
+        // TODO: 13/07/2016 default alarm
+        mId = id;
+    }
+
     public Alarm(int id, long time, String sound, int volume, boolean isVibrated, boolean isFadeIn,
-                 int snoozeTime, String note, boolean isEnabled,
-                 Repeat repeatDay) {
+                 int snoozeTime, String note, boolean isEnabled, Repeat repeat) {
         mId = id;
         mTime = time;
         mSound = sound;
@@ -34,7 +45,7 @@ public class Alarm extends RealmObject {
         mSnoozeTime = snoozeTime;
         mNote = note;
         mIsEnabled = isEnabled;
-        mRepeatDay = repeatDay;
+        mRepeat = repeat;
     }
 
     public int getId() {
@@ -73,7 +84,19 @@ public class Alarm extends RealmObject {
         return mIsEnabled;
     }
 
-    public Repeat getRepeatDay() {
-        return mRepeatDay;
+    public Repeat getRepeat() {
+        return mRepeat;
+    }
+
+    public String getFormattedTime() {
+        return new SimpleDateFormat(Constants.ALARM_TIME_FORMAT).format(new Date(mTime));
+    }
+
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
     }
 }

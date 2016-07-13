@@ -16,4 +16,9 @@
     <dimen name="text_clock_setting_activity_paddingLeft">30dp</dimen>
     <dimen name="text_repeat_activity_marginStart">20dp</dimen>
     <dimen name="checkbox_repeat_activity_marginEnd">20dp</dimen>
+    <dimen name="item_alarm_padding">12dp</dimen>
+    <dimen name="item_alarm_text_time_size">24sp</dimen>
+    <dimen name="item_alarm_switch_margin_right">36dp</dimen>
+    <dimen name="margin_small">5dp</dimen>
+    <dimen name="item_alarm_text_note_width">150dp</dimen>
 </resources>
