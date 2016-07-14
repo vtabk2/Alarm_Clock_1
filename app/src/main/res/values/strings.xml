@@ -2,4 +2,16 @@
     <string name="app_name">Alarm Clock</string>
     <string name="text_hide_hour">88:88</string>
     <string name="text_hide_second">88</string>
+    <string name="settings_alarms">Alarms</string>
+    <string name="settings_timer">Sleep Timer</string>
+    <string name="settings_weather">Weather</string>
+    <string name="settings_display">Display</string>
+    <string name="settings_advanced">Advanced</string>
+    <string name="title_settings">Settings</string>
+    <string name="clock_digital_blue">Digital Blue</string>
+    <string name="clock_digital_green">Digital Green</string>
+    <string name="clock_digital_red">Digital Red</string>
+    <string name="clock_digital_yellow">Digital Yellow</string>
+    <string name="clock_digital_white">Digital White</string>
+    <string name="clock_analog">Thinline</string>
 </resources>

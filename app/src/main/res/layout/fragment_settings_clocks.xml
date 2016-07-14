@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/digital_white_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_digital_white"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/digital_blue_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_digital_blue"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/digital_green_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_digital_green"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_red"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/digital_red_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_digital_red"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_yellow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/digital_yellow_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_digital_yellow"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            android:id="@+id/layout_clock_analog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_small">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
+                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                android:src="@drawable/analog_w_150"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/text_clock_setting_activity_paddingLeft"
+                android:text="@string/clock_analog"
+                android:textSize="@dimen/text_size_functions_setting_activity"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+    </LinearLayout>
+
+</ScrollView>
