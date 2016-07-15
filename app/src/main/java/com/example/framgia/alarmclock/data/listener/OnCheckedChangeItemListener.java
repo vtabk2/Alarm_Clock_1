@@ -8,6 +8,6 @@ import com.example.framgia.alarmclock.ui.adapter.AlarmRecyclerViewAdapter;
  * Created by framgia on 15/07/2016.
  */
 public interface OnCheckedChangeItemListener {
-    void onCheckedChangeItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int positon,
+    void onCheckedChangeItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int position,
                              CompoundButton button, boolean isChecked);
 }

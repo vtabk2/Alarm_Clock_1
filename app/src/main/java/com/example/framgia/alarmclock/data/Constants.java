@@ -26,4 +26,11 @@ public class Constants {
     public final static int TYPE_CLOCKS_YELLOW = 4;
     public final static int TYPE_CLOCKS_ANALOG = 5;
     public static final String ALARM_TIME_FORMAT = "HH:mm";
+    public static final String OBJECT_ID = "id";
+    public static final String MINUTES ="minutes";
+    public static final int DEFAULT_INTENT_VALUE = -1;
+    public static final String DEFAULT_ALARM_SOUND = "Bells";
+    public static final int DEFAULT_ALARM_VOLUME = 50;
+    public static final int DEFAULT_ALARM_SNOOZE_TIME = 10;
+
 }

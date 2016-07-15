@@ -1,6 +1,7 @@
 package com.example.framgia.alarmclock.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.listener.OnCheckedChangeItemListener;
 import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
+import com.example.framgia.alarmclock.data.listener.OnLongClickItemListener;
 import com.example.framgia.alarmclock.data.model.Alarm;
 
 import java.util.List;
@@ -30,14 +32,17 @@ public class AlarmRecyclerViewAdapter
     private List<Alarm> mAlarmList;
     private OnClickItemListener mOnClickItemListener;
     private OnCheckedChangeItemListener mOnCheckedChangeItemListener;
+    private OnLongClickItemListener mOnLongClickItemListener;
 
     public AlarmRecyclerViewAdapter(Context context, List<Alarm> alarmList, OnClickItemListener
-        onClickItemListener, OnCheckedChangeItemListener onCheckedChangeItemListener) {
+        onClickItemListener, OnCheckedChangeItemListener onCheckedChangeItemListener,
+                                    OnLongClickItemListener onLongClickItemListener) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mAlarmList = alarmList;
         mOnClickItemListener = onClickItemListener;
         mOnCheckedChangeItemListener = onCheckedChangeItemListener;
+        mOnLongClickItemListener = onLongClickItemListener;
     }
 
     @Override
@@ -50,24 +55,37 @@ public class AlarmRecyclerViewAdapter
     public void onBindViewHolder(final AlarmViewHolder holder, final int position) {
         Alarm alarm = mAlarmList.get(position);
         holder.mTextViewAlarmTime.setText(alarm.getFormattedTime());
+        holder.mTextViewAlarmTime.setTextColor(alarm.isEnabled() ? Color.WHITE : Color.GRAY);
         holder.mTextViewAlarmDay.setText(alarm.getRepeat().getRepeatDay());
+        holder.mTextViewAlarmDay.setTextColor(alarm.isEnabled() ? Color.WHITE : Color.GRAY);
         holder.mTextViewAlarmNote.setText(alarm.getNote());
         holder.mCheckBoxSelectAlarm.setVisibility(IS_SHOWED_CHECKBOX ? View.VISIBLE : View.GONE);
+        holder.mSwitchEnableAlarm.setClickable(IS_SHOWED_CHECKBOX ? false : true);
+        holder.mSwitchEnableAlarm.setChecked(alarm.isEnabled());
         holder.mCheckBoxSelectAlarm.setChecked(alarm.isChecked());
         holder.mRelativeLayoutItemAlarm.setBackgroundColor(getColor(alarm.isChecked() ? R.color
             .indigo : R.color.black));
         holder.mRelativeLayoutItemAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnClickItemListener.onClickItem(holder, holder.getLayoutPosition());
+                mOnClickItemListener.onClickItem(view, holder.getLayoutPosition());
             }
         });
-        holder.mSwitchEnableAlarm.setOnClickListener(new View.OnClickListener() {
+        holder.mRelativeLayoutItemAlarm.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                mOnClickItemListener.onClickItem(holder, holder.getLayoutPosition());
+            public boolean onLongClick(View view) {
+                mOnLongClickItemListener.onLongClickItem(view, holder, holder.getLayoutPosition());
+                return false;
             }
         });
+        holder.mSwitchEnableAlarm.setOnCheckedChangeListener(
+            new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    mOnCheckedChangeItemListener
+                        .onCheckedChangeItem(holder, position, compoundButton, b);
+                }
+            });
         holder.mCheckBoxSelectAlarm.setOnCheckedChangeListener(
             new CompoundButton.OnCheckedChangeListener() {
                 @Override

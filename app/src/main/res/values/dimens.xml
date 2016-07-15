@@ -25,4 +25,8 @@
     <dimen name="text_clock2_widget_clock_text_size">15sp</dimen>
     <dimen name="widget_clock_info_min_height">100dp</dimen>
     <dimen name="widget_clock_info_min_width">100dp</dimen>
+    <dimen name="alarm_detail_time_text_size">40sp</dimen>
+    <dimen name="alarm_detail_text_time_padding_top">25dp</dimen>
+    <dimen name="alarm_detail_text_title">20sp</dimen>
+    <dimen name="margin_medium">10dp</dimen>
 </resources>

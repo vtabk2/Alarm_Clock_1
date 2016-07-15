@@ -44,5 +44,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_clock_info"/>
         </receiver>
+        <activity
+            android:name=".ui.activity.AlarmDetailActivity"
+            android:theme="@style/Theme.AppCompat"/>
     </application>
 </manifest>

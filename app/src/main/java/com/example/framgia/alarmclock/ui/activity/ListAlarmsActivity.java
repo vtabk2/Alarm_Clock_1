@@ -1,6 +1,7 @@
 package com.example.framgia.alarmclock.ui.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
+import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.AlarmRepository;
 import com.example.framgia.alarmclock.data.listener.OnCheckedChangeItemListener;
 import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
@@ -40,6 +42,7 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     private AlarmRepository mAlarmRepository;
     private Realm mRealm;
     private List<Alarm> mAlarmList;
+    private boolean mIsCreated;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +63,8 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
         mButtonAddAlarm.setOnClickListener(this);
         mButtonDeleteAlarm.setOnClickListener(this);
         mButtonCancel.setOnClickListener(this);
-        mAlarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this, mAlarmList, this, this);
+        mAlarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this, mAlarmList, this, this,
+            this);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerViewListAlarms.setLayoutManager(mLinearLayoutManager);
         mRecyclerViewListAlarms.setAdapter(mAlarmRecyclerViewAdapter);
@@ -108,7 +112,8 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_add_alarm:
-                // TODO: 14/07/2016 start activity add alarm
+                Intent intent = new Intent(this, AlarmDetailActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button_delete:
                 deleteCheckedItem();
@@ -123,48 +128,59 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onClickItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int position) {
-        switch (holder.itemView.getId()) {
+    public void onClickItem(View view, int position) {
+        switch (view.getId()) {
             case R.id.relative_layout_item_alarm:
-                // TODO: 14/07/2016 start activity edit alarm
-                break;
-            case R.id.switch_enable_alarm:
-                Alarm alarm = (Alarm) mAlarmList.get(position);
-                mRealm.beginTransaction();
-                if (alarm.isEnabled()) {
-                    holder.mSwitchEnableAlarm.setChecked(false);
-                    holder.mTextViewAlarmTime.setTextColor(Color.GRAY);
-                    holder.mTextViewAlarmDay.setTextColor(Color.GRAY);
+                if (AlarmRecyclerViewAdapter.IS_SHOWED_CHECKBOX) {
+                    mRealm.beginTransaction();
+                    mAlarmList.get(position).setChecked(!mAlarmList.get(position).isChecked());
+                    mRealm.commitTransaction();
+                    mAlarmRecyclerViewAdapter.notifyDataSetChanged();
                 } else {
-                    holder.mSwitchEnableAlarm.setChecked(true);
-                    holder.mTextViewAlarmTime.setTextColor(Color.WHITE);
-                    holder.mTextViewAlarmDay.setTextColor(Color.WHITE);
-                    // TODO: 13/07/2016 toast amount time set from now
+                    Intent intent = new Intent(this, AlarmDetailActivity.class);
+                    intent.putExtra(Constants.OBJECT_ID, mAlarmList.get(position).getId());
+                    startActivity(intent);
                 }
-                mRealm.commitTransaction();
                 break;
         }
     }
 
     @Override
-    public void onLongClickItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int position) {
-        switch (holder.itemView.getId()) {
+    public void onLongClickItem(View view, AlarmRecyclerViewAdapter.AlarmViewHolder holder, int
+        position) {
+        switch (view.getId()) {
             case R.id.relative_layout_item_alarm:
-                // TODO: 14/07/2016 start activity edit alarm
+                AlarmRecyclerViewAdapter.IS_SHOWED_CHECKBOX = true;
+                mButtonAddAlarm.setVisibility(View.GONE);
+                mButtonDeleteAlarm.setVisibility(View.VISIBLE);
+                mButtonCancel.setVisibility(View.VISIBLE);
+                mRealm.beginTransaction();
+                mAlarmList.get(position).setChecked(true);
+                mRealm.commitTransaction();
+                mAlarmRecyclerViewAdapter.notifyDataSetChanged();
                 break;
         }
     }
 
     @Override
-    public void onCheckedChangeItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int positon,
+    public void onCheckedChangeItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int position,
                                     CompoundButton button, boolean isChecked) {
         switch (button.getId()) {
             case R.id.checkbox_select_alarm:
                 holder.mRelativeLayoutItemAlarm.setBackgroundColor(getColorById(isChecked ? R
                     .color.indigo : R.color.black));
                 mRealm.beginTransaction();
-                mAlarmList.get(positon).setChecked(isChecked);
+                mAlarmList.get(position).setChecked(isChecked);
                 mRealm.commitTransaction();
+                break;
+            case R.id.switch_enable_alarm:
+                holder.mTextViewAlarmTime.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                holder.mTextViewAlarmDay.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                holder.mTextViewAlarmNote.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                mRealm.beginTransaction();
+                mAlarmList.get(position).setEnabled(isChecked);
+                mRealm.commitTransaction();
+                mAlarmRecyclerViewAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -206,6 +222,7 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     mAlarmRepository.deleteAll();
+                                    AlarmRecyclerViewAdapter.IS_SHOWED_CHECKBOX = false;
                                     mAlarmRecyclerViewAdapter.notifyDataSetChanged();
                                 }
                             })
@@ -233,5 +250,18 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         mRealm.close();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mIsCreated = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mIsCreated)
+            mAlarmRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
