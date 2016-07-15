@@ -1,5 +1,8 @@
 package com.example.framgia.alarmclock.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,7 +17,7 @@ import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.example.framgia.alarmclock.R;
-import com.example.framgia.alarmclock.data.contants.Contants;
+import com.example.framgia.alarmclock.data.Constants;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextClock mTextClockHour, mTextClockSecond;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImageViewTimer;
     private GestureDetector mGestureDetector;
     private float mAlpha;
+    private boolean mIscreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         onSimpleOnGestureListener();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mIscreated = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mIscreated) {
+            showAdvanced();
+        }
+    }
+
     private void onSimpleOnGestureListener() {
         GestureDetector.SimpleOnGestureListener simpleOnGestureListener =
             new GestureDetector.SimpleOnGestureListener() {
@@ -43,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     float y1 = e1.getY();
                     float y2 = e2.getY();
                     if (y1 > y2) {
-                        onFadeInChangeBrightness(Contants.DOWN);
+                        onFadeInChangeBrightness(Constants.UP);
                     } else if (y1 < y2) {
-                        onFadeInChangeBrightness(Contants.UP);
+                        onFadeInChangeBrightness(Constants.DOWN);
                     }
                     return super.onFling(e1, e2, velocityX, velocityY);
                 }
@@ -64,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViews() {
-        Typeface face = Typeface.createFromAsset(getAssets(), Contants.FONT_TIME);
+        Typeface face = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
         // text clock
         mTextClockHour = (TextClock) findViewById(R.id.text_clock_hour);
         mTextClockSecond = (TextClock) findViewById(R.id.text_clock_second);
@@ -88,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewHelp.setOnClickListener(this);
         mImageViewAlarm.setOnClickListener(this);
         mImageViewTimer.setOnClickListener(this);
-        mAlpha = Contants.ALPHA_MAX;
+        mAlpha = Constants.ALPHA_MAX;
     }
 
     @Override
@@ -98,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO: 12/07/2016  
                 break;
             case R.id.image_settings:
-                // TODO: 12/07/2016
+                openActivity(SettingActivity.class);
                 break;
             case R.id.image_help:
                 // TODO: 12/07/2016  
@@ -112,31 +130,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void openActivity(Class myClass) {
+        Intent intent = new Intent(this, myClass);
+        startActivity(intent);
+    }
+
     private void showAdvanced() {
-        mTextClockHour.setTextColor(Color.BLUE);
-        mTextClockSecond.setTextColor(Color.BLUE);
-        mTextViewHideHour.setTextColor(ContextCompat.getColor(this, R.color.colorBlue));
-        mTextViewHideSecond.setTextColor(ContextCompat.getColor(this, R.color.colorBlue));
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
+            Context.MODE_PRIVATE);
+        int typeClock =
+            sharedPreferences.getInt(Constants.TYPE_CLOCKS, Constants.TYPE_CLOCKS_WHITE);
+        switch (typeClock) {
+            case Constants.TYPE_CLOCKS_WHITE:
+                showColorViews(Color.WHITE, R.color.colorWhite);
+                break;
+            case Constants.TYPE_CLOCKS_BLUE:
+                showColorViews(Color.BLUE, R.color.colorBlue);
+                break;
+            case Constants.TYPE_CLOCKS_GREEN:
+                showColorViews(Color.GREEN, R.color.colorGreen);
+                break;
+            case Constants.TYPE_CLOCKS_RED:
+                showColorViews(Color.RED, R.color.colorRed);
+                break;
+            case Constants.TYPE_CLOCKS_YELLOW:
+                showColorViews(Color.YELLOW, R.color.colorYellow);
+                break;
+            case Constants.TYPE_CLOCKS_ANALOG:
+                // TODO: 14/07/2016
+                break;
+        }
         mTextViewBattery.setVisibility(View.INVISIBLE);
         mTextClockHour.setFormat12Hour(null);
         mTextClockSecond.setFormat12Hour(null);
-        mTextClockSecond.setFormat24Hour(Contants.FOMAT_TIME24);
+        mTextClockSecond.setFormat24Hour(Constants.FOMAT_TIME24);
+    }
+
+    private void showColorViews(int color, int colorHide) {
+        mTextClockHour.setTextColor(color);
+        mTextClockSecond.setTextColor(color);
+        mTextViewHideHour.setTextColor(ContextCompat.getColor(this, colorHide));
+        mTextViewHideSecond.setTextColor(ContextCompat.getColor(this, colorHide));
+        mImageViewAlarm.setColorFilter(color);
     }
 
     private void onFadeInChangeBrightness(int type) {
         switch (type) {
-            case Contants.DOWN:
+            case Constants.DOWN:
                 onDownBrightness();
                 break;
-            case Contants.UP:
+            case Constants.UP:
                 onUpBrightness();
                 break;
         }
     }
 
-    private void onUpBrightness() {
-        if (mAlpha > Contants.ALPHA_MIN) {
-            mAlpha -= Contants.ALPHA_DELTA;
+    private void onDownBrightness() {
+        if (mAlpha > Constants.ALPHA_MIN) {
+            mAlpha -= Constants.ALPHA_DELTA;
             setAlpha();
         }
     }
@@ -151,9 +202,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewTimer.setAlpha(mAlpha);
     }
 
-    private void onDownBrightness() {
-        if (mAlpha < Contants.ALPHA_MAX) {
-            mAlpha += Contants.ALPHA_DELTA;
+    private void onUpBrightness() {
+        if (mAlpha < Constants.ALPHA_MAX) {
+            mAlpha += Constants.ALPHA_DELTA;
             setAlpha();
         }
     }

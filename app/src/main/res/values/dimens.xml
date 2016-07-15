@@ -8,4 +8,10 @@
     <dimen name="text_clock2_activity_main_textSize">60sp</dimen>
     <dimen name="linearLayout_activity_main_paddingEnd">20dp</dimen>
     <dimen name="linearLayout_activity_main_paddingStart">0dp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="image_functions_setting_activity_paddingLeft">10dp</dimen>
+    <dimen name="image_functions_setting_activity_paddingTop">5dp</dimen>
+    <dimen name="text_functions_setting_activity_paddingLeft">20dp</dimen>
+    <dimen name="text_size_functions_setting_activity">20sp</dimen>
+    <dimen name="text_clock_setting_activity_paddingLeft">30dp</dimen>
 </resources>
