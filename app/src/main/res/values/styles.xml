@@ -101,4 +101,45 @@
         <item name="android:paddingBottom">@dimen/padding_medium</item>
         <item name="android:textAlignment">textStart</item>
     </style>
+
+    <style name="button_sleep_timer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="layout_black">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/black</item>
+    </style>
+
+    <style name="layout_w_h_match_wrap_padding">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="width_height_2wrap">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="item_checkbox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layoutDirection">rtl</item>
+        <item name="android:textSize">@dimen/snooze_item_text_size</item>
+        <item name="android:layout_marginRight">@dimen/margin_medium</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
+        <item name="android:textAlignment">textStart</item>
+    </style>
+
+    <style name="text_sleep_timer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size1_timer_sleep_activity</item>
+    </style>
 </resources>

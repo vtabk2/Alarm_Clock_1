@@ -34,15 +34,16 @@
         <activity
             android:name=".ui.activity.SnoozeActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.SleepTimerActivity"
+            android:theme="@style/Theme.AppCompat"/>
 
         <receiver
             android:name=".ui.widget.AnalogClockWidget"
             android:label="@string/clock_analog_100x100">
-
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_clock_info"/>
