@@ -19,6 +19,9 @@ public class Alarm extends RealmObject {
     private boolean mIsEnabled;
     private Repeat mRepeatDay;
 
+    public Alarm() {
+    }
+
     public Alarm(int id, long time, String sound, int volume, boolean isVibrated, boolean isFadeIn,
                  int snoozeTime, String note, boolean isEnabled,
                  Repeat repeatDay) {

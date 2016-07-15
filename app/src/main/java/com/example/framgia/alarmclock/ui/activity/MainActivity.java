@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if (mIscreated) {
             showAdvanced();
+            hideStatusBar();
         }
     }
 
@@ -119,7 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openActivity(SettingActivity.class);
                 break;
             case R.id.image_help:
-                // TODO: 12/07/2016  
+                // TODO: 12/07/2016
+                // TODO: 15/07/2016 test
+                openActivity(RepeatActivity.class);
                 break;
             case R.id.image_alarm:
                 // TODO: 12/07/2016
@@ -163,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextViewBattery.setVisibility(View.INVISIBLE);
         mTextClockHour.setFormat12Hour(null);
         mTextClockSecond.setFormat12Hour(null);
-        mTextClockSecond.setFormat24Hour(Constants.FOMAT_TIME24);
+        mTextClockSecond.setFormat24Hour(Constants.FORMAT_TIME_SECOND);
     }
 
     private void showColorViews(int color, int colorHide) {
@@ -172,6 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextViewHideHour.setTextColor(ContextCompat.getColor(this, colorHide));
         mTextViewHideSecond.setTextColor(ContextCompat.getColor(this, colorHide));
         mImageViewAlarm.setColorFilter(color);
+        mImageViewTimer.setColorFilter(color);
+        mImageViewWeather.setColorFilter(color);
+        mImageViewSettings.setColorFilter(color);
+        mImageViewHelp.setColorFilter(color);
     }
 
     private void onFadeInChangeBrightness(int type) {

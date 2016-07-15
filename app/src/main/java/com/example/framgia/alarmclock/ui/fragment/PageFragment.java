@@ -1,6 +1,7 @@
 package com.example.framgia.alarmclock.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.ui.activity.RepeatActivity;
 
 /**
  * Created by framgia on 14/07/2016.
@@ -50,18 +52,27 @@ public class PageFragment extends Fragment implements View.OnClickListener {
         switch (mPage) {
             case TYPE_FUNCTIONS:
                 view = inflater.inflate(R.layout.fragment_settings_functions, viewGroup, false);
+                initViewFunctions(view);
                 break;
             case TYPE_CLOCKS:
                 view = inflater.inflate(R.layout.fragment_settings_clocks, viewGroup, false);
                 mSharedPreferences = inflater.getContext().
                     getSharedPreferences(Constants.SHARE_PREFERENCES, Context.MODE_PRIVATE);
-                initViews(view);
+                initViewClocks(view);
                 break;
         }
         return view;
     }
 
-    private void initViews(View view) {
+    private void initViewFunctions(View view) {
+        view.findViewById(R.id.layout_alarm).setOnClickListener(this);
+        view.findViewById(R.id.layout_timer).setOnClickListener(this);
+        view.findViewById(R.id.layout_weather).setOnClickListener(this);
+        view.findViewById(R.id.layout_display).setOnClickListener(this);
+        view.findViewById(R.id.layout_advanced).setOnClickListener(this);
+    }
+
+    private void initViewClocks(View view) {
         int type = mSharedPreferences.getInt(Constants.TYPE_CLOCKS, Constants
             .TYPE_CLOCKS_WHITE);
         mLinearLayoutDigitalWhite = (LinearLayout) view.findViewById(R.id.layout_clock_white);
@@ -122,6 +133,27 @@ public class PageFragment extends Fragment implements View.OnClickListener {
             case R.id.layout_clock_analog:
                 onChangeTypeClock(Constants.TYPE_CLOCKS_ANALOG, true);
                 break;
+            case R.id.layout_alarm:
+                // TODO: 14/07/2016
+                openActivity(RepeatActivity.class);
+                break;
+            case R.id.layout_timer:
+                // TODO: 14/07/2016
+                break;
+            case R.id.layout_weather:
+                // TODO: 14/07/2016
+                break;
+            case R.id.layout_display:
+                // TODO: 14/07/2016
+                break;
+            case R.id.layout_advanced:
+                // TODO: 14/07/2016
+                break;
         }
+    }
+
+    private void openActivity(Class myClass) {
+        Intent intent = new Intent(getContext(), myClass);
+        startActivity(intent);
     }
 }

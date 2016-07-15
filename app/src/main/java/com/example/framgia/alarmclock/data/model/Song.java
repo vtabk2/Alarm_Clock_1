@@ -14,6 +14,9 @@ public class Song extends RealmObject {
     private String mPath;
     private String mName;
 
+    public Song() {
+    }
+
     public Song(int id, String path, String name) {
         mId = id;
         mPath = path;

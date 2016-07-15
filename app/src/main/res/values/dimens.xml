@@ -14,4 +14,6 @@
     <dimen name="text_functions_setting_activity_paddingLeft">20dp</dimen>
     <dimen name="text_size_functions_setting_activity">20sp</dimen>
     <dimen name="text_clock_setting_activity_paddingLeft">30dp</dimen>
+    <dimen name="text_repeat_activity_marginStart">20dp</dimen>
+    <dimen name="checkbox_repeat_activity_marginEnd">20dp</dimen>
 </resources>
