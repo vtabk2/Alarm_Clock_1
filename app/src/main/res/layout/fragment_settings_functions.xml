@@ -13,125 +13,80 @@
 
         <LinearLayout
             android:id="@+id/layout_alarm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
+            style="@style/layout_repeat"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
-                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                style="@style/image_fragment_setting_clocks"
                 android:src="@drawable/bar_icon_alarm"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/text_functions_setting_activity_paddingLeft"
-                android:text="@string/settings_alarms"
-                android:textSize="@dimen/text_size_functions_setting_activity"/>
+                style="@style/text_fragment_setting_functions_clocks"
+                android:text="@string/settings_alarms"/>
         </LinearLayout>
 
         <include layout="@layout/layout_line_break"/>
 
         <LinearLayout
             android:id="@+id/layout_timer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
+            style="@style/layout_repeat"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
-                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                style="@style/image_fragment_setting_clocks"
                 android:src="@drawable/bar_icon_timer"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/text_functions_setting_activity_paddingLeft"
-                android:text="@string/settings_timer"
-                android:textSize="@dimen/text_size_functions_setting_activity"/>
+                style="@style/text_fragment_setting_functions_clocks"
+                android:text="@string/settings_timer"/>
         </LinearLayout>
 
         <include layout="@layout/layout_line_break"/>
 
         <LinearLayout
             android:id="@+id/layout_weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
+            style="@style/layout_repeat"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
-                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                style="@style/image_fragment_setting_clocks"
                 android:src="@drawable/bar_icon_weather"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/text_functions_setting_activity_paddingLeft"
-                android:text="@string/settings_weather"
-                android:textSize="@dimen/text_size_functions_setting_activity"/>
+                style="@style/text_fragment_setting_functions_clocks"
+                android:text="@string/settings_weather"/>
         </LinearLayout>
 
         <include layout="@layout/layout_line_break"/>
 
         <LinearLayout
             android:id="@+id/layout_display"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
+            style="@style/layout_repeat"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
-                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                style="@style/image_fragment_setting_clocks"
                 android:src="@drawable/bar_icon_display"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/text_functions_setting_activity_paddingLeft"
-                android:text="@string/settings_display"
-                android:textSize="@dimen/text_size_functions_setting_activity"/>
+                style="@style/text_fragment_setting_functions_clocks"
+                android:text="@string/settings_display"/>
         </LinearLayout>
 
         <include layout="@layout/layout_line_break"/>
 
         <LinearLayout
             android:id="@+id/layout_advanced"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_small">
+            style="@style/layout_repeat"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/image_functions_setting_activity_paddingLeft"
-                android:paddingTop="@dimen/image_functions_setting_activity_paddingTop"
+                style="@style/image_fragment_setting_clocks"
                 android:src="@drawable/bar_icon_advanced"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/text_functions_setting_activity_paddingLeft"
-                android:text="@string/settings_advanced"
-                android:textSize="@dimen/text_size_functions_setting_activity"/>
+                style="@style/text_fragment_setting_functions_clocks"
+                android:text="@string/settings_advanced"/>
         </LinearLayout>
 
         <include layout="@layout/layout_line_break"/>

@@ -35,4 +35,5 @@
     <string name="title_delete_all_alarms">Delete all alarms</string>
     <string name="message_delete_all_alarms">Are you sure you want to delete all alarms?</string>
     <string name="data_empty">There is no alarm</string>
+    <string name="clock_analog_100x100">100x100 Analog</string>
 </resources>
