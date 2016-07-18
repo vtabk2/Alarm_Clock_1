@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
+
+    <LinearLayout
+        style="@style/layout_repeat"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everymonday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_monday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everytuesday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_tuesday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everywednesday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_wednesday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everythursday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_thursday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everyfriday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_friday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everysaturday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_saturday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everysunday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_sunday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+
+        <LinearLayout
+            style="@style/layout_repeat">
+
+            <TextView
+                style="@style/text_view_repeat"
+                android:text="@string/everyday"/>
+
+            <CheckBox
+                android:id="@+id/repeat_everyday"
+                style="@style/check_box_repeat"/>
+        </LinearLayout>
+
+        <include layout="@layout/layout_line_break"/>
+    </LinearLayout>
+</ScrollView>

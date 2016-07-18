@@ -18,6 +18,9 @@ public class Repeat extends RealmObject {
     private boolean mIsRepeatEveryday;
     private String mRepeatDay;
 
+    public Repeat() {
+    }
+
     public Repeat(boolean isRepeatMonday, boolean isRepeatTuesday, boolean isRepeatWednesday,
                   boolean isRepeatThursday, boolean isRepeatFriday, boolean isRepeatSaturday,
                   boolean isRepeatSunday, boolean isRepeatEveryday) {

@@ -6,7 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.ui.fragment.DataFragmentPagerAdapter;
@@ -14,7 +13,7 @@ import com.example.framgia.alarmclock.ui.fragment.DataFragmentPagerAdapter;
 /**
  * Created by framgia on 14/07/2016.
  */
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,26 +37,5 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.layout_alarm:
-                // TODO: 14/07/2016
-                break;
-            case R.id.layout_timer:
-                // TODO: 14/07/2016
-                break;
-            case R.id.layout_weather:
-                // TODO: 14/07/2016
-                break;
-            case R.id.layout_display:
-                // TODO: 14/07/2016
-                break;
-            case R.id.layout_advanced:
-                // TODO: 14/07/2016
-                break;
-        }
     }
 }

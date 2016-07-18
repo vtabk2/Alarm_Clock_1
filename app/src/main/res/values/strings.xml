@@ -8,10 +8,19 @@
     <string name="settings_display">Display</string>
     <string name="settings_advanced">Advanced</string>
     <string name="title_settings">Settings</string>
+    <string name="title_repeat">Repeat</string>
     <string name="clock_digital_blue">Digital Blue</string>
     <string name="clock_digital_green">Digital Green</string>
     <string name="clock_digital_red">Digital Red</string>
     <string name="clock_digital_yellow">Digital Yellow</string>
     <string name="clock_digital_white">Digital White</string>
     <string name="clock_analog">Thinline</string>
+    <string name="everymonday">Every Monday</string>
+    <string name="everytuesday">Every Tuesday</string>
+    <string name="everywednesday">Every Wednesday</string>
+    <string name="everythursday">Every Thursday</string>
+    <string name="everyfriday">Every Friday</string>
+    <string name="everysaturday">Every Saturday</string>
+    <string name="everysunday">Every Sunday</string>
+    <string name="everyday">EveryDay</string>
 </resources>
