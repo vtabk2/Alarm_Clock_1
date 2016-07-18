@@ -32,7 +32,7 @@ public class Repeat extends RealmObject {
         mIsRepeatSaturday = isRepeatSaturday;
         mIsRepeatSunday = isRepeatSunday;
         mIsRepeatEveryday = isRepeatEveryday;
-        mRepeatDay = initRepeatDay();
+        initRepeatDay();
     }
 
     public boolean isRepeatMonday() {
@@ -71,8 +71,8 @@ public class Repeat extends RealmObject {
         return mRepeatDay;
     }
 
-    private String initRepeatDay() {
-        return mIsRepeatEveryday ? Constants.EVERYDAY : getAlarmDay();
+    private void initRepeatDay() {
+        mRepeatDay = mIsRepeatEveryday ? Constants.EVERYDAY : getAlarmDay();
     }
 
     private String getAlarmDay() {
