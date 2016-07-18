@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_weather"
-        android:layout_marginTop="@dimen/text_battery_activity_main_marginTop"
+        android:layout_marginTop="@dimen/text_battery_activity_main_margin_top"
         android:layout_toEndOf="@+id/image_weather"/>
 
     <ImageView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="@dimen/image_alarm_activity_main_marginBottom"
+        android:layout_marginBottom="@dimen/image_alarm_activity_main_margin_bottom"
         android:src="@drawable/bar_icon_alarm"/>
 
     <ImageView
@@ -63,22 +63,22 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/linearLayout_activity_main_paddingEnd"
-        android:paddingStart="@dimen/linearLayout_activity_main_paddingStart">
+        android:paddingEnd="@dimen/linearLayout_activity_main_padding_end"
+        android:paddingStart="@dimen/linearLayout_activity_main_padding_start">
 
         <TextView
             android:id="@+id/text_hide_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_hide_hour"
-            android:textSize="@dimen/text_clock_activity_main_textSize"/>
+            android:textSize="@dimen/text_clock_activity_main_text_size"/>
 
         <TextView
             android:id="@+id/text_hide_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_hide_second"
-            android:textSize="@dimen/text_clock2_activity_main_textSize"/>
+            android:textSize="@dimen/text_clock2_activity_main_text_size"/>
 
     </LinearLayout>
 
@@ -89,20 +89,20 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/linearLayout_activity_main_paddingEnd"
-        android:paddingStart="@dimen/linearLayout_activity_main_paddingStart">
+        android:paddingEnd="@dimen/linearLayout_activity_main_padding_end"
+        android:paddingStart="@dimen/linearLayout_activity_main_padding_start">
 
         <TextClock
             android:id="@+id/text_clock_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_clock_activity_main_textSize"/>
+            android:textSize="@dimen/text_clock_activity_main_text_size"/>
 
         <TextClock
             android:id="@+id/text_clock_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_clock2_activity_main_textSize"/>
+            android:textSize="@dimen/text_clock2_activity_main_text_size"/>
     </LinearLayout>
 
 </RelativeLayout>

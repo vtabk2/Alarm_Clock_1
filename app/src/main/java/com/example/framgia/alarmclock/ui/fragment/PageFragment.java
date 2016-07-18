@@ -105,6 +105,8 @@ public class PageFragment extends Fragment implements View.OnClickListener {
             getColor(type == Constants.TYPE_CLOCKS_RED ? R.color.indigo : R.color.colorBlack));
         mLinearLayoutDigitalYellow.setBackgroundColor(
             getColor(type == Constants.TYPE_CLOCKS_YELLOW ? R.color.indigo : R.color.colorBlack));
+        mLinearLayoutAnalog.setBackgroundColor(
+            getColor(type == Constants.TYPE_CLOCKS_ANALOG ? R.color.indigo : R.color.colorBlack));
         if (change) {
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putInt(Constants.TYPE_CLOCKS, type);

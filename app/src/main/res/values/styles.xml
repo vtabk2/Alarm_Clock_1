@@ -14,8 +14,8 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginStart">@dimen/text_repeat_activity_marginStart</item>
-        <item name="android:paddingLeft">@dimen/image_functions_setting_activity_paddingLeft</item>
+        <item name="android:layout_marginStart">@dimen/text_repeat_activity_margin_start</item>
+        <item name="android:paddingLeft">@dimen/image_functions_setting_activity_padding_left</item>
         <item name="android:textSize">@dimen/text_size_functions_setting_activity</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
@@ -24,12 +24,47 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginEnd">@dimen/checkbox_repeat_activity_marginEnd</item>
+        <item name="android:layout_marginEnd">@dimen/checkbox_repeat_activity_margin_end</item>
     </style>
 
     <style name="layout_repeat">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="text_widget_hour">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_clock_widget_clock_text_size</item>
+    </style>
+
+    <style name="text_widget_second">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_clock2_widget_clock_text_size</item>
+    </style>
+
+    <style name="image_fragment_setting_clocks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/image_functions_setting_activity_padding_left</item>
+        <item name="android:paddingTop">@dimen/image_functions_setting_activity_padding_top</item>
+    </style>
+
+    <style name="text_fragment_setting_clocks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/text_clock_setting_activity_padding_left</item>
+        <item name="android:textSize">@dimen/text_size_functions_setting_activity</item>
+    </style>
+
+    <style name="text_fragment_setting_functions_clocks">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/text_functions_setting_activity_padding_left</item>
+        <item name="android:textSize">@dimen/text_size_functions_setting_activity</item>
     </style>
 </resources>
