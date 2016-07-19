@@ -6,7 +6,7 @@
     <item
         android:id="@+id/delete_multiple_alarm"
         android:orderInCategory="1"
-        android:title="@string/delete_mutiple_alarms"/>
+        android:title="@string/delete_multiple_alarms"/>
 
     <item
         android:id="@+id/delete_all_alarms"

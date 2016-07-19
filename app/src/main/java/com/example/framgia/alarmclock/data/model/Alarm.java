@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -98,5 +97,41 @@ public class Alarm extends RealmObject {
 
     public void setChecked(boolean checked) {
         mIsChecked = checked;
+    }
+
+    public void setEnabled(boolean enabled) {
+        mIsEnabled = enabled;
+    }
+
+    public void setVibrated(boolean vibrated) {
+        mIsVibrated = vibrated;
+    }
+
+    public void setFadeIn(boolean fadeIn) {
+        mIsFadeIn = fadeIn;
+    }
+
+    public void setRepeat(Repeat repeat) {
+        mRepeat = repeat;
+    }
+
+    public void setTime(long time) {
+        mTime = time;
+    }
+
+    public void setSound(String sound) {
+        mSound = sound;
+    }
+
+    public void setVolume(int volume) {
+        mVolume = volume;
+    }
+
+    public void setSnoozeTime(int snoozeTime) {
+        mSnoozeTime = snoozeTime;
+    }
+
+    public void setNote(String note) {
+        mNote = note;
     }
 }

@@ -67,4 +67,26 @@
         <item name="android:paddingLeft">@dimen/text_functions_setting_activity_padding_left</item>
         <item name="android:textSize">@dimen/text_size_functions_setting_activity</item>
     </style>
+
+    <style name="AlarmDetailItemLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="AlarmDetailItemVerticalLinearLayout" parent="AlarmDetailItemLayout">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="AlarmDetailItemHorizontalLinearLayout" parent="AlarmDetailItemLayout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="AlarmDetailItemTextViewTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/alarm_detail_text_title</item>
+    </style>
 </resources>
