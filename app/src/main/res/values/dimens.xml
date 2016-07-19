@@ -8,7 +8,8 @@
     <dimen name="text_clock2_activity_main_text_size">50sp</dimen>
     <dimen name="linearLayout_activity_main_padding_end">20dp</dimen>
     <dimen name="linearLayout_activity_main_padding_start">0dp</dimen>
-    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_medium">10dp</dimen>
+    <dimen name="padding_small">5dp</dimen>
     <dimen name="image_functions_setting_activity_padding_left">10dp</dimen>
     <dimen name="image_functions_setting_activity_padding_top">5dp</dimen>
     <dimen name="text_functions_setting_activity_padding_left">20dp</dimen>
@@ -29,4 +30,5 @@
     <dimen name="alarm_detail_text_time_padding_top">25dp</dimen>
     <dimen name="alarm_detail_text_title">20sp</dimen>
     <dimen name="margin_medium">10dp</dimen>
+    <dimen name="snooze_item_text_size">18sp</dimen>
 </resources>

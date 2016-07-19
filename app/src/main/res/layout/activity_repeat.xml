@@ -8,8 +8,6 @@
         style="@style/layout_repeat"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_line_break"/>
-
         <LinearLayout
             style="@style/layout_repeat">
 
