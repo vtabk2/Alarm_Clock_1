@@ -31,6 +31,9 @@
         <activity
             android:name=".ui.activity.ListAlarmsActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.SnoozeActivity"
+            android:theme="@style/Theme.AppCompat"/>
 
         <receiver
             android:name=".ui.widget.AnalogClockWidget"

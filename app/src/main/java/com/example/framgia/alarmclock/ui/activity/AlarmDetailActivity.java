@@ -1,11 +1,14 @@
 package com.example.framgia.alarmclock.ui.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,6 +33,7 @@ import io.realm.Realm;
  */
 public class AlarmDetailActivity extends AppCompatActivity implements View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
+    public static final int SNOOZE_TIME_CODE = 0;
     private TextView mTextViewAlarmTime, mTextViewRepeatValue, mTextViewSoundValue,
         mTextViewSnoozeValue;
     private SeekBar mSeekBarVolume;
@@ -40,6 +44,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     private AlarmRepository mAlarmRepository;
     private Alarm mAlarm;
     private SimpleDateFormat mSimpleDateFormat;
+    private int mSnoozeTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +85,6 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mButtonSaveNewAlarm.setOnClickListener(this);
         mButtonSaveAlarm.setOnClickListener(this);
         mButtonDeleteAlarm.setOnClickListener(this);
-        mEditTextNoteValue.clearFocus();
     }
 
     private void loadData() {
@@ -99,6 +103,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
             mButtonDeleteAlarm.setVisibility(View.VISIBLE);
             mAlarm = mAlarmRepository.getAlarmById(id);
         }
+        mSnoozeTime = mAlarm.getSnoozeTime();
     }
 
     private void setDataToViews() {
@@ -110,7 +115,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mCheckBoxVibration.setChecked(mAlarm.isVibrated());
         mCheckBoxFadeIn.setChecked(mAlarm.isFadeIn());
         mTextViewSnoozeValue
-            .setText(String.format("%d %s", mAlarm.getSnoozeTime(), Constants.MINUTES));
+            .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
         mEditTextNoteValue.setText(mAlarm.getNote());
     }
 
@@ -133,7 +138,9 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 mCheckBoxFadeIn.setChecked(!mCheckBoxFadeIn.isChecked());
                 break;
             case R.id.linear_layout_snooze:
-                // TODO: 18/07/2016 open activity select snooze time
+                Intent intent = new Intent(this, SnoozeActivity.class);
+                intent.putExtra(Constants.INTENT_SNOOZE_TIME, mSnoozeTime);
+                startActivityForResult(intent, SNOOZE_TIME_CODE);
                 break;
             case R.id.button_save_new_alarm:
                 mAlarmRepository.addAlarm(mAlarm);
@@ -144,6 +151,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 mAlarm.setVolume(mSeekBarVolume.getProgress());
                 mAlarm.setVibrated(mCheckBoxVibration.isChecked());
                 mAlarm.setFadeIn(mCheckBoxFadeIn.isChecked());
+                mAlarm.setSnoozeTime(mSnoozeTime);
                 mAlarm.setNote(mEditTextNoteValue.getText().toString());
                 mRealm.commitTransaction();
                 mAlarmRepository.updateAlarm(mAlarm);
@@ -172,7 +180,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                finish();
+                onBackPressed();
                 break;
         }
         return super.onOptionsItemSelected(menuItem);
@@ -184,8 +192,16 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SNOOZE_TIME_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    mSnoozeTime = data.getIntExtra(Constants.INTENT_SNOOZE_TIME, Constants
+                        .DEFAULT_INTENT_VALUE);
+                    mTextViewSnoozeValue
+                        .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
+                }
+                break;
+        }
     }
 }
