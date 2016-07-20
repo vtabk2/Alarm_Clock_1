@@ -16,16 +16,16 @@
             <TextView
                 android:id="@+id/text_timer_sleep"
                 style="@style/text_sleep_timer"
-                android:gravity="center_horizontal"/>
+                android:text="@string/sample_time"/>
 
             <LinearLayout
                 style="@style/layout_w_h_match_wrap_padding"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:paddingLeft="@dimen/padding_small"
                     android:src="@drawable/icon_volume"/>
 

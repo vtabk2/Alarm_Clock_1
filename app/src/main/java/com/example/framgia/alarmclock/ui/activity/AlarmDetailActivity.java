@@ -1,14 +1,12 @@
 package com.example.framgia.alarmclock.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -21,6 +19,7 @@ import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.AlarmRepository;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.data.model.Repeat;
+import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +33,7 @@ import io.realm.Realm;
 public class AlarmDetailActivity extends AppCompatActivity implements View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
     public static final int SNOOZE_TIME_CODE = 0;
+    public static final int REPEAT_CODE = 1;
     private TextView mTextViewAlarmTime, mTextViewRepeatValue, mTextViewSoundValue,
         mTextViewSnoozeValue;
     private SeekBar mSeekBarVolume;
@@ -45,6 +45,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     private Alarm mAlarm;
     private SimpleDateFormat mSimpleDateFormat;
     private int mSnoozeTime;
+    private Repeat mRepeat;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +105,10 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
             mAlarm = mAlarmRepository.getAlarmById(id);
         }
         mSnoozeTime = mAlarm.getSnoozeTime();
+        mRealm.beginTransaction();
+        mRepeat = mRealm.createObject(Repeat.class);
+        mRepeat.copyFrom(mAlarm.getRepeat());
+        mRealm.commitTransaction();
     }
 
     private void setDataToViews() {
@@ -123,10 +128,23 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.text_view_alarm_time:
-                // TODO: 18/07/2016 wait for TimePickerFragment in SleepTimer
+                TimePickerFragment timePickerFragment = new TimePickerFragment()
+                    .setTextViewTimePicker(mTextViewAlarmTime);
+                timePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
                 break;
             case R.id.linear_layout_repeat:
-                openActivity(RepeatActivity.class);
+                Intent intentRepeat = new Intent(this, RepeatActivity.class);
+                // con not pass realm object to other activity
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_MONDAY, mRepeat.isRepeatMonday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_TUESDAY, mRepeat.isRepeatTuesday());
+                intentRepeat
+                    .putExtra(Constants.INTENT_REPEAT_WEDNESDAY, mRepeat.isRepeatWednesday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_THURSDAY, mRepeat.isRepeatThursday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_FRIDAY, mRepeat.isRepeatFriday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_SATURDAY, mRepeat.isRepeatSaturday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_SUNDAY, mRepeat.isRepeatSunday());
+                intentRepeat.putExtra(Constants.INTENT_REPEAT_EVERYDAY, mRepeat.isRepeatEveryday());
+                startActivityForResult(intentRepeat, REPEAT_CODE);
                 break;
             case R.id.linear_layout_sound:
                 // TODO: 18/07/2016 open activity select sound
@@ -148,6 +166,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.button_save_alarm:
                 mRealm.beginTransaction();
+                mAlarm.setRepeat(mRepeat);
                 mAlarm.setVolume(mSeekBarVolume.getProgress());
                 mAlarm.setVibrated(mCheckBoxVibration.isChecked());
                 mAlarm.setFadeIn(mCheckBoxFadeIn.isChecked());
@@ -200,6 +219,30 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                         .DEFAULT_INTENT_VALUE);
                     mTextViewSnoozeValue
                         .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
+                }
+                break;
+            case REPEAT_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    mRealm.beginTransaction();
+                    mRepeat.setRepeatMonday(data.getBooleanExtra(Constants.INTENT_REPEAT_MONDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatTuesday(data.getBooleanExtra(Constants.INTENT_REPEAT_TUESDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat
+                        .setRepeatWednesday(data.getBooleanExtra(Constants.INTENT_REPEAT_WEDNESDAY,
+                            Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatThursday(data.getBooleanExtra(Constants.INTENT_REPEAT_THURSDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatFriday(data.getBooleanExtra(Constants.INTENT_REPEAT_FRIDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatSaturday(data.getBooleanExtra(Constants.INTENT_REPEAT_SATURDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatSunday(data.getBooleanExtra(Constants.INTENT_REPEAT_SUNDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRepeat.setRepeatEveryday(data.getBooleanExtra(Constants.INTENT_REPEAT_EVERYDAY,
+                        Constants.DEFAULT_INTENT_BOOLEAN));
+                    mRealm.commitTransaction();
+                    mTextViewRepeatValue.setText(mRepeat.getRepeatDay());
                 }
                 break;
         }

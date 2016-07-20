@@ -97,4 +97,56 @@ public class Repeat extends RealmObject {
     private String checkRepeatDay(StringBuilder repeatDay) {
         return repeatDay.toString().equals("") ? "" : Constants.NAMES_OF_DAYS_SEPERATOR;
     }
+
+    public void setRepeatMonday(boolean repeatMonday) {
+        mIsRepeatMonday = repeatMonday;
+        initRepeatDay();
+    }
+
+    public void setRepeatTuesday(boolean repeatTuesday) {
+        mIsRepeatTuesday = repeatTuesday;
+        initRepeatDay();
+    }
+
+    public void setRepeatWednesday(boolean repeatWednesday) {
+        mIsRepeatWednesday = repeatWednesday;
+        initRepeatDay();
+    }
+
+    public void setRepeatThursday(boolean repeatThursday) {
+        mIsRepeatThursday = repeatThursday;
+        initRepeatDay();
+    }
+
+    public void setRepeatFriday(boolean repeatFriday) {
+        mIsRepeatFriday = repeatFriday;
+        initRepeatDay();
+    }
+
+    public void setRepeatSaturday(boolean repeatSaturday) {
+        mIsRepeatSaturday = repeatSaturday;
+        initRepeatDay();
+    }
+
+    public void setRepeatSunday(boolean repeatSunday) {
+        mIsRepeatSunday = repeatSunday;
+        initRepeatDay();
+    }
+
+    public void setRepeatEveryday(boolean repeatEveryday) {
+        mIsRepeatEveryday = repeatEveryday;
+        initRepeatDay();
+    }
+
+    public void copyFrom(Repeat repeat) {
+        mIsRepeatMonday = repeat.isRepeatMonday();
+        mIsRepeatTuesday = repeat.isRepeatTuesday();
+        mIsRepeatWednesday = repeat.isRepeatWednesday();
+        mIsRepeatThursday = repeat.isRepeatThursday();
+        mIsRepeatFriday = repeat.isRepeatFriday();
+        mIsRepeatSaturday = repeat.isRepeatSaturday();
+        mIsRepeatSunday = repeat.isRepeatSunday();
+        mIsRepeatEveryday = repeat.isRepeatEveryday();
+        initRepeatDay();
+    }
 }

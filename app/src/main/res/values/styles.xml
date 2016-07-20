@@ -8,25 +8,6 @@
         <item name="colorAccent">@color/light_blue</item>
     </style>
 
-    <style name="text_view_repeat">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_alignParentStart">true</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginStart">@dimen/text_repeat_activity_margin_start</item>
-        <item name="android:paddingLeft">@dimen/image_functions_setting_activity_padding_left</item>
-        <item name="android:textSize">@dimen/text_size_functions_setting_activity</item>
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="check_box_repeat">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginEnd">@dimen/checkbox_repeat_activity_margin_end</item>
-    </style>
-
     <style name="layout_repeat">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -117,7 +98,7 @@
     <style name="layout_w_h_match_wrap_padding">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:padding">@dimen/padding_medium</item>
     </style>
 
     <style name="width_height_2wrap">
@@ -129,7 +110,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layoutDirection">rtl</item>
-        <item name="android:textSize">@dimen/snooze_item_text_size</item>
+        <item name="android:textSize">@dimen/item_checkbox_text_size</item>
         <item name="android:layout_marginRight">@dimen/margin_medium</item>
         <item name="android:paddingLeft">@dimen/padding_medium</item>
         <item name="android:paddingTop">@dimen/padding_medium</item>
@@ -141,5 +122,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size1_timer_sleep_activity</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
     </style>
 </resources>
