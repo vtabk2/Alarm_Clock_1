@@ -19,14 +19,19 @@ import android.widget.TextView;
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextClock mTextClockHour, mTextClockSecond;
-    private TextView mTextViewBattery, mTextViewHideHour, mTextViewHideSecond;
+    private TextClock mTextClockHour, mTextClockSecond, mTextClockAmPm;
+    private TextView mTextViewBattery, mTextViewHideHour, mTextViewHideSecond, mTextViewDay;
     private ImageView mImageViewWeather, mImageViewSettings, mImageViewHelp, mImageViewAlarm;
     private ImageView mImageViewTimer;
     private GestureDetector mGestureDetector;
     private float mAlpha;
     private boolean mIscreated;
+    private boolean mSlideFingers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                        float velocityY) {
-                    float y1 = e1.getY();
-                    float y2 = e2.getY();
-                    if (y1 > y2) {
-                        onFadeInChangeBrightness(Constants.UP);
-                    } else if (y1 < y2) {
-                        onFadeInChangeBrightness(Constants.DOWN);
+                    if (mSlideFingers) {
+                        float y1 = e1.getY();
+                        float y2 = e2.getY();
+                        if (y1 > y2) {
+                            onFadeInChangeBrightness(Constants.UP);
+                        } else if (y1 < y2) {
+                            onFadeInChangeBrightness(Constants.DOWN);
+                        }
                     }
                     return super.onFling(e1, e2, velocityX, velocityY);
                 }
@@ -83,17 +90,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViews() {
-        Typeface face = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
+        Typeface typeFaceTime = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
+        Typeface typeFaceDay = Typeface.createFromAsset(getAssets(), Constants.FONT_DAY);
+        mTextViewDay = (TextView) findViewById(R.id.text_day);
         // text clock
         mTextClockHour = (TextClock) findViewById(R.id.text_clock_hour);
         mTextClockSecond = (TextClock) findViewById(R.id.text_clock_second);
-        mTextClockHour.setTypeface(face);
-        mTextClockSecond.setTypeface(face);
+        mTextClockAmPm = (TextClock) findViewById(R.id.text_clock_am_pm);
+        mTextClockHour.setTypeface(typeFaceTime);
+        mTextClockSecond.setTypeface(typeFaceTime);
+        mTextClockAmPm.setTypeface(typeFaceDay);
         // hide text
         mTextViewHideHour = (TextView) findViewById(R.id.text_hide_hour);
         mTextViewHideSecond = (TextView) findViewById(R.id.text_hide_second);
-        mTextViewHideHour.setTypeface(face);
-        mTextViewHideSecond.setTypeface(face);
+        mTextViewHideHour.setTypeface(typeFaceTime);
+        mTextViewHideSecond.setTypeface(typeFaceTime);
+        mTextViewDay.setTypeface(typeFaceDay);
         // text battery
         mTextViewBattery = (TextView) findViewById(R.id.text_battery);
         // image icon
@@ -163,15 +175,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO: 14/07/2016
                 break;
         }
-        mTextViewBattery.setVisibility(View.INVISIBLE);
-        mTextClockHour.setFormat12Hour(null);
+        mTextViewBattery.setVisibility(View.GONE);
+        boolean showSeconds = sharedPreferences.getBoolean(Constants.SHOW_SECONDS, true);
+        boolean showDay = sharedPreferences.getBoolean(Constants.SHOW_DAY, true);
+        boolean use24HourFormat = sharedPreferences.getBoolean(Constants.USE_24_HOUR_FORMAT, true);
+        mSlideFingers = sharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
+        if (use24HourFormat) {
+            mTextClockHour.setFormat12Hour(null);
+            mTextClockHour.setFormat24Hour(Constants.FORMAT_TIME_24_HOUR);
+        } else {
+            mTextClockHour.setFormat12Hour(Constants.FORMAT_TIME_12_HOUR);
+            mTextClockHour.setFormat24Hour(null);
+        }
+        mTextClockAmPm.setFormat12Hour(Constants.FORMAT_AM_PM);
+        DateFormat df = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT);
+        String date = df.format(Calendar.getInstance().getTime()).toUpperCase();
+        mTextViewDay.setText(date);
         mTextClockSecond.setFormat12Hour(null);
         mTextClockSecond.setFormat24Hour(Constants.FORMAT_TIME_SECOND);
+        mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
+        mTextClockSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
+        mTextViewHideSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
+        mTextClockAmPm.setVisibility(use24HourFormat ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void showColorViews(int color, int colorHide) {
         mTextClockHour.setTextColor(color);
         mTextClockSecond.setTextColor(color);
+        mTextClockAmPm.setTextColor(color);
+        mTextViewDay.setTextColor(color);
         mTextViewHideHour.setTextColor(ContextCompat.getColor(this, colorHide));
         mTextViewHideSecond.setTextColor(ContextCompat.getColor(this, colorHide));
         mImageViewAlarm.setColorFilter(color);

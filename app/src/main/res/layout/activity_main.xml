@@ -56,53 +56,62 @@
         android:layout_alignStart="@+id/image_timer"
         android:src="@drawable/bar_icon_help"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/text_hide_hour"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/linearLayout_activity_main_padding_end"
-        android:paddingStart="@dimen/linearLayout_activity_main_padding_start">
+        android:text="@string/text_hide_hour24"
+        android:textSize="@dimen/text_clock_activity_main_text_size"/>
 
-        <TextView
-            android:id="@+id/text_hide_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_hide_hour"
-            android:textSize="@dimen/text_clock_activity_main_text_size"/>
 
-        <TextView
-            android:id="@+id/text_hide_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_hide_second"
-            android:textSize="@dimen/text_clock2_activity_main_text_size"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/text_hide_second"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/text_hide_hour"
+        android:layout_alignTop="@+id/text_hide_hour"
+        android:layout_marginLeft="@dimen/text_hide_second_main_activity_margin_left"
+        android:layout_marginTop="@dimen/text_hide_second_main_activity_margin_top"
+        android:text="@string/text_hide_second"
+        android:textSize="@dimen/text_clock2_activity_main_text_size"/>
+
+    <TextClock
+        android:id="@+id/text_clock_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingEnd="@dimen/linearLayout_activity_main_padding_end"
-        android:paddingStart="@dimen/linearLayout_activity_main_padding_start">
+        android:textSize="@dimen/text_clock_activity_main_text_size"/>
 
-        <TextClock
-            android:id="@+id/text_clock_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_clock_activity_main_text_size"/>
+    <TextClock
+        android:id="@+id/text_clock_am_pm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_hide_second"
+        android:layout_alignLeft="@+id/text_hide_second"
+        android:layout_marginBottom="@dimen/text_clock_am_pm_main_activity_margin_bottom"
+        android:layout_marginLeft="@dimen/text_clock_am_pm_main_activity_margin_left"
+        android:text="@string/text_hide_second"
+        android:textSize="@dimen/text_clock3_activity_main_text_size"/>
 
-        <TextClock
-            android:id="@+id/text_clock_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_clock2_activity_main_text_size"/>
-    </LinearLayout>
+    <TextClock
+        android:id="@+id/text_clock_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_hide_second"
+        android:layout_alignLeft="@+id/text_hide_second"
+        android:text="@string/text_hide_second"
+        android:textSize="@dimen/text_clock2_activity_main_text_size"/>
 
+    <TextView
+        android:id="@+id/text_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/text_clock_hour"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/text_day_activity_margin_top"
+        android:textSize="@dimen/text_clock_widget_clock_text_size"/>
 </RelativeLayout>
