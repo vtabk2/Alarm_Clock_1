@@ -43,4 +43,16 @@ public class Song extends RealmObject {
     public String toString() {
         return mPath + File.separator + mName;
     }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public void setPath(String path) {
+        mPath = path;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
 }

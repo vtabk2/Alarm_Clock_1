@@ -55,4 +55,7 @@ public class Constants {
     public static final String SHOW_DAY = "showDay";
     public static final String USE_24_HOUR_FORMAT = "Use24HourFormat";
     public static final String SLIDE_FINGERS = "SlideFingers";
+    public static final String INTENT_SOUND_MUSIC = "sound music";
+    public static final String INTENT_SOUND_MUSIC_PATH = "sound music path";
+    public static final String DEFAULT_SOUND_NAME = "Bells";
 }
