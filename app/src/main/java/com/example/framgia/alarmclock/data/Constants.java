@@ -37,4 +37,13 @@ public class Constants {
     public final static int VOLUME_SLEEP_DEFAULT = 50;
     public final static String TIME_PICKER = "timePicker";
     public final static String TIME_PICKER_SLEEP_TIMER = "timePickerSleepTimer";
+    public static final String INTENT_REPEAT_MONDAY = "repeate monday";
+    public static final String INTENT_REPEAT_TUESDAY = "repeat tuesday";
+    public static final String INTENT_REPEAT_WEDNESDAY = "repeat wednesday";
+    public static final String INTENT_REPEAT_THURSDAY = "repeat thursday";
+    public static final String INTENT_REPEAT_FRIDAY = "repeat friday";
+    public static final String INTENT_REPEAT_SATURDAY = "repeat saturday";
+    public static final String INTENT_REPEAT_SUNDAY = "repeat sunday";
+    public static final String INTENT_REPEAT_EVERYDAY = "repeat everyday";
+    public static final boolean DEFAULT_INTENT_BOOLEAN = false;
 }

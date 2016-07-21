@@ -31,8 +31,9 @@
     <dimen name="alarm_detail_text_title">20sp</dimen>
     <dimen name="margin_medium">10dp</dimen>
     <dimen name="snooze_item_text_size">18sp</dimen>
-    <dimen name="text_size1_timer_sleep_activity">70sp</dimen>
+    <dimen name="text_size1_timer_sleep_activity">40sp</dimen>
     <dimen name="text_size2_timer_sleep_activity">20sp</dimen>
     <dimen name="text_size3_timer_sleep_activity">15sp</dimen>
     <dimen name="seek_bar_timer_sleep_activity_width">300dp</dimen>
+    <dimen name="item_checkbox_text_size">18sp</dimen>
 </resources>
