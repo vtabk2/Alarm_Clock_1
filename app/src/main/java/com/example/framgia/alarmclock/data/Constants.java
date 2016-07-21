@@ -33,4 +33,8 @@ public class Constants {
     public static final int DEFAULT_ALARM_VOLUME = 50;
     public static final int DEFAULT_ALARM_SNOOZE_TIME = 10;
     public static final String INTENT_SNOOZE_TIME = "snooze time";
+    public final static String VOLUME_SLEEP_TIMER = "volume";
+    public final static int VOLUME_SLEEP_DEFAULT = 50;
+    public final static String TIME_PICKER = "timePicker";
+    public final static String TIME_PICKER_SLEEP_TIMER = "timePickerSleepTimer";
 }

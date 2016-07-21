@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openActivity(ListAlarmsActivity.class);
                 break;
             case R.id.image_timer:
-                // TODO: 12/07/2016
+                openActivity(SleepTimerActivity.class);
                 break;
         }
     }

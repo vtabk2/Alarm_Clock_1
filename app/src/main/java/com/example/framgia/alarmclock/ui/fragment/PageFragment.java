@@ -110,7 +110,7 @@ public class PageFragment extends Fragment implements View.OnClickListener {
         if (change) {
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putInt(Constants.TYPE_CLOCKS, type);
-            editor.commit();
+            editor.apply();
         }
     }
 
