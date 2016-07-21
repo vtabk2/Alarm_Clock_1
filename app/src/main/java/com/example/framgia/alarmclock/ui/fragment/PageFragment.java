@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.ui.activity.AdvancedActivity;
 import com.example.framgia.alarmclock.ui.activity.DisplayActivity;
 import com.example.framgia.alarmclock.ui.activity.ListAlarmsActivity;
+import com.example.framgia.alarmclock.ui.activity.SleepTimerActivity;
 
 /**
  * Created by framgia on 14/07/2016.
@@ -137,11 +139,10 @@ public class PageFragment extends Fragment implements View.OnClickListener {
                 onChangeTypeClock(Constants.TYPE_CLOCKS_ANALOG, true);
                 break;
             case R.id.layout_alarm:
-                // TODO: 14/07/2016
                 openActivity(ListAlarmsActivity.class);
                 break;
             case R.id.layout_timer:
-                // TODO: 14/07/2016
+                openActivity(SleepTimerActivity.class);
                 break;
             case R.id.layout_weather:
                 // TODO: 14/07/2016
@@ -150,7 +151,7 @@ public class PageFragment extends Fragment implements View.OnClickListener {
                 openActivity(DisplayActivity.class);
                 break;
             case R.id.layout_advanced:
-                // TODO: 14/07/2016
+                openActivity(AdvancedActivity.class);
                 break;
         }
     }

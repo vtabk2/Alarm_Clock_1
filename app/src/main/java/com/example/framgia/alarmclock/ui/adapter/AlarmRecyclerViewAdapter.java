@@ -60,7 +60,7 @@ public class AlarmRecyclerViewAdapter
         holder.mTextViewAlarmDay.setTextColor(alarm.isEnabled() ? Color.WHITE : Color.GRAY);
         holder.mTextViewAlarmNote.setText(alarm.getNote());
         holder.mCheckBoxSelectAlarm.setVisibility(IS_SHOWED_CHECKBOX ? View.VISIBLE : View.GONE);
-        holder.mSwitchEnableAlarm.setClickable(IS_SHOWED_CHECKBOX ? false : true);
+        holder.mSwitchEnableAlarm.setClickable(!IS_SHOWED_CHECKBOX);
         holder.mSwitchEnableAlarm.setChecked(alarm.isEnabled());
         holder.mCheckBoxSelectAlarm.setChecked(alarm.isChecked());
         holder.mRelativeLayoutItemAlarm.setBackgroundColor(getColor(alarm.isChecked() ? R.color

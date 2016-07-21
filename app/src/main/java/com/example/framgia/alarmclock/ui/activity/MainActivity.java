@@ -2,9 +2,11 @@ package com.example.framgia.alarmclock.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private final static int DEFAULT_NULL = -1;
     private TextClock mTextClockHour, mTextClockSecond, mTextClockAmPm;
     private TextView mTextViewBattery, mTextViewHideHour, mTextViewHideSecond, mTextViewDay;
     private ImageView mImageViewWeather, mImageViewSettings, mImageViewHelp, mImageViewAlarm;
@@ -126,15 +129,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_weather:
-                // TODO: 12/07/2016  
+                // TODO: 12/07/2016
                 break;
             case R.id.image_settings:
                 openActivity(SettingActivity.class);
                 break;
             case R.id.image_help:
                 // TODO: 12/07/2016
-                // TODO: 15/07/2016 test
-                openActivity(RepeatActivity.class);
                 break;
             case R.id.image_alarm:
                 openActivity(ListAlarmsActivity.class);
@@ -175,10 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // TODO: 14/07/2016
                 break;
         }
-        mTextViewBattery.setVisibility(View.GONE);
         boolean showSeconds = sharedPreferences.getBoolean(Constants.SHOW_SECONDS, true);
         boolean showDay = sharedPreferences.getBoolean(Constants.SHOW_DAY, true);
         boolean use24HourFormat = sharedPreferences.getBoolean(Constants.USE_24_HOUR_FORMAT, true);
+        boolean showBattery = sharedPreferences.getBoolean(Constants.SHOW_BATTERY, true);
         mSlideFingers = sharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
         if (use24HourFormat) {
             mTextClockHour.setFormat12Hour(null);
@@ -197,6 +198,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTextClockSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
         mTextViewHideSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
         mTextClockAmPm.setVisibility(use24HourFormat ? View.INVISIBLE : View.VISIBLE);
+        // battery
+        mTextViewBattery.setVisibility(showBattery ? View.VISIBLE : View.GONE);
+        if (showBattery) {
+            IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+            Intent batteryStatus = registerReceiver(null, intentFilter);
+            assert batteryStatus != null;
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, DEFAULT_NULL);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, DEFAULT_NULL);
+            int batteryPct = level * Constants.PERCENTAGES / scale;
+            mTextViewBattery.setText(String.format(getString(R.string.battery), batteryPct));
+        }
     }
 
     private void showColorViews(int color, int colorHide) {
@@ -211,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewWeather.setColorFilter(color);
         mImageViewSettings.setColorFilter(color);
         mImageViewHelp.setColorFilter(color);
+        mTextViewBattery.setTextColor(color);
     }
 
     private void onFadeInChangeBrightness(int type) {
@@ -239,6 +252,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewHelp.setAlpha(mAlpha);
         mImageViewAlarm.setAlpha(mAlpha);
         mImageViewTimer.setAlpha(mAlpha);
+        mTextViewBattery.setAlpha(mAlpha);
+        mTextViewDay.setAlpha(mAlpha);
     }
 
     private void onUpBrightness() {
