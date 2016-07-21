@@ -37,6 +37,9 @@
         <activity
             android:name=".ui.activity.SleepTimerActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.DisplayActivity"
+            android:theme="@style/Theme.AppCompat"/>
 
         <receiver
             android:name=".ui.widget.AnalogClockWidget"

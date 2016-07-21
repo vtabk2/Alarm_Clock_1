@@ -1,13 +1,10 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_battery_activity_main_margin_top">20dp</dimen>
     <dimen name="image_alarm_activity_main_margin_bottom">25dp</dimen>
     <dimen name="text_clock_activity_main_text_size">100sp</dimen>
     <dimen name="text_clock2_activity_main_text_size">50sp</dimen>
-    <dimen name="linearLayout_activity_main_padding_end">20dp</dimen>
-    <dimen name="linearLayout_activity_main_padding_start">0dp</dimen>
+    <dimen name="text_clock3_activity_main_text_size">30sp</dimen>
     <dimen name="padding_medium">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="image_functions_setting_activity_padding_left">10dp</dimen>
@@ -15,8 +12,6 @@
     <dimen name="text_functions_setting_activity_padding_left">20dp</dimen>
     <dimen name="text_size_functions_setting_activity">20sp</dimen>
     <dimen name="text_clock_setting_activity_padding_left">30dp</dimen>
-    <dimen name="text_repeat_activity_margin_start">20dp</dimen>
-    <dimen name="checkbox_repeat_activity_margin_end">20dp</dimen>
     <dimen name="item_alarm_padding">12dp</dimen>
     <dimen name="item_alarm_text_time_size">24sp</dimen>
     <dimen name="item_alarm_switch_margin_right">36dp</dimen>
@@ -34,6 +29,10 @@
     <dimen name="text_size1_timer_sleep_activity">40sp</dimen>
     <dimen name="text_size2_timer_sleep_activity">20sp</dimen>
     <dimen name="text_size3_timer_sleep_activity">15sp</dimen>
-    <dimen name="seek_bar_timer_sleep_activity_width">300dp</dimen>
     <dimen name="item_checkbox_text_size">18sp</dimen>
+    <dimen name="text_day_activity_margin_top">100dp</dimen>
+    <dimen name="text_hide_second_main_activity_margin_left">230dp</dimen>
+    <dimen name="text_hide_second_main_activity_margin_top">50dp</dimen>
+    <dimen name="text_clock_am_pm_main_activity_margin_left">10dp</dimen>
+    <dimen name="text_clock_am_pm_main_activity_margin_bottom">60dp</dimen>
 </resources>

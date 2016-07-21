@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.ui.activity.DisplayActivity;
 import com.example.framgia.alarmclock.ui.activity.ListAlarmsActivity;
 
 /**
@@ -146,7 +147,7 @@ public class PageFragment extends Fragment implements View.OnClickListener {
                 // TODO: 14/07/2016
                 break;
             case R.id.layout_display:
-                // TODO: 14/07/2016
+                openActivity(DisplayActivity.class);
                 break;
             case R.id.layout_advanced:
                 // TODO: 14/07/2016

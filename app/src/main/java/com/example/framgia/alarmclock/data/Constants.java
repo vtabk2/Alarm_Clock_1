@@ -7,7 +7,12 @@ import java.text.DateFormatSymbols;
  */
 public class Constants {
     public final static String FONT_TIME = "fonts/digital_clock.ttf";
+    public final static String FONT_DAY = "fonts/digital-7.ttf";
     public final static String FORMAT_TIME_SECOND = "ss";
+    public final static String FORMAT_TIME_12_HOUR = "hh:mm";
+    public final static String FORMAT_TIME_24_HOUR = "HH:mm";
+    public final static String FORMAT_DAY_SHORT = "EEE";
+    public final static String FORMAT_AM_PM = " aa";
     public final static int DOWN = 0;
     public final static int UP = 1;
     public final static float ALPHA_DELTA = 0.1f;
@@ -37,7 +42,7 @@ public class Constants {
     public final static int VOLUME_SLEEP_DEFAULT = 50;
     public final static String TIME_PICKER = "timePicker";
     public final static String TIME_PICKER_SLEEP_TIMER = "timePickerSleepTimer";
-    public static final String INTENT_REPEAT_MONDAY = "repeate monday";
+    public static final String INTENT_REPEAT_MONDAY = "repeat monday";
     public static final String INTENT_REPEAT_TUESDAY = "repeat tuesday";
     public static final String INTENT_REPEAT_WEDNESDAY = "repeat wednesday";
     public static final String INTENT_REPEAT_THURSDAY = "repeat thursday";
@@ -46,4 +51,8 @@ public class Constants {
     public static final String INTENT_REPEAT_SUNDAY = "repeat sunday";
     public static final String INTENT_REPEAT_EVERYDAY = "repeat everyday";
     public static final boolean DEFAULT_INTENT_BOOLEAN = false;
+    public static final String SHOW_SECONDS = "showSeconds";
+    public static final String SHOW_DAY = "showDay";
+    public static final String USE_24_HOUR_FORMAT = "Use24HourFormat";
+    public static final String SLIDE_FINGERS = "SlideFingers";
 }
