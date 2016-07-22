@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/image_weather"
         android:layout_marginTop="@dimen/text_battery_activity_main_margin_top"
-        android:layout_toEndOf="@+id/image_weather"/>
+        android:layout_toEndOf="@+id/image_weather"
+        android:textSize="@dimen/text_battery_size"/>
 
     <ImageView
         android:id="@+id/image_alarm"

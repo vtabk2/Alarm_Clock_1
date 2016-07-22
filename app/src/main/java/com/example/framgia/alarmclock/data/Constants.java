@@ -24,6 +24,9 @@ public class Constants {
     public static final String ID_FIELD = "mId";
     public final static String SHARE_PREFERENCES = "alarmClock";
     public final static String TYPE_CLOCKS = "typeClocks";
+    public final static String TYPE_PICKER = "typePicker";
+    public final static int TYPE_DIGITAL = 1;
+    public final static int TYPE_ANALOG = 0;
     public final static int TYPE_CLOCKS_WHITE = 0;
     public final static int TYPE_CLOCKS_BLUE = 1;
     public final static int TYPE_CLOCKS_GREEN = 2;
@@ -58,4 +61,9 @@ public class Constants {
     public static final String INTENT_SOUND_MUSIC = "sound music";
     public static final String INTENT_SOUND_MUSIC_PATH = "sound music path";
     public static final String DEFAULT_SOUND_NAME = "Bells";
+    public static final String AUTO_LAUNCH = "auto launch";
+    public static final String SHOW_BATTERY = "show battery";
+    public static final String AUTO_SNOOZE = "auto snooze";
+    public static final String TIME_PICKER_TYPE = "time picker type";
+    public static final int PERCENTAGES = 100;
 }

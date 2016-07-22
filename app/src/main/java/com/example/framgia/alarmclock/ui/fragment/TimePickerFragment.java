@@ -2,11 +2,16 @@ package com.example.framgia.alarmclock.ui.fragment;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.example.framgia.alarmclock.R;
+import com.example.framgia.alarmclock.data.Constants;
 
 /**
  * Created by framgia on 18/07/2016.
@@ -29,6 +34,13 @@ public class TimePickerFragment extends DialogFragment implements
         String[] arr = tmp.split(":");
         int hourOfDay = Integer.parseInt(arr[HOUR_OF_DAY]);
         int minute = Integer.parseInt(arr[MINUTE]);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants
+            .SHARE_PREFERENCES, Context.MODE_PRIVATE);
+        int typePicker = sharedPreferences.getInt(Constants.TYPE_PICKER, Constants.TYPE_ANALOG);
+        if (typePicker == Constants.TYPE_DIGITAL) {
+            return new TimePickerDialog(getContext(),
+                R.style.myTimePickerStyle, this, hourOfDay, minute, true);
+        }
         return new TimePickerDialog(getContext(), this, hourOfDay, minute, true);
     }
 

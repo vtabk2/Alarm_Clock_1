@@ -51,6 +51,7 @@
 
         <receiver
             android:name=".ui.widget.AnalogClockWidget"
+            android:icon="@drawable/widget_analog_type1"
             android:label="@string/clock_analog_100x100">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -59,5 +60,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_clock_info"/>
         </receiver>
-    </application>
+
+        <activity
+            android:name=".ui.activity.AdvancedActivity"
+            android:theme="@style/Theme.AppCompat"/>
+    </application>y
 </manifest>

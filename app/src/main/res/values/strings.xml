@@ -11,6 +11,7 @@
     <string name="title_repeat">Repeat</string>
     <string name="title_sleep_timer">Sleep Timer</string>
     <string name="title_display">Display</string>
+    <string name="title_advanced">Display</string>
     <string name="clock_digital_blue">Digital Blue</string>
     <string name="clock_digital_green">Digital Green</string>
     <string name="clock_digital_red">Digital Red</string>
@@ -32,13 +33,14 @@
     <string name="delete_multiple_alarms">Delete multiple alarms</string>
     <string name="delete_all_alarms">Delete all alarms</string>
     <string name="delete_selected">delete selected</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="title_delete_all_alarms">Delete all alarms</string>
     <string name="message_delete_all_alarms">Are you sure you want to delete all alarms?</string>
     <string name="data_empty">There is no alarm</string>
     <string name="clock_analog_100x100">100x100 Analog</string>
     <string name="sample_time">08:00</string>
-    <string name="repeate">Repeat</string>
+    <string name="repeat">Repeat</string>
     <string name="sample_repeat">Everyday</string>
     <string name="sound_and_music"><![CDATA[Sound & Music]]></string>
     <string name="sample_sound">Bells</string>
@@ -80,4 +82,11 @@
     <string name="error_play_song">Error, can not play selected file</string>
     <string name="error_parse_time_string">Error when parse time string</string>
     <string name="prompt_need_to_grant_permission">You need to grant permission to use this feature</string>
+    <string name="advanced_show_battery_indicator">Show battery indicator</string>
+    <string name="advanced_auto_snooze">Auto Snooze</string>
+    <string name="advanced_auto_launch">Auto Launch</string>
+    <string name="advanced_time_picker_type">TimePicker type</string>
+    <string name="advanced_time_picker_type_digital">Digital</string>
+    <string name="advanced_time_picker_type_analog">Analog</string>
+    <string name="battery">Battery: %1$d%%</string>
 </resources>

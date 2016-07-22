@@ -35,7 +35,7 @@
                 <TextView
                     android:id="@+id/text_view_repeat_title"
                     style="@style/AlarmDetailItemTextViewTitle"
-                    android:text="@string/repeate"/>
+                    android:text="@string/repeat"/>
 
                 <TextView
                     android:id="@+id/text_view_repeat_value"
