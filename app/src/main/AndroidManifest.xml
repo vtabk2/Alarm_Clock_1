@@ -4,6 +4,8 @@
           android:versionCode="1"
           android:versionName="1.0">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-sdk
         android:maxSdkVersion="23"/>
 
@@ -40,6 +42,12 @@
         <activity
             android:name=".ui.activity.DisplayActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.AlarmDetailActivity"
+            android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.SoundMusicActivity"
+            android:theme="@style/Theme.AppCompat"/>
 
         <receiver
             android:name=".ui.widget.AnalogClockWidget"
@@ -51,8 +59,5 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_clock_info"/>
         </receiver>
-        <activity
-            android:name=".ui.activity.AlarmDetailActivity"
-            android:theme="@style/Theme.AppCompat"/>
     </application>
 </manifest>

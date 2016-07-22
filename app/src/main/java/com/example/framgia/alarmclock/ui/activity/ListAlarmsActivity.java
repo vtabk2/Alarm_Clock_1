@@ -35,9 +35,7 @@ import io.realm.Realm;
  */
 public class ListAlarmsActivity extends AppCompatActivity implements View.OnClickListener,
     OnClickItemListener, OnCheckedChangeItemListener, OnLongClickItemListener {
-    private RecyclerView mRecyclerViewListAlarms;
     private Button mButtonAddAlarm, mButtonDeleteAlarm, mButtonCancel;
-    private LinearLayoutManager mLinearLayoutManager;
     private AlarmRecyclerViewAdapter mAlarmRecyclerViewAdapter;
     private AlarmRepository mAlarmRepository;
     private Realm mRealm;
@@ -56,7 +54,8 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle(R.string.alarms);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mRecyclerViewListAlarms = (RecyclerView) findViewById(R.id.recycler_view_list_alarms);
+        RecyclerView recyclerViewListAlarms =
+            (RecyclerView) findViewById(R.id.recycler_view_list_alarms);
         mButtonAddAlarm = (Button) findViewById(R.id.button_add_alarm);
         mButtonDeleteAlarm = (Button) findViewById(R.id.button_delete);
         mButtonCancel = (Button) findViewById(R.id.button_cancel);
@@ -65,9 +64,8 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
         mButtonCancel.setOnClickListener(this);
         mAlarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this, mAlarmList, this, this,
             this);
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerViewListAlarms.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewListAlarms.setAdapter(mAlarmRecyclerViewAdapter);
+        recyclerViewListAlarms.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewListAlarms.setAdapter(mAlarmRecyclerViewAdapter);
     }
 
     private void loadData() {
@@ -163,25 +161,33 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onCheckedChangeItem(AlarmRecyclerViewAdapter.AlarmViewHolder holder, int position,
+    public void onCheckedChangeItem(RecyclerView.ViewHolder holder, int position,
                                     CompoundButton button, boolean isChecked) {
-        switch (button.getId()) {
-            case R.id.checkbox_select_alarm:
-                holder.mRelativeLayoutItemAlarm.setBackgroundColor(getColorById(isChecked ? R
-                    .color.indigo : R.color.black));
-                mRealm.beginTransaction();
-                mAlarmList.get(position).setChecked(isChecked);
-                mRealm.commitTransaction();
-                break;
-            case R.id.switch_enable_alarm:
-                holder.mTextViewAlarmTime.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
-                holder.mTextViewAlarmDay.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
-                holder.mTextViewAlarmNote.setTextColor(isChecked ? Color.WHITE : Color.GRAY);
-                mRealm.beginTransaction();
-                mAlarmList.get(position).setEnabled(isChecked);
-                mRealm.commitTransaction();
-                mAlarmRecyclerViewAdapter.notifyDataSetChanged();
-                break;
+        if (holder instanceof AlarmRecyclerViewAdapter.AlarmViewHolder) {
+            AlarmRecyclerViewAdapter.AlarmViewHolder alarmViewHolder =
+                (AlarmRecyclerViewAdapter.AlarmViewHolder) holder;
+            switch (button.getId()) {
+                case R.id.checkbox_select_alarm:
+                    alarmViewHolder.mRelativeLayoutItemAlarm
+                        .setBackgroundColor(getColorById(isChecked ? R
+                            .color.indigo : R.color.black));
+                    mRealm.beginTransaction();
+                    mAlarmList.get(position).setChecked(isChecked);
+                    mRealm.commitTransaction();
+                    break;
+                case R.id.switch_enable_alarm:
+                    alarmViewHolder.mTextViewAlarmTime
+                        .setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                    alarmViewHolder.mTextViewAlarmDay
+                        .setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                    alarmViewHolder.mTextViewAlarmNote
+                        .setTextColor(isChecked ? Color.WHITE : Color.GRAY);
+                    mRealm.beginTransaction();
+                    mAlarmList.get(position).setEnabled(isChecked);
+                    mRealm.commitTransaction();
+                    mAlarmRecyclerViewAdapter.notifyDataSetChanged();
+                    break;
+            }
         }
     }
 

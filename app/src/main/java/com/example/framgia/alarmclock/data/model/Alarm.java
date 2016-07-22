@@ -15,7 +15,7 @@ public class Alarm extends RealmObject {
     @PrimaryKey
     private int mId;
     private long mTime;
-    private String mSound;
+    private Song mSong;
     private int mVolume;
     private boolean mIsVibrated;
     private boolean mIsFadeIn;
@@ -33,11 +33,11 @@ public class Alarm extends RealmObject {
         mId = id;
     }
 
-    public Alarm(int id, long time, String sound, int volume, boolean isVibrated, boolean isFadeIn,
+    public Alarm(int id, long time, Song song, int volume, boolean isVibrated, boolean isFadeIn,
                  int snoozeTime, String note, boolean isEnabled, Repeat repeat) {
         mId = id;
         mTime = time;
-        mSound = sound;
+        mSong = song;
         mVolume = volume;
         mIsVibrated = isVibrated;
         mIsFadeIn = isFadeIn;
@@ -55,8 +55,8 @@ public class Alarm extends RealmObject {
         return mTime;
     }
 
-    public String getSound() {
-        return mSound;
+    public Song getSong() {
+        return mSong;
     }
 
     public int getVolume() {
@@ -119,8 +119,8 @@ public class Alarm extends RealmObject {
         mTime = time;
     }
 
-    public void setSound(String sound) {
-        mSound = sound;
+    public void setSong(Song song) {
+        mSong = song;
     }
 
     public void setVolume(int volume) {

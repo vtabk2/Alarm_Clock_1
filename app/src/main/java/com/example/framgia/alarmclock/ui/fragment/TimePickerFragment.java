@@ -34,6 +34,10 @@ public class TimePickerFragment extends DialogFragment implements
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        mTextViewTimePicker.setText(hourOfDay + ":" + minute);
+        mTextViewTimePicker.setText(getFormatTime(hourOfDay, minute));
+    }
+
+    private String getFormatTime(int hour, int minute) {
+        return String.format("%02d:%02d", hour, minute);
     }
 }

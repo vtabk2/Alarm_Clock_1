@@ -71,7 +71,7 @@
         <item name="android:textSize">@dimen/alarm_detail_text_title</item>
     </style>
 
-    <style name="snooze_item_radio_button">
+    <style name="item_radio_button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layoutDirection">rtl</item>
@@ -81,6 +81,8 @@
         <item name="android:paddingTop">@dimen/padding_medium</item>
         <item name="android:paddingBottom">@dimen/padding_medium</item>
         <item name="android:textAlignment">textStart</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="button_sleep_timer">

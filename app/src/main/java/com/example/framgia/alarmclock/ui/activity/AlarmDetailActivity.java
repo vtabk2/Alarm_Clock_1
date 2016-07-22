@@ -13,14 +13,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.AlarmRepository;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.data.model.Repeat;
+import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +38,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     CompoundButton.OnCheckedChangeListener {
     public static final int SNOOZE_TIME_CODE = 0;
     public static final int REPEAT_CODE = 1;
+    public static final int SOUND_MUSIC_CODE = 2;
     private TextView mTextViewAlarmTime, mTextViewRepeatValue, mTextViewSoundValue,
         mTextViewSnoozeValue;
     private SeekBar mSeekBarVolume;
@@ -43,9 +48,10 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     private Realm mRealm;
     private AlarmRepository mAlarmRepository;
     private Alarm mAlarm;
-    private SimpleDateFormat mSimpleDateFormat;
     private int mSnoozeTime;
     private Repeat mRepeat;
+    private String mSongName;
+    private String mSongPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,9 +102,10 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == Constants.DEFAULT_INTENT_VALUE) {
             mButtonSaveNewAlarm.setVisibility(View.VISIBLE);
             mAlarm = new Alarm(mAlarmRepository.getNextId(),
-                Calendar.getInstance().getTimeInMillis(), Constants.DEFAULT_ALARM_SOUND,
-                Constants.DEFAULT_ALARM_VOLUME, true, false, Constants.DEFAULT_ALARM_SNOOZE_TIME,
-                "", true, new Repeat(false, false, false, false, false, false, false, false));
+                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(),
+                "", ""), Constants.DEFAULT_ALARM_VOLUME, true, false,
+                Constants.DEFAULT_ALARM_SNOOZE_TIME, "", true,
+                new Repeat(false, false, false, false, false, false, false, false));
         } else {
             mButtonSaveAlarm.setVisibility(View.VISIBLE);
             mButtonDeleteAlarm.setVisibility(View.VISIBLE);
@@ -109,19 +116,64 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mRepeat = mRealm.createObject(Repeat.class);
         mRepeat.copyFrom(mAlarm.getRepeat());
         mRealm.commitTransaction();
+        mSongName = mAlarm.getSong().getName();
+        mSongPath = mAlarm.getSong().getPath();
     }
 
     private void setDataToViews() {
-        mSimpleDateFormat = new SimpleDateFormat(Constants.ALARM_TIME_FORMAT);
-        mTextViewAlarmTime.setText(mSimpleDateFormat.format(new Date(mAlarm.getTime())));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.ALARM_TIME_FORMAT);
+        mTextViewAlarmTime.setText(simpleDateFormat.format(new Date(mAlarm.getTime())));
         mTextViewRepeatValue.setText(mAlarm.getRepeat().getRepeatDay());
-        mTextViewSoundValue.setText(mAlarm.getSound());
+        mTextViewSoundValue.setText(mSongName);
         mSeekBarVolume.setProgress(mAlarm.getVolume());
         mCheckBoxVibration.setChecked(mAlarm.isVibrated());
         mCheckBoxFadeIn.setChecked(mAlarm.isFadeIn());
         mTextViewSnoozeValue
             .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
         mEditTextNoteValue.setText(mAlarm.getNote());
+    }
+
+    private long convertStringToTimeLong(String timeString) {
+        DateFormat formatter = new SimpleDateFormat(Constants.ALARM_TIME_FORMAT);
+        Date date;
+        try {
+            date = formatter.parse(timeString);
+        } catch (ParseException e) {
+            date = new Date();
+            Toast.makeText(this, R.string.error_parse_time_string, Toast.LENGTH_SHORT).show();
+        }
+        return date.getTime();
+    }
+
+    private void openRepeatActivity() {
+        Intent intentRepeat = new Intent(this, RepeatActivity.class);
+        // con not pass realm object to other activity
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_MONDAY, mRepeat.isRepeatMonday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_TUESDAY, mRepeat.isRepeatTuesday());
+        intentRepeat
+            .putExtra(Constants.INTENT_REPEAT_WEDNESDAY, mRepeat.isRepeatWednesday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_THURSDAY, mRepeat.isRepeatThursday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_FRIDAY, mRepeat.isRepeatFriday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_SATURDAY, mRepeat.isRepeatSaturday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_SUNDAY, mRepeat.isRepeatSunday());
+        intentRepeat.putExtra(Constants.INTENT_REPEAT_EVERYDAY, mRepeat.isRepeatEveryday());
+        startActivityForResult(intentRepeat, REPEAT_CODE);
+    }
+
+    private void saveAlarm() {
+        mRealm.beginTransaction();
+        mAlarm.setTime(convertStringToTimeLong(mTextViewAlarmTime.getText().toString()));
+        mAlarm.getSong().setName(mSongName);
+        mAlarm.getSong().setPath(mSongPath);
+        mAlarm.setRepeat(mRepeat);
+        mAlarm.setVolume(mSeekBarVolume.getProgress());
+        mAlarm.setVibrated(mCheckBoxVibration.isChecked());
+        mAlarm.setFadeIn(mCheckBoxFadeIn.isChecked());
+        mAlarm.setSnoozeTime(mSnoozeTime);
+        mAlarm.setNote(mEditTextNoteValue.getText().toString());
+        mRealm.commitTransaction();
+        mAlarmRepository.updateAlarm(mAlarm);
+        finish();
     }
 
     @Override
@@ -133,21 +185,13 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 timePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
                 break;
             case R.id.linear_layout_repeat:
-                Intent intentRepeat = new Intent(this, RepeatActivity.class);
-                // con not pass realm object to other activity
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_MONDAY, mRepeat.isRepeatMonday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_TUESDAY, mRepeat.isRepeatTuesday());
-                intentRepeat
-                    .putExtra(Constants.INTENT_REPEAT_WEDNESDAY, mRepeat.isRepeatWednesday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_THURSDAY, mRepeat.isRepeatThursday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_FRIDAY, mRepeat.isRepeatFriday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_SATURDAY, mRepeat.isRepeatSaturday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_SUNDAY, mRepeat.isRepeatSunday());
-                intentRepeat.putExtra(Constants.INTENT_REPEAT_EVERYDAY, mRepeat.isRepeatEveryday());
-                startActivityForResult(intentRepeat, REPEAT_CODE);
+                openRepeatActivity();
                 break;
             case R.id.linear_layout_sound:
-                // TODO: 18/07/2016 open activity select sound
+                Intent intentSoundMusic = new Intent(this, SoundMusicActivity.class);
+                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC, mSongName);
+                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC_PATH, mSongPath);
+                startActivityForResult(intentSoundMusic, SOUND_MUSIC_CODE);
                 break;
             case R.id.relative_layout_vibration:
                 mCheckBoxVibration.setChecked(!mCheckBoxVibration.isChecked());
@@ -156,25 +200,16 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 mCheckBoxFadeIn.setChecked(!mCheckBoxFadeIn.isChecked());
                 break;
             case R.id.linear_layout_snooze:
-                Intent intent = new Intent(this, SnoozeActivity.class);
-                intent.putExtra(Constants.INTENT_SNOOZE_TIME, mSnoozeTime);
-                startActivityForResult(intent, SNOOZE_TIME_CODE);
+                Intent intentSnooze = new Intent(this, SnoozeActivity.class);
+                intentSnooze.putExtra(Constants.INTENT_SNOOZE_TIME, mSnoozeTime);
+                startActivityForResult(intentSnooze, SNOOZE_TIME_CODE);
                 break;
             case R.id.button_save_new_alarm:
                 mAlarmRepository.addAlarm(mAlarm);
                 finish();
                 break;
             case R.id.button_save_alarm:
-                mRealm.beginTransaction();
-                mAlarm.setRepeat(mRepeat);
-                mAlarm.setVolume(mSeekBarVolume.getProgress());
-                mAlarm.setVibrated(mCheckBoxVibration.isChecked());
-                mAlarm.setFadeIn(mCheckBoxFadeIn.isChecked());
-                mAlarm.setSnoozeTime(mSnoozeTime);
-                mAlarm.setNote(mEditTextNoteValue.getText().toString());
-                mRealm.commitTransaction();
-                mAlarmRepository.updateAlarm(mAlarm);
-                finish();
+                saveAlarm();
                 break;
             case R.id.button_delete_alarm:
                 mAlarmRepository.deleteAlarm(mAlarm);
@@ -203,11 +238,6 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
         return super.onOptionsItemSelected(menuItem);
-    }
-
-    private void openActivity(Class myClass) {
-        Intent intent = new Intent(this, myClass);
-        startActivity(intent);
     }
 
     @Override
@@ -243,6 +273,15 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                         Constants.DEFAULT_INTENT_BOOLEAN));
                     mRealm.commitTransaction();
                     mTextViewRepeatValue.setText(mRepeat.getRepeatDay());
+                }
+                break;
+            case SOUND_MUSIC_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    mRealm.beginTransaction();
+                    mSongName = data.getStringExtra(Constants.INTENT_SOUND_MUSIC);
+                    mSongPath = data.getStringExtra(Constants.INTENT_SOUND_MUSIC_PATH);
+                    mRealm.commitTransaction();
+                    mTextViewSoundValue.setText(mSongName);
                 }
                 break;
         }

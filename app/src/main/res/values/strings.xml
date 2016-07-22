@@ -73,4 +73,11 @@
     <string name="text_use_24_hour_format">Use 24-hour Format</string>
     <string name="text_slide_fingers">Slide Fingers</string>
     <string name="text_adjust_the_brightness">Adjust the Brightness</string>
+    <string name="sound_bells">Bells</string>
+    <string name="sound_old_alarm_clock">Old Alarm Clock</string>
+    <string name="sound_digital">Digital</string>
+    <string name="sample_music">Good morning.mp3</string>
+    <string name="error_play_song">Error, can not play selected file</string>
+    <string name="error_parse_time_string">Error when parse time string</string>
+    <string name="prompt_need_to_grant_permission">You need to grant permission to use this feature</string>
 </resources>
