@@ -102,8 +102,8 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == Constants.DEFAULT_INTENT_VALUE) {
             mButtonSaveNewAlarm.setVisibility(View.VISIBLE);
             mAlarm = new Alarm(mAlarmRepository.getNextId(),
-                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(),
-                "", ""), Constants.DEFAULT_ALARM_VOLUME, true, false,
+                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(),"",
+                Constants.DEFAULT_ALARM_SOUND), Constants.DEFAULT_ALARM_VOLUME, true, false,
                 Constants.DEFAULT_ALARM_SNOOZE_TIME, "", true,
                 new Repeat(false, false, false, false, false, false, false, false));
         } else {
