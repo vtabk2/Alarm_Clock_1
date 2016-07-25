@@ -22,6 +22,7 @@ import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.data.model.Repeat;
 import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
+import com.example.framgia.alarmclock.utility.AlarmUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -102,14 +103,14 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         if (id == Constants.DEFAULT_INTENT_VALUE) {
             mButtonSaveNewAlarm.setVisibility(View.VISIBLE);
             mAlarm = new Alarm(mAlarmRepository.getNextId(),
-                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(),"",
+                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(), "",
                 Constants.DEFAULT_ALARM_SOUND), Constants.DEFAULT_ALARM_VOLUME, true, false,
                 Constants.DEFAULT_ALARM_SNOOZE_TIME, "", true,
                 new Repeat(false, false, false, false, false, false, false, false));
         } else {
             mButtonSaveAlarm.setVisibility(View.VISIBLE);
             mButtonDeleteAlarm.setVisibility(View.VISIBLE);
-            mAlarm = mAlarmRepository.getAlarmById(id);
+            mAlarm = AlarmRepository.getAlarmById(id);
         }
         mSnoozeTime = mAlarm.getSnoozeTime();
         mRealm.beginTransaction();
@@ -173,6 +174,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mAlarm.setNote(mEditTextNoteValue.getText().toString());
         mRealm.commitTransaction();
         mAlarmRepository.updateAlarm(mAlarm);
+        AlarmUtils.setupAlarm(this, mAlarm);
         finish();
     }
 

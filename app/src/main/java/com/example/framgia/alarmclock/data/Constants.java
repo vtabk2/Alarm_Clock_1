@@ -34,6 +34,8 @@ public class Constants {
     public final static int TYPE_CLOCKS_YELLOW = 4;
     public final static int TYPE_CLOCKS_ANALOG = 5;
     public static final String ALARM_TIME_FORMAT = "HH:mm";
+    public static final String ALARM_TIME_FORMAT_HOURS = "HH";
+    public static final String ALARM_TIME_FORMAT_MINUTE = "mm";
     public static final String OBJECT_ID = "id";
     public static final String MINUTES = "minutes";
     public static final int DEFAULT_INTENT_VALUE = -1;
@@ -66,4 +68,6 @@ public class Constants {
     public static final String AUTO_SNOOZE = "auto snooze";
     public static final String TIME_PICKER_TYPE = "time picker type";
     public static final int PERCENTAGES = 100;
+    public static final String ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
+    public static final int SECONDS_DEFAULT = 0;
 }

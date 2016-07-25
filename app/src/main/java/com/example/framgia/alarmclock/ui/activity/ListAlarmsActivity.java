@@ -25,6 +25,7 @@ import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
 import com.example.framgia.alarmclock.data.listener.OnLongClickItemListener;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.ui.adapter.AlarmRecyclerViewAdapter;
+import com.example.framgia.alarmclock.utility.AlarmUtils;
 
 import java.util.List;
 
@@ -186,6 +187,7 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
                     mAlarmList.get(position).setEnabled(isChecked);
                     mRealm.commitTransaction();
                     mAlarmRecyclerViewAdapter.notifyDataSetChanged();
+                    AlarmUtils.setupAlarm(this, mAlarmList.get(position));
                     break;
             }
         }
