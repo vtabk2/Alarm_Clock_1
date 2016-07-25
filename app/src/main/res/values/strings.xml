@@ -89,4 +89,10 @@
     <string name="advanced_time_picker_type_digital">Digital</string>
     <string name="advanced_time_picker_type_analog">Analog</string>
     <string name="battery">Battery: %1$d%%</string>
+    <string name="sound_mountain">Mountain</string>
+    <string name="sound_get_funky">Get Funky</string>
+    <string name="sound_good_morning">Good Morning</string>
+    <string name="sound_mellows">Mellow</string>
+    <string name="sound_electro">Electro</string>
+    <string name="sound_future">Future</string>
 </resources>

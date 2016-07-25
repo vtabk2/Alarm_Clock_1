@@ -62,10 +62,6 @@ public class SoundMusicActivity extends AppCompatActivity implements OnSelectMus
         finish();
     }
 
-    public String getSound() {
-        return mSound;
-    }
-
     private void playSong() {
         try {
             mMediaPlayer.reset();
@@ -75,6 +71,12 @@ public class SoundMusicActivity extends AppCompatActivity implements OnSelectMus
         } catch (IOException e) {
             Toast.makeText(this, R.string.error_play_song, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void playSound(int resId) {
+        mMediaPlayer.reset();
+        mMediaPlayer = MediaPlayer.create(this, resId);
+        mMediaPlayer.start();
     }
 
     @Override
@@ -100,7 +102,14 @@ public class SoundMusicActivity extends AppCompatActivity implements OnSelectMus
     }
 
     @Override
-    public String getMusicName(){
+    public void onSelected(String musicName, int resId) {
+        mSound = musicName;
+        mPath = String.valueOf(resId);
+        playSound(resId);
+    }
+
+    @Override
+    public String getMusicName() {
         return mSound;
     }
 }
