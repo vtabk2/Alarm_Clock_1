@@ -71,4 +71,6 @@ public class Constants {
     public static final String ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
     public static final int SECONDS_DEFAULT = 0;
     public static final String IS_ALARM_MUSIC_FIELD = "mIsAlarmMusic";
+    public static final String PATH_FIELD = "mPath";
+    public static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
 }

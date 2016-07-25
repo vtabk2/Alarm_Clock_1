@@ -17,8 +17,9 @@ public class SongRepository {
         return mRealm.where(Song.class).equalTo(Constants.IS_ALARM_MUSIC_FIELD, false).findAll();
     }
 
-    public static Song getSongById(int id) {
-        return mRealm.where(Song.class).equalTo(Constants.ID_FIELD, id).findFirst();
+    public static Song getSongByPath(String path) {
+        return mRealm.where(Song.class).equalTo(Constants.IS_ALARM_MUSIC_FIELD, false).equalTo
+            (Constants.PATH_FIELD, path).findFirst();
     }
 
     public static void updateSong(final Song song) {
