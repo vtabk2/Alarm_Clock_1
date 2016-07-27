@@ -11,31 +11,17 @@ import io.realm.RealmResults;
  * Created by framgia on 12/07/2016.
  */
 public class AlarmRepository {
-    private Realm mRealm;
+    private static Realm mRealm = Realm.getDefaultInstance();
 
-    public AlarmRepository(Realm realm) {
-        mRealm = realm;
-    }
-
-    public void addAlarm(final Alarm alarm) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                mRealm.copyToRealmOrUpdate(alarm);
-            }
-        });
-    }
-
-    public RealmResults<Alarm> getAllAlarms() {
+    public static RealmResults<Alarm> getAllAlarms() {
         return mRealm.where(Alarm.class).findAll();
     }
 
     public static Alarm getAlarmById(int id) {
-        return Realm.getDefaultInstance().where(Alarm.class).equalTo(Constants.ID_FIELD, id)
-            .findFirst();
+        return mRealm.where(Alarm.class).equalTo(Constants.ID_FIELD, id).findFirst();
     }
 
-    public void updateAlarm(final Alarm alarm) {
+    public static void updateAlarm(final Alarm alarm) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -44,11 +30,16 @@ public class AlarmRepository {
         });
     }
 
-    public void deleteAlarm(final Alarm alarm) {
-        deleteAlarmById(alarm.getId());
+    public static void deleteAlarm(final Alarm alarm) {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                alarm.deleteFromRealm();
+            }
+        });
     }
 
-    public void deleteAlarmById(final int id) {
+    public static void deleteAlarmById(final int id) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -59,7 +50,7 @@ public class AlarmRepository {
         });
     }
 
-    public void deleteAll() {
+    public static void deleteAll() {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -68,11 +59,12 @@ public class AlarmRepository {
         });
     }
 
-    public int getNextId() {
-        return getSize() == 0 ? 1 : mRealm.where(Alarm.class).findAll().last().getId() + 1;
+    public static int getNextId() {
+        return getSize() == 0 ? 1 :
+            mRealm.where(Alarm.class).findAll().max(Constants.ID_FIELD).intValue() + 1;
     }
 
-    public int getSize() {
+    public static int getSize() {
         return mRealm.where(Alarm.class).findAll().size();
     }
 }

@@ -11,30 +11,17 @@ import io.realm.RealmResults;
  * Created by framgia on 12/07/2016.
  */
 public class SongRepository {
-    private Realm mRealm;
+    private static Realm mRealm = Realm.getDefaultInstance();
 
-    public SongRepository(Realm realm) {
-        mRealm = realm;
+    public static RealmResults<Song> getAllSongs() {
+        return mRealm.where(Song.class).equalTo(Constants.IS_ALARM_MUSIC_FIELD, false).findAll();
     }
 
-    public void addSong(final Song song) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                mRealm.copyToRealm(song);
-            }
-        });
-    }
-
-    public RealmResults<Song> getAllSongs() {
-        return mRealm.where(Song.class).findAll();
-    }
-
-    public Song getSongById(int id) {
+    public static Song getSongById(int id) {
         return mRealm.where(Song.class).equalTo(Constants.ID_FIELD, id).findFirst();
     }
 
-    public void updateSong(final Song song) {
+    public static void updateSong(final Song song) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -43,11 +30,16 @@ public class SongRepository {
         });
     }
 
-    public void deleteSong(final Song song) {
-        deleteSongById(song.getId());
+    public static void deleteSong(final Song song) {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                song.deleteFromRealm();
+            }
+        });
     }
 
-    public void deleteSongById(final int id) {
+    public static void deleteSongById(final int id) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -58,20 +50,12 @@ public class SongRepository {
         });
     }
 
-    public void deleteAll() {
+    public static void deleteAll() {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 mRealm.delete(Song.class);
             }
         });
-    }
-
-    public int getNextId() {
-        return getSize() == 0 ? 1 : mRealm.where(Song.class).findAll().last().getId() + 1;
-    }
-
-    public int getSize() {
-        return mRealm.where(Song.class).findAll().size();
     }
 }

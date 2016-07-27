@@ -28,25 +28,6 @@ public class Alarm extends RealmObject {
     public Alarm() {
     }
 
-    public Alarm(int id) {
-        // TODO: 13/07/2016 default alarm
-        mId = id;
-    }
-
-    public Alarm(int id, long time, Song song, int volume, boolean isVibrated, boolean isFadeIn,
-                 int snoozeTime, String note, boolean isEnabled, Repeat repeat) {
-        mId = id;
-        mTime = time;
-        mSong = song;
-        mVolume = volume;
-        mIsVibrated = isVibrated;
-        mIsFadeIn = isFadeIn;
-        mSnoozeTime = snoozeTime;
-        mNote = note;
-        mIsEnabled = isEnabled;
-        mRepeat = repeat;
-    }
-
     public int getId() {
         return mId;
     }
@@ -143,5 +124,9 @@ public class Alarm extends RealmObject {
 
     public void setNote(String note) {
         mNote = note;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 }

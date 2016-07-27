@@ -8,13 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.framgia.alarmclock.R;
-import com.example.framgia.alarmclock.data.listener.OnCheckedChangeItemListener;
+import com.example.framgia.alarmclock.data.listener.OnClickCheckedChangeItemListener;
 import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
 import com.example.framgia.alarmclock.data.listener.OnLongClickItemListener;
 import com.example.framgia.alarmclock.data.model.Alarm;
@@ -31,18 +30,18 @@ public class AlarmRecyclerViewAdapter
     private LayoutInflater mLayoutInflater;
     private List<Alarm> mAlarmList;
     private OnClickItemListener mOnClickItemListener;
-    private OnCheckedChangeItemListener mOnCheckedChangeItemListener;
     private OnLongClickItemListener mOnLongClickItemListener;
+    private OnClickCheckedChangeItemListener mOnClickCheckedChangeItemListener;
 
     public AlarmRecyclerViewAdapter(Context context, List<Alarm> alarmList, OnClickItemListener
-        onClickItemListener, OnCheckedChangeItemListener onCheckedChangeItemListener,
-                                    OnLongClickItemListener onLongClickItemListener) {
+        onClickItemListener, OnLongClickItemListener onLongClickItemListener,
+                                    OnClickCheckedChangeItemListener onClickCheckedChangeItemListener) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         mAlarmList = alarmList;
         mOnClickItemListener = onClickItemListener;
-        mOnCheckedChangeItemListener = onCheckedChangeItemListener;
         mOnLongClickItemListener = onLongClickItemListener;
+        mOnClickCheckedChangeItemListener = onClickCheckedChangeItemListener;
     }
 
     @Override
@@ -78,22 +77,20 @@ public class AlarmRecyclerViewAdapter
                 return false;
             }
         });
-        holder.mSwitchEnableAlarm.setOnCheckedChangeListener(
-            new CompoundButton.OnCheckedChangeListener() {
+        if (!IS_SHOWED_CHECKBOX)
+            holder.mSwitchEnableAlarm.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mOnCheckedChangeItemListener
-                        .onCheckedChangeItem(holder, position, compoundButton, b);
+                public void onClick(View view) {
+                    mOnClickCheckedChangeItemListener
+                        .onClickCheckedChangeItem(view, holder, position);
                 }
             });
-        holder.mCheckBoxSelectAlarm.setOnCheckedChangeListener(
-            new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    mOnCheckedChangeItemListener
-                        .onCheckedChangeItem(holder, position, compoundButton, b);
-                }
-            });
+        holder.mCheckBoxSelectAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnClickCheckedChangeItemListener.onClickCheckedChangeItem(view, holder, position);
+            }
+        });
     }
 
     private int getColor(int id) {

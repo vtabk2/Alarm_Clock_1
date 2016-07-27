@@ -70,4 +70,5 @@ public class Constants {
     public static final int PERCENTAGES = 100;
     public static final String ACTION_BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
     public static final int SECONDS_DEFAULT = 0;
+    public static final String IS_ALARM_MUSIC_FIELD = "mIsAlarmMusic";
 }

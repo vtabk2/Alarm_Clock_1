@@ -47,12 +47,10 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     private EditText mEditTextNoteValue;
     private Button mButtonSaveNewAlarm, mButtonSaveAlarm, mButtonDeleteAlarm;
     private Realm mRealm;
-    private AlarmRepository mAlarmRepository;
     private Alarm mAlarm;
     private int mSnoozeTime;
     private Repeat mRepeat;
-    private String mSongName;
-    private String mSongPath;
+    private Song mSong;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,16 +95,11 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void loadData() {
         mRealm = Realm.getDefaultInstance();
-        mAlarmRepository = new AlarmRepository(mRealm);
         Intent intent = getIntent();
         int id = intent.getIntExtra(Constants.OBJECT_ID, Constants.DEFAULT_INTENT_VALUE);
         if (id == Constants.DEFAULT_INTENT_VALUE) {
             mButtonSaveNewAlarm.setVisibility(View.VISIBLE);
-            mAlarm = new Alarm(mAlarmRepository.getNextId(),
-                Calendar.getInstance().getTimeInMillis(), new Song(mAlarmRepository.getNextId(), "",
-                Constants.DEFAULT_ALARM_SOUND), Constants.DEFAULT_ALARM_VOLUME, true, false,
-                Constants.DEFAULT_ALARM_SNOOZE_TIME, "", true,
-                new Repeat(false, false, false, false, false, false, false, false));
+            createNewAlarm();
         } else {
             mButtonSaveAlarm.setVisibility(View.VISIBLE);
             mButtonDeleteAlarm.setVisibility(View.VISIBLE);
@@ -116,22 +109,41 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mRealm.beginTransaction();
         mRepeat = mRealm.createObject(Repeat.class);
         mRepeat.copyFrom(mAlarm.getRepeat());
+        mSong = mRealm.createObject(Song.class);
+        mSong.copyFrom(mAlarm.getSong());
         mRealm.commitTransaction();
-        mSongName = mAlarm.getSong().getName();
-        mSongPath = mAlarm.getSong().getPath();
     }
 
     private void setDataToViews() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.ALARM_TIME_FORMAT);
         mTextViewAlarmTime.setText(simpleDateFormat.format(new Date(mAlarm.getTime())));
         mTextViewRepeatValue.setText(mAlarm.getRepeat().getRepeatDay());
-        mTextViewSoundValue.setText(mSongName);
+        mTextViewSoundValue.setText(mSong.getName());
         mSeekBarVolume.setProgress(mAlarm.getVolume());
         mCheckBoxVibration.setChecked(mAlarm.isVibrated());
         mCheckBoxFadeIn.setChecked(mAlarm.isFadeIn());
         mTextViewSnoozeValue
             .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
         mEditTextNoteValue.setText(mAlarm.getNote());
+    }
+
+    private void createNewAlarm() {
+        mRealm.beginTransaction();
+        mAlarm = mRealm.createObject(Alarm.class);
+        mAlarm.setId(AlarmRepository.getNextId());
+        mAlarm.setTime(Calendar.getInstance().getTimeInMillis());
+        mAlarm.setVolume(Constants.DEFAULT_ALARM_VOLUME);
+        mAlarm.setVibrated(true);
+        mAlarm.setSnoozeTime(Constants.DEFAULT_ALARM_SNOOZE_TIME);
+        mAlarm.setEnabled(true);
+        Song song = mRealm.createObject(Song.class);
+        song.setName(Constants.DEFAULT_ALARM_SOUND);
+        song.setAlarmMusic(true);
+        mAlarm.setSong(song);
+        Repeat repeat = mRealm.createObject(Repeat.class);
+        repeat.initRepeatDay();
+        mAlarm.setRepeat(repeat);
+        mRealm.commitTransaction();
     }
 
     private long convertStringToTimeLong(String timeString) {
@@ -164,8 +176,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
     private void saveAlarm() {
         mRealm.beginTransaction();
         mAlarm.setTime(convertStringToTimeLong(mTextViewAlarmTime.getText().toString()));
-        mAlarm.getSong().setName(mSongName);
-        mAlarm.getSong().setPath(mSongPath);
+        mAlarm.setSong(mSong);
         mAlarm.setRepeat(mRepeat);
         mAlarm.setVolume(mSeekBarVolume.getProgress());
         mAlarm.setVibrated(mCheckBoxVibration.isChecked());
@@ -173,7 +184,7 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
         mAlarm.setSnoozeTime(mSnoozeTime);
         mAlarm.setNote(mEditTextNoteValue.getText().toString());
         mRealm.commitTransaction();
-        mAlarmRepository.updateAlarm(mAlarm);
+        AlarmRepository.updateAlarm(mAlarm);
         AlarmUtils.setupAlarm(this, mAlarm);
         finish();
     }
@@ -191,8 +202,8 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.linear_layout_sound:
                 Intent intentSoundMusic = new Intent(this, SoundMusicActivity.class);
-                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC, mSongName);
-                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC_PATH, mSongPath);
+                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC, mSong.getName());
+                intentSoundMusic.putExtra(Constants.INTENT_SOUND_MUSIC_PATH, mSong.getPath());
                 startActivityForResult(intentSoundMusic, SOUND_MUSIC_CODE);
                 break;
             case R.id.relative_layout_vibration:
@@ -207,14 +218,11 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 startActivityForResult(intentSnooze, SNOOZE_TIME_CODE);
                 break;
             case R.id.button_save_new_alarm:
-                mAlarmRepository.addAlarm(mAlarm);
-                finish();
-                break;
             case R.id.button_save_alarm:
                 saveAlarm();
                 break;
             case R.id.button_delete_alarm:
-                mAlarmRepository.deleteAlarm(mAlarm);
+                AlarmRepository.deleteAlarm(mAlarm);
                 finish();
                 break;
         }
@@ -280,10 +288,13 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
             case SOUND_MUSIC_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     mRealm.beginTransaction();
-                    mSongName = data.getStringExtra(Constants.INTENT_SOUND_MUSIC);
-                    mSongPath = data.getStringExtra(Constants.INTENT_SOUND_MUSIC_PATH);
+                    String songName = data.getStringExtra(Constants.INTENT_SOUND_MUSIC);
+                    mSong.setName(songName);
+                    mSong.setPath(data.getStringExtra(Constants.INTENT_SOUND_MUSIC_PATH));
+                    mSong.setAlarmMusic(true);
+                    mSong.setChecked(true);
                     mRealm.commitTransaction();
-                    mTextViewSoundValue.setText(mSongName);
+                    mTextViewSoundValue.setText(songName);
                 }
                 break;
         }
