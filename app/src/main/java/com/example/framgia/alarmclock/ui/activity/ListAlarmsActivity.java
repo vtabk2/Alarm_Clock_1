@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -33,7 +32,7 @@ import io.realm.Realm;
 /**
  * Created by framgia on 13/07/2016.
  */
-public class ListAlarmsActivity extends AppCompatActivity implements View.OnClickListener,
+public class ListAlarmsActivity extends BaseActivity implements View.OnClickListener,
     OnClickItemListener, OnLongClickItemListener, OnClickCheckedChangeItemListener {
     private Button mButtonAddAlarm, mButtonDeleteAlarm, mButtonCancel;
     private AlarmRecyclerViewAdapter mAlarmRecyclerViewAdapter;
@@ -47,20 +46,22 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_list_alarms);
         loadData();
         initViews();
+        initOnListener();
+    }
+
+    private void initOnListener() {
+        mButtonAddAlarm.setOnClickListener(this);
+        mButtonDeleteAlarm.setOnClickListener(this);
+        mButtonCancel.setOnClickListener(this);
     }
 
     private void initViews() {
         getSupportActionBar().setTitle(R.string.alarms);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         RecyclerView recyclerViewListAlarms =
             (RecyclerView) findViewById(R.id.recycler_view_list_alarms);
         mButtonAddAlarm = (Button) findViewById(R.id.button_add_alarm);
         mButtonDeleteAlarm = (Button) findViewById(R.id.button_delete);
         mButtonCancel = (Button) findViewById(R.id.button_cancel);
-        mButtonAddAlarm.setOnClickListener(this);
-        mButtonDeleteAlarm.setOnClickListener(this);
-        mButtonCancel.setOnClickListener(this);
         mAlarmRecyclerViewAdapter =
             new AlarmRecyclerViewAdapter(this, mAlarmList, this, this, this);
         recyclerViewListAlarms.setLayoutManager(new LinearLayoutManager(this));
@@ -107,8 +108,7 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_add_alarm:
-                Intent intent = new Intent(this, AlarmDetailActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, AlarmDetailActivity.class));
                 break;
             case R.id.button_delete:
                 deleteCheckedItem();
@@ -199,8 +199,7 @@ public class ListAlarmsActivity extends AppCompatActivity implements View.OnClic
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-                clearCheckBox();
-                finish();
+                onBackPressed();
                 break;
             case R.id.delete_multiple_alarm:
                 if (!dataIsEmpty()) {

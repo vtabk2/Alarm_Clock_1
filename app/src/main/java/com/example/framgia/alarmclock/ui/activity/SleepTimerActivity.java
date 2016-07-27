@@ -3,12 +3,9 @@ package com.example.framgia.alarmclock.ui.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,8 +16,7 @@ import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
 /**
  * Created by framgia on 15/07/2016.
  */
-public class SleepTimerActivity extends AppCompatActivity
-    implements View.OnClickListener, CompoundButton.OnCheckedChangeListener,
+public class SleepTimerActivity extends BaseActivity implements View.OnClickListener,
     SeekBar.OnSeekBarChangeListener {
     private TextView mTextViewTimePicker;
     private Button mButtonStart, mButtonStop;
@@ -33,7 +29,16 @@ public class SleepTimerActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sleep_timer);
         initViews();
+        initOnListener();
         initSharedPreferences();
+    }
+
+    private void initOnListener() {
+        mTextViewTimePicker.setOnClickListener(this);
+        mButtonStart.setOnClickListener(this);
+        mButtonStop.setOnClickListener(this);
+        mSeekBarVolume.setOnSeekBarChangeListener(this);
+        findViewById(R.id.layout_sound_music).setOnClickListener(this);
     }
 
     private void initSharedPreferences() {
@@ -48,32 +53,12 @@ public class SleepTimerActivity extends AppCompatActivity
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.title_sleep_timer));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mTextViewTimePicker = (TextView) findViewById(R.id.text_timer_sleep);
         mButtonStart = (Button) findViewById(R.id.start_timer_sleep);
         mButtonStop = (Button) findViewById(R.id.stop_timer_sleep);
         mSeekBarVolume = (SeekBar) findViewById(R.id.seekBar_volume);
         mCheckBoxNoise = (CheckBox) findViewById(R.id.checkbox_noise);
         mCheckBoxShuffle = (CheckBox) findViewById(R.id.checkbox_shuffle);
-        mTextViewTimePicker.setOnClickListener(this);
-        mButtonStart.setOnClickListener(this);
-        mButtonStop.setOnClickListener(this);
-        mSeekBarVolume.setOnSeekBarChangeListener(this);
-        findViewById(R.id.layout_sound_music).setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(menuItem);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        // TODO: 15/07/2016
     }
 
     @Override

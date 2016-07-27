@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 import com.example.framgia.alarmclock.ui.fragment.MusicFragment;
 import com.example.framgia.alarmclock.ui.fragment.SoundFragment;
 
@@ -15,7 +14,7 @@ public class SoundMusicFragmentPagerAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 2;
     private final int TAB_SOUND = 0;
     private final int TAB_MUSIC = 1;
-    private String TAB_TITLES[] = new String[]{"SOUNDS", "MUSIC"};
+    private String[] TAB_TITLES = {"SOUNDS", "MUSIC"};
 
     public SoundMusicFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

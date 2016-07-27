@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
@@ -21,7 +19,7 @@ import java.io.IOException;
 /**
  * Created by framgia on 20/07/2016.
  */
-public class SoundMusicActivity extends AppCompatActivity implements OnSelectMusicListener {
+public class SoundMusicActivity extends BaseActivity implements OnSelectMusicListener {
     private String mSound;
     private String mPath;
     private MediaPlayer mMediaPlayer;
@@ -36,8 +34,6 @@ public class SoundMusicActivity extends AppCompatActivity implements OnSelectMus
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.sound_and_music));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_sound);
         SoundMusicFragmentPagerAdapter pagerAdapter =
             new SoundMusicFragmentPagerAdapter(getSupportFragmentManager());
@@ -77,16 +73,6 @@ public class SoundMusicActivity extends AppCompatActivity implements OnSelectMus
         mMediaPlayer.reset();
         mMediaPlayer = MediaPlayer.create(this, resId);
         mMediaPlayer.start();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                getSoundMusic();
-                break;
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

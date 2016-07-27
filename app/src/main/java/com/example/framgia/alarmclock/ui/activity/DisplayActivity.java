@@ -3,8 +3,6 @@ package com.example.framgia.alarmclock.ui.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -14,7 +12,7 @@ import com.example.framgia.alarmclock.data.Constants;
 /**
  * Created by framgia on 18/07/2016.
  */
-public class DisplayActivity extends AppCompatActivity implements
+public class DisplayActivity extends BaseActivity implements
     CompoundButton.OnCheckedChangeListener {
     private CheckBox mCheckBoxShowSeconds, mCheckBoxShowDay, mCheckBoxUse24HourFormat,
         mCheckBoxSlideFingers;
@@ -25,7 +23,15 @@ public class DisplayActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
         initViews();
+        initOnListener();
         showSharedPreferences();
+    }
+
+    private void initOnListener() {
+        mCheckBoxShowSeconds.setOnCheckedChangeListener(this);
+        mCheckBoxShowDay.setOnCheckedChangeListener(this);
+        mCheckBoxUse24HourFormat.setOnCheckedChangeListener(this);
+        mCheckBoxSlideFingers.setOnCheckedChangeListener(this);
     }
 
     private void showSharedPreferences() {
@@ -43,24 +49,10 @@ public class DisplayActivity extends AppCompatActivity implements
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.title_display));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mCheckBoxShowSeconds = (CheckBox) findViewById(R.id.cb_show_seconds);
         mCheckBoxShowDay = (CheckBox) findViewById(R.id.cb_show_day);
         mCheckBoxUse24HourFormat = (CheckBox) findViewById(R.id.cb_use_24_hour_format);
         mCheckBoxSlideFingers = (CheckBox) findViewById(R.id.cb_text_slide_fingers);
-        mCheckBoxShowSeconds.setOnCheckedChangeListener(this);
-        mCheckBoxShowDay.setOnCheckedChangeListener(this);
-        mCheckBoxUse24HourFormat.setOnCheckedChangeListener(this);
-        mCheckBoxSlideFingers.setOnCheckedChangeListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

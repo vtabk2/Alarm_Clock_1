@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -19,7 +17,7 @@ import com.example.framgia.alarmclock.data.Constants;
 /**
  * Created by framgia on 21/07/2016.
  */
-public class AdvancedActivity extends AppCompatActivity
+public class AdvancedActivity extends BaseActivity
     implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private final static CharSequence[] TYPE_CLOCKS = {"Analog", "Digital"};
     private SharedPreferences.Editor mEditor;
@@ -32,7 +30,15 @@ public class AdvancedActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced);
         initViews();
+        initOnListener();
         showSharedPreferences();
+    }
+
+    private void initOnListener() {
+        mCheckBoxAutoLaunch.setOnCheckedChangeListener(this);
+        mCheckBoxShowBattery.setOnCheckedChangeListener(this);
+        mCheckBoxAutoSnooze.setOnCheckedChangeListener(this);
+        findViewById(R.id.layout_time_picker).setOnClickListener(this);
     }
 
     private void showSharedPreferences() {
@@ -48,24 +54,10 @@ public class AdvancedActivity extends AppCompatActivity
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.title_advanced));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mCheckBoxAutoLaunch = (CheckBox) findViewById(R.id.checkbox_auto_launch);
         mCheckBoxShowBattery = (CheckBox) findViewById(R.id.checkbox_show_battery_indicator);
         mCheckBoxAutoSnooze = (CheckBox) findViewById(R.id.checkbox_auto_snooze);
         mTextViewTypeClock = (TextView) findViewById(R.id.text_time_picker);
-        mCheckBoxAutoLaunch.setOnCheckedChangeListener(this);
-        mCheckBoxShowBattery.setOnCheckedChangeListener(this);
-        mCheckBoxAutoSnooze.setOnCheckedChangeListener(this);
-        findViewById(R.id.layout_time_picker).setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if (menuItem.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
