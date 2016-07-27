@@ -30,10 +30,9 @@
     <dimen name="text_size2_timer_sleep_activity">20sp</dimen>
     <dimen name="text_size3_timer_sleep_activity">15sp</dimen>
     <dimen name="item_checkbox_text_size">18sp</dimen>
-    <dimen name="text_day_activity_margin_top">100dp</dimen>
-    <dimen name="text_hide_second_main_activity_margin_left">230dp</dimen>
-    <dimen name="text_hide_second_main_activity_margin_top">50dp</dimen>
-    <dimen name="text_clock_am_pm_main_activity_margin_left">10dp</dimen>
-    <dimen name="text_clock_am_pm_main_activity_margin_bottom">60dp</dimen>
+    <dimen name="text_day_activity_margin_bottom">90dp</dimen>
+    <dimen name="text_hide_second_main_activity_margin_top">90dp</dimen>
+    <dimen name="text_clock_am_pm_main_activity_margin_left">250dp</dimen>
+    <dimen name="text_clock_am_pm_main_activity_margin_bottom">45dp</dimen>
     <dimen name="text_battery_size">18sp</dimen>
 </resources>

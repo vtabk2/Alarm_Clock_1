@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AnalogClock;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private final static int DEFAULT_NULL = -1;
     private TextClock mTextClockHour, mTextClockSecond, mTextClockAmPm;
+    private AnalogClock mAnalogClockThinLine;
     private TextView mTextViewBattery, mTextViewHideHour, mTextViewHideSecond, mTextViewDay;
     private ImageView mImageViewWeather, mImageViewSettings, mImageViewHelp, mImageViewAlarm;
     private ImageView mImageViewTimer;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float mAlpha;
     private boolean mIscreated;
     private boolean mSlideFingers;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initViews() {
+        mAnalogClockThinLine = (AnalogClock) findViewById(R.id.analog_clock_main);
         Typeface typeFaceTime = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
         Typeface typeFaceDay = Typeface.createFromAsset(getAssets(), Constants.FONT_DAY);
         mTextViewDay = (TextView) findViewById(R.id.text_day);
@@ -152,35 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showAdvanced() {
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
+        mSharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
             Context.MODE_PRIVATE);
-        int typeClock =
-            sharedPreferences.getInt(Constants.TYPE_CLOCKS, Constants.TYPE_CLOCKS_WHITE);
-        switch (typeClock) {
-            case Constants.TYPE_CLOCKS_WHITE:
-                showColorViews(Color.WHITE, R.color.colorWhite);
-                break;
-            case Constants.TYPE_CLOCKS_BLUE:
-                showColorViews(Color.BLUE, R.color.colorBlue);
-                break;
-            case Constants.TYPE_CLOCKS_GREEN:
-                showColorViews(Color.GREEN, R.color.colorGreen);
-                break;
-            case Constants.TYPE_CLOCKS_RED:
-                showColorViews(Color.RED, R.color.colorRed);
-                break;
-            case Constants.TYPE_CLOCKS_YELLOW:
-                showColorViews(Color.YELLOW, R.color.colorYellow);
-                break;
-            case Constants.TYPE_CLOCKS_ANALOG:
-                // TODO: 14/07/2016
-                break;
-        }
-        boolean showSeconds = sharedPreferences.getBoolean(Constants.SHOW_SECONDS, true);
-        boolean showDay = sharedPreferences.getBoolean(Constants.SHOW_DAY, true);
-        boolean use24HourFormat = sharedPreferences.getBoolean(Constants.USE_24_HOUR_FORMAT, true);
-        boolean showBattery = sharedPreferences.getBoolean(Constants.SHOW_BATTERY, true);
-        mSlideFingers = sharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
+        boolean showDay = mSharedPreferences.getBoolean(Constants.SHOW_DAY, true);
+        boolean use24HourFormat = mSharedPreferences.getBoolean(Constants.USE_24_HOUR_FORMAT, true);
+        boolean showBattery = mSharedPreferences.getBoolean(Constants.SHOW_BATTERY, true);
+        mSlideFingers = mSharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
         if (use24HourFormat) {
             mTextClockHour.setFormat12Hour(null);
             mTextClockHour.setFormat24Hour(Constants.FORMAT_TIME_24_HOUR);
@@ -189,14 +170,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mTextClockHour.setFormat24Hour(null);
         }
         mTextClockAmPm.setFormat12Hour(Constants.FORMAT_AM_PM);
+        mTextClockAmPm.setFormat24Hour(null);
         DateFormat df = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT);
         String date = df.format(Calendar.getInstance().getTime()).toUpperCase();
         mTextViewDay.setText(date);
         mTextClockSecond.setFormat12Hour(null);
         mTextClockSecond.setFormat24Hour(Constants.FORMAT_TIME_SECOND);
         mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
-        mTextClockSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
-        mTextViewHideSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
         mTextClockAmPm.setVisibility(use24HourFormat ? View.INVISIBLE : View.VISIBLE);
         // battery
         mTextViewBattery.setVisibility(showBattery ? View.VISIBLE : View.GONE);
@@ -209,6 +189,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int batteryPct = level * Constants.PERCENTAGES / scale;
             mTextViewBattery.setText(String.format(getString(R.string.battery), batteryPct));
         }
+        int typeClock =
+            mSharedPreferences.getInt(Constants.TYPE_CLOCKS, Constants.TYPE_CLOCKS_WHITE);
+        switch (typeClock) {
+            case Constants.TYPE_CLOCKS_WHITE:
+                showColorViews(Color.WHITE, R.color.colorWhite);
+                showAnalog(false);
+                break;
+            case Constants.TYPE_CLOCKS_BLUE:
+                showColorViews(Color.BLUE, R.color.colorBlue);
+                showAnalog(false);
+                break;
+            case Constants.TYPE_CLOCKS_GREEN:
+                showColorViews(Color.GREEN, R.color.colorGreen);
+                showAnalog(false);
+                break;
+            case Constants.TYPE_CLOCKS_RED:
+                showColorViews(Color.RED, R.color.colorRed);
+                showAnalog(false);
+                break;
+            case Constants.TYPE_CLOCKS_YELLOW:
+                showColorViews(Color.YELLOW, R.color.colorYellow);
+                showAnalog(false);
+                break;
+            case Constants.TYPE_CLOCKS_ANALOG:
+                showColorViews(Color.WHITE, R.color.colorWhite);
+                showAnalog(true);
+                mTextClockAmPm.setVisibility(View.INVISIBLE);
+                break;
+        }
+    }
+
+    private void showAnalog(boolean showAnalog) {
+        mTextClockHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
+        mTextViewHideHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
+        mTextViewHideSecond.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
+        mAnalogClockThinLine.setVisibility(showAnalog ? View.VISIBLE : View.INVISIBLE);
+        boolean showSeconds = mSharedPreferences.getBoolean(Constants.SHOW_SECONDS, true);
+        mTextClockSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
+        mTextViewHideSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void showColorViews(int color, int colorHide) {
@@ -254,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewTimer.setAlpha(mAlpha);
         mTextViewBattery.setAlpha(mAlpha);
         mTextViewDay.setAlpha(mAlpha);
+        mAnalogClockThinLine.setAlpha(mAlpha);
     }
 
     private void onUpBrightness() {

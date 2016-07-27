@@ -91,6 +91,16 @@ public class Alarm extends RealmObject {
         return new SimpleDateFormat(Constants.ALARM_TIME_FORMAT).format(new Date(mTime));
     }
 
+    public int getFormattedTimeHours() {
+        return Integer.parseInt(new SimpleDateFormat(Constants.ALARM_TIME_FORMAT_HOURS)
+            .format(new Date(mTime)));
+    }
+
+    public int getFormattedTimeMinute() {
+        return Integer.parseInt(new SimpleDateFormat(Constants.ALARM_TIME_FORMAT_MINUTE)
+            .format(new Date(mTime)));
+    }
+
     public boolean isChecked() {
         return mIsChecked;
     }

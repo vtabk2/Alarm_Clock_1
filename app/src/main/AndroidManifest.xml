@@ -5,6 +5,9 @@
           android:versionName="1.0">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-sdk
         android:maxSdkVersion="23"/>
@@ -61,8 +64,17 @@
                 android:resource="@xml/widget_clock_info"/>
         </receiver>
 
+        <receiver
+            android:name="com.example.framgia.alarmclock.ui.alarms.AlarmBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.example.framgia.alarmclock.service.SchedulingService"/>
         <activity
             android:name=".ui.activity.AdvancedActivity"
             android:theme="@style/Theme.AppCompat"/>
-    </application>y
+    </application>
 </manifest>

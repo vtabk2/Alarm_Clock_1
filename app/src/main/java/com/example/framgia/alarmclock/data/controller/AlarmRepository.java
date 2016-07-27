@@ -30,8 +30,9 @@ public class AlarmRepository {
         return mRealm.where(Alarm.class).findAll();
     }
 
-    public Alarm getAlarmById(int id) {
-        return mRealm.where(Alarm.class).equalTo(Constants.ID_FIELD, id).findFirst();
+    public static Alarm getAlarmById(int id) {
+        return Realm.getDefaultInstance().where(Alarm.class).equalTo(Constants.ID_FIELD, id)
+            .findFirst();
     }
 
     public void updateAlarm(final Alarm alarm) {
