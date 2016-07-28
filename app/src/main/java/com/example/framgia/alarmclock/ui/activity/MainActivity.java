@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mIscreated;
     private boolean mSlideFingers;
     private SharedPreferences mSharedPreferences;
+    private Typeface mTypeFaceDay, mTypeFaceTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         hideStatusBar();
         initViews();
+        updateData();
         showAdvanced();
         onSimpleOnGestureListener();
+    }
+
+    private void updateData() {
+        mSharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
+            Context.MODE_PRIVATE);
+        mSlideFingers = mSharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
+        mAlpha = Constants.ALPHA_MAX;
     }
 
     @Override
@@ -59,9 +68,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         if (mIscreated) {
+            updateData();
             showAdvanced();
             hideStatusBar();
         }
+    }
+
+    private void initViews() {
+        initTextClocks();
+        initImageView();
+        initTextView();
+        initOnListener();
+    }
+
+    private void initTextView() {
+        // text day
+        mTextViewDay = (TextView) findViewById(R.id.text_day);
+        mTextViewDay.setTypeface(mTypeFaceDay);
+        // text battery
+        mTextViewBattery = (TextView) findViewById(R.id.text_battery);
+        // hide text
+        mTextViewHideHour = (TextView) findViewById(R.id.text_hide_hour);
+        mTextViewHideSecond = (TextView) findViewById(R.id.text_hide_second);
+        mTextViewHideHour.setTypeface(mTypeFaceTime);
+        mTextViewHideSecond.setTypeface(mTypeFaceTime);
+    }
+
+    private void initImageView() {
+        // image icon
+        mImageViewWeather = (ImageView) findViewById(R.id.image_weather);
+        mImageViewSettings = (ImageView) findViewById(R.id.image_settings);
+        mImageViewHelp = (ImageView) findViewById(R.id.image_help);
+        mImageViewAlarm = (ImageView) findViewById(R.id.image_alarm);
+        mImageViewTimer = (ImageView) findViewById(R.id.image_timer);
+    }
+
+    private void initOnListener() {
+        mImageViewWeather.setOnClickListener(this);
+        mImageViewSettings.setOnClickListener(this);
+        mImageViewHelp.setOnClickListener(this);
+        mImageViewAlarm.setOnClickListener(this);
+        mImageViewTimer.setOnClickListener(this);
+    }
+
+    private void initTextClocks() {
+        mAnalogClockThinLine = (AnalogClock) findViewById(R.id.analog_clock_main);
+        mTypeFaceTime = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
+        mTypeFaceDay = Typeface.createFromAsset(getAssets(), Constants.FONT_DAY);
+        // text clock
+        mTextClockHour = (TextClock) findViewById(R.id.text_clock_hour);
+        mTextClockSecond = (TextClock) findViewById(R.id.text_clock_second);
+        mTextClockAmPm = (TextClock) findViewById(R.id.text_clock_am_pm);
+        mTextClockHour.setTypeface(mTypeFaceTime);
+        mTextClockSecond.setTypeface(mTypeFaceTime);
+        mTextClockAmPm.setTypeface(mTypeFaceDay);
+    }
+
+    private void hideStatusBar() {
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+    }
+
+    private void showAdvanced() {
+        showAdvancedTextClock();
+        showAdvancedBattery();
+        showAdvancedTypeClock();
+        showAdvancedTextViewDay();
     }
 
     private void onSimpleOnGestureListener() {
@@ -83,50 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
         mGestureDetector = new GestureDetector(this, simpleOnGestureListener);
-    }
-
-    private void hideStatusBar() {
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-    }
-
-    private void initViews() {
-        mAnalogClockThinLine = (AnalogClock) findViewById(R.id.analog_clock_main);
-        Typeface typeFaceTime = Typeface.createFromAsset(getAssets(), Constants.FONT_TIME);
-        Typeface typeFaceDay = Typeface.createFromAsset(getAssets(), Constants.FONT_DAY);
-        mTextViewDay = (TextView) findViewById(R.id.text_day);
-        // text clock
-        mTextClockHour = (TextClock) findViewById(R.id.text_clock_hour);
-        mTextClockSecond = (TextClock) findViewById(R.id.text_clock_second);
-        mTextClockAmPm = (TextClock) findViewById(R.id.text_clock_am_pm);
-        mTextClockHour.setTypeface(typeFaceTime);
-        mTextClockSecond.setTypeface(typeFaceTime);
-        mTextClockAmPm.setTypeface(typeFaceDay);
-        // hide text
-        mTextViewHideHour = (TextView) findViewById(R.id.text_hide_hour);
-        mTextViewHideSecond = (TextView) findViewById(R.id.text_hide_second);
-        mTextViewHideHour.setTypeface(typeFaceTime);
-        mTextViewHideSecond.setTypeface(typeFaceTime);
-        mTextViewDay.setTypeface(typeFaceDay);
-        // text battery
-        mTextViewBattery = (TextView) findViewById(R.id.text_battery);
-        // image icon
-        mImageViewWeather = (ImageView) findViewById(R.id.image_weather);
-        mImageViewSettings = (ImageView) findViewById(R.id.image_settings);
-        mImageViewHelp = (ImageView) findViewById(R.id.image_help);
-        mImageViewAlarm = (ImageView) findViewById(R.id.image_alarm);
-        mImageViewTimer = (ImageView) findViewById(R.id.image_timer);
-        mImageViewWeather.setOnClickListener(this);
-        mImageViewSettings.setOnClickListener(this);
-        mImageViewHelp.setOnClickListener(this);
-        mImageViewAlarm.setOnClickListener(this);
-        mImageViewTimer.setOnClickListener(this);
-        mAlpha = Constants.ALPHA_MAX;
     }
 
     @Override
@@ -155,13 +188,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    private void showAdvanced() {
-        mSharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
-            Context.MODE_PRIVATE);
+    private void showAdvancedTextViewDay() {
+        DateFormat df = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT);
+        String date = df.format(Calendar.getInstance().getTime()).toUpperCase();
+        mTextViewDay.setText(date);
         boolean showDay = mSharedPreferences.getBoolean(Constants.SHOW_DAY, true);
+        mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showAdvancedTextClock() {
         boolean use24HourFormat = mSharedPreferences.getBoolean(Constants.USE_24_HOUR_FORMAT, true);
-        boolean showBattery = mSharedPreferences.getBoolean(Constants.SHOW_BATTERY, true);
-        mSlideFingers = mSharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
         if (use24HourFormat) {
             mTextClockHour.setFormat12Hour(null);
             mTextClockHour.setFormat24Hour(Constants.FORMAT_TIME_24_HOUR);
@@ -171,14 +207,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         mTextClockAmPm.setFormat12Hour(Constants.FORMAT_AM_PM);
         mTextClockAmPm.setFormat24Hour(null);
-        DateFormat df = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT);
-        String date = df.format(Calendar.getInstance().getTime()).toUpperCase();
-        mTextViewDay.setText(date);
         mTextClockSecond.setFormat12Hour(null);
         mTextClockSecond.setFormat24Hour(Constants.FORMAT_TIME_SECOND);
-        mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
         mTextClockAmPm.setVisibility(use24HourFormat ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void showAdvancedBattery() {
         // battery
+        boolean showBattery = mSharedPreferences.getBoolean(Constants.SHOW_BATTERY, true);
         mTextViewBattery.setVisibility(showBattery ? View.VISIBLE : View.GONE);
         if (showBattery) {
             IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -189,6 +225,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int batteryPct = level * Constants.PERCENTAGES / scale;
             mTextViewBattery.setText(String.format(getString(R.string.battery), batteryPct));
         }
+    }
+
+    private void showAdvancedTypeClock() {
         int typeClock =
             mSharedPreferences.getInt(Constants.TYPE_CLOCKS, Constants.TYPE_CLOCKS_WHITE);
         switch (typeClock) {
@@ -221,28 +260,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showAnalog(boolean showAnalog) {
-        mTextClockHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
-        mTextViewHideHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
-        mTextViewHideSecond.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
-        mAnalogClockThinLine.setVisibility(showAnalog ? View.VISIBLE : View.INVISIBLE);
         boolean showSeconds = mSharedPreferences.getBoolean(Constants.SHOW_SECONDS, true);
+        mTextClockHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
         mTextClockSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
-        mTextViewHideSecond.setVisibility(showSeconds ? View.VISIBLE : View.INVISIBLE);
+        mAnalogClockThinLine.setVisibility(showAnalog ? View.VISIBLE : View.INVISIBLE);
+        mTextViewHideHour.setVisibility(showAnalog ? View.INVISIBLE : View.VISIBLE);
+        mTextViewHideSecond
+            .setVisibility(showSeconds && !showAnalog ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void showColorViews(int color, int colorHide) {
+        // text clock
         mTextClockHour.setTextColor(color);
-        mTextClockSecond.setTextColor(color);
         mTextClockAmPm.setTextColor(color);
+        mTextClockSecond.setTextColor(color);
+        // text view
         mTextViewDay.setTextColor(color);
+        mTextViewBattery.setTextColor(color);
         mTextViewHideHour.setTextColor(ContextCompat.getColor(this, colorHide));
         mTextViewHideSecond.setTextColor(ContextCompat.getColor(this, colorHide));
+        // image view
+        mImageViewHelp.setColorFilter(color);
         mImageViewAlarm.setColorFilter(color);
         mImageViewTimer.setColorFilter(color);
         mImageViewWeather.setColorFilter(color);
         mImageViewSettings.setColorFilter(color);
-        mImageViewHelp.setColorFilter(color);
-        mTextViewBattery.setTextColor(color);
     }
 
     private void onFadeInChangeBrightness(int type) {
@@ -264,15 +306,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setAlpha() {
+        // text clock
         mTextClockHour.setAlpha(mAlpha);
+        mTextClockAmPm.setAlpha(mAlpha);
         mTextClockSecond.setAlpha(mAlpha);
-        mImageViewWeather.setAlpha(mAlpha);
-        mImageViewSettings.setAlpha(mAlpha);
+        // image view
         mImageViewHelp.setAlpha(mAlpha);
         mImageViewAlarm.setAlpha(mAlpha);
         mImageViewTimer.setAlpha(mAlpha);
-        mTextViewBattery.setAlpha(mAlpha);
+        mImageViewWeather.setAlpha(mAlpha);
+        mImageViewSettings.setAlpha(mAlpha);
+        // text view
         mTextViewDay.setAlpha(mAlpha);
+        mTextViewBattery.setAlpha(mAlpha);
+        // analog clock
         mAnalogClockThinLine.setAlpha(mAlpha);
     }
 

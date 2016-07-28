@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -15,7 +13,7 @@ import com.example.framgia.alarmclock.data.Constants;
 /**
  * Created by framgia on 19/07/2016.
  */
-public class SnoozeActivity extends AppCompatActivity {
+public class SnoozeActivity extends BaseActivity {
     public static final int SNOOZE_FIVE_MINUTES = 5;
     public static final int SNOOZE_TEN_MINUTES = 10;
     public static final int SNOOZE_FIFTEEN_MINUTES = 15;
@@ -34,8 +32,6 @@ public class SnoozeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snooze);
         getSupportActionBar().setTitle(R.string.snooze_duration);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initViews();
         loadData();
     }
@@ -109,16 +105,6 @@ public class SnoozeActivity extends AppCompatActivity {
         returnIntent.putExtra(Constants.INTENT_SNOOZE_TIME, mSnoozeTime);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                getSnoozeTime();
-                break;
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

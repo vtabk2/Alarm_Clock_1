@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class DataFragmentPagerAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 2;
-    private String TABTITLES[] = new String[]{"FUNCTIONS", "CLOCKS"};
+    private String[] TABTITLES = {"FUNCTIONS", "CLOCKS"};
 
     public DataFragmentPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

@@ -12,17 +12,11 @@ import com.example.framgia.alarmclock.R;
  */
 public class AnalogClockWidget extends AppWidgetProvider {
     private static RemoteViews buildUpdate(Context context) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
-            R.layout.widget_clock_analog);
-        return remoteViews;
+        return new RemoteViews(context.getPackageName(), R.layout.widget_clock_analog);
     }
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-        for (int i = 0; i < appWidgetIds.length; i++) {
-            int currentWidgetId = appWidgetIds[i];
-            RemoteViews views = buildUpdate(context);
-            appWidgetManager.updateAppWidget(currentWidgetId, views);
-        }
+        appWidgetManager.updateAppWidget(appWidgetIds, buildUpdate(context));
     }
 }

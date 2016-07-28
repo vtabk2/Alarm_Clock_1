@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,7 +33,7 @@ import io.realm.Realm;
 /**
  * Created by framgia on 15/07/2016.
  */
-public class AlarmDetailActivity extends AppCompatActivity implements View.OnClickListener,
+public class AlarmDetailActivity extends BaseActivity implements View.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
     public static final int SNOOZE_TIME_CODE = 0;
     public static final int REPEAT_CODE = 1;
@@ -64,8 +62,6 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void initViews() {
         getSupportActionBar().setTitle(R.string.set_alarm);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mTextViewAlarmTime = (TextView) findViewById(R.id.text_view_alarm_time);
         mTextViewRepeatValue = (TextView) findViewById(R.id.text_view_repeat_value);
         mTextViewSoundValue = (TextView) findViewById(R.id.text_view_sound_value);
@@ -238,16 +234,6 @@ public class AlarmDetailActivity extends AppCompatActivity implements View.OnCli
                 mCheckBoxFadeIn.setChecked(isChecked);
                 break;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

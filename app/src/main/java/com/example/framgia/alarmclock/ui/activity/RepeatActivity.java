@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -15,7 +13,7 @@ import com.example.framgia.alarmclock.data.Constants;
 /**
  * Created by framgia on 15/07/2016.
  */
-public class RepeatActivity extends AppCompatActivity implements
+public class RepeatActivity extends BaseActivity implements
     CompoundButton.OnCheckedChangeListener {
     private CheckBox mCheckBoxMonday, mCheckBoxTuesday, mCheckBoxWednesday, mCheckBoxThursday,
         mCheckBoxFriday, mCheckBoxSaturday, mCheckBoxSunday, mCheckBoxEveryday;
@@ -31,8 +29,6 @@ public class RepeatActivity extends AppCompatActivity implements
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.title_repeat));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mCheckBoxMonday = (CheckBox) findViewById(R.id.checkbox_every_monday);
         mCheckBoxTuesday = (CheckBox) findViewById(R.id.checkbox_every_tuesday);
         mCheckBoxWednesday = (CheckBox) findViewById(R.id.checkbox_every_wednesday);
@@ -89,7 +85,7 @@ public class RepeatActivity extends AppCompatActivity implements
         mCheckBoxSunday.setChecked(isChecked);
     }
 
-    private void allChecboxAreChecked() {
+    private void allCheckboxAreChecked() {
         mCheckBoxEveryday.setChecked(
             mCheckBoxMonday.isChecked() && mCheckBoxTuesday.isChecked() && mCheckBoxWednesday
                 .isChecked() && mCheckBoxThursday.isChecked() && mCheckBoxFriday.isChecked() &&
@@ -129,23 +125,13 @@ public class RepeatActivity extends AppCompatActivity implements
             case R.id.checkbox_every_friday:
             case R.id.checkbox_every_saturday:
             case R.id.checkbox_every_sunday:
-                allChecboxAreChecked();
+                allCheckboxAreChecked();
                 break;
             case R.id.checkbox_everyday:
                 if (isChecked)
                     setCheckboxChecked(true);
                 break;
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                getRepeat();
-                break;
-        }
-        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
