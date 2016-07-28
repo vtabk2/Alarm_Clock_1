@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.framgia.alarmclock.ui.fragment.ListSongsFragment;
+import com.example.framgia.alarmclock.ui.fragment.SelectedSongsFragment;
 
 /**
  * Created by framgia on 25/07/2016.
@@ -23,7 +24,7 @@ public class ListSongsFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case TAB_SELECTED_SONGS:
-                return new Fragment();
+                return new SelectedSongsFragment();
             case TAB_LIST_SONGS:
                 return new ListSongsFragment();
             default:

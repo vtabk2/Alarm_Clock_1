@@ -73,4 +73,17 @@ public class Constants {
     public static final String IS_ALARM_MUSIC_FIELD = "mIsAlarmMusic";
     public static final String PATH_FIELD = "mPath";
     public static final int PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 0;
+    public static final String SLEEP_TIMER_NOISE_IS_CHECKED = "sleep_timer_nois_is_checked";
+    public static final String MOUNTAIN = "Mountain";
+    public static final String OLD_ALARM_CLOCK = "Old Alarm CLock";
+    public static final String DIGITAL = "Digital";
+    public static final String BELLS = "Bells";
+    public static final String GET_FUNKY = "Get Funky";
+    public static final String GOOD_MORNING = "Good Morning";
+    public static final String MELLOW = "Mellow";
+    public static final String ELECTRO = "Electro";
+    public static final String FUTURE = "Future";
+    public static final String STOP = "Stop";
+    public static final String TIME_FORMAT = "HH:mm:ss";
+    public static final String NUMBER_SELECTED_SONGS = "Selected %d tracks";
 }

@@ -59,4 +59,9 @@ public class SongRepository {
             }
         });
     }
+
+    public static int getSize() {
+        return mRealm.where(Song.class).equalTo(Constants.IS_ALARM_MUSIC_FIELD, false).findAll()
+            .size();
+    }
 }
