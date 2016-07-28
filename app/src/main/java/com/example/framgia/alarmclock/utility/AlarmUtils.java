@@ -13,6 +13,7 @@ import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.AlarmRepository;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.service.SchedulingService;
+import com.example.framgia.alarmclock.ui.activity.MainActivity;
 import com.example.framgia.alarmclock.ui.alarms.AlarmBootReceiver;
 
 import java.util.Calendar;
@@ -21,6 +22,14 @@ import java.util.List;
 public class AlarmUtils {
     private static AlarmManager mAlarmManager;
     private static PendingIntent mPendingIntent;
+
+    public static void startAlarm(Context context, int id) {
+        Intent startAlarmIntent = new Intent(context, MainActivity.class);
+        startAlarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startAlarmIntent.setAction(Constants.ACTION_FULLSCREEN_ACTIVITY);
+        startAlarmIntent.putExtra(Constants.OBJECT_ID, id);
+        context.startActivity(startAlarmIntent);
+    }
 
     public static void setupAlarmBoot(Context context) {
         List<Alarm> alarmList = AlarmRepository.getAllAlarms();
@@ -48,12 +57,10 @@ public class AlarmUtils {
         calendar.set(Calendar.HOUR_OF_DAY, alarm.getFormattedTimeHours());
         calendar.set(Calendar.MINUTE, alarm.getFormattedTimeMinute());
         calendar.set(Calendar.SECOND, Constants.SECONDS_DEFAULT);
+        if (calendar.before(Calendar.getInstance()))
+            calendar.roll(Calendar.DAY_OF_WEEK, Constants.DEFAULT_UP_DAY);
         // check alarm
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            setAlarmManager(calendar, alarm.getRepeat().getRepeatDay());
-        } else {
-            setExactAlarmManager(calendar, alarm.getRepeat().getRepeatDay());
-        }
+        setAlarmByVersionAPI(alarm, calendar);
         enabledAutoBoot(context, PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
     }
 
@@ -95,5 +102,25 @@ public class AlarmUtils {
         PackageManager packageManager = context.getPackageManager();
         packageManager.setComponentEnabledSetting(componentName,
             enabled, PackageManager.DONT_KILL_APP);
+    }
+
+    public static void setAlarmSnooze(Context context, Alarm alarm) {
+        mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, SchedulingService.class);
+        intent.putExtra(Constants.OBJECT_ID, alarm.getId());
+        mPendingIntent = PendingIntent.getService(context, alarm.getId(), intent,
+            PendingIntent.FLAG_UPDATE_CURRENT);
+        // add time
+        Calendar calendar = Calendar.getInstance();
+        calendar.roll(Calendar.MINUTE, alarm.getSnoozeTime());
+        // check alarm
+        setAlarmByVersionAPI(alarm, calendar);
+        enabledAutoBoot(context, PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
+    }
+
+    private static void setAlarmByVersionAPI(Alarm alarm, Calendar calendar) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            setAlarmManager(calendar, alarm.getRepeat().getRepeatDay());
+        else setExactAlarmManager(calendar, alarm.getRepeat().getRepeatDay());
     }
 }

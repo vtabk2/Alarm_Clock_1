@@ -37,4 +37,5 @@
     <dimen name="text_battery_size">18sp</dimen>
     <dimen name="button_delete_selected_song_dimen">25dp</dimen>
     <dimen name="item_text_size">18sp</dimen>
+    <dimen name="image_snooze_activity_main_margin_top">20dp</dimen>
 </resources>

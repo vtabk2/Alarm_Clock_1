@@ -134,6 +134,7 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
         mAlarm.setEnabled(true);
         Song song = mRealm.createObject(Song.class);
         song.setName(Constants.DEFAULT_ALARM_SOUND);
+        song.setPath(String.valueOf(R.raw.bells));
         song.setAlarmMusic(true);
         mAlarm.setSong(song);
         Repeat repeat = mRealm.createObject(Repeat.class);

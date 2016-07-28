@@ -142,7 +142,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
             final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants
                 .TIME_FORMAT, Locale.getDefault());
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone(GMT_FORMAT));
-            MusicPlayerUtils.playSound(this, R.raw.noise);
+            MusicPlayerUtils.playMusic(this, String.valueOf(R.raw.noise));
             mCountDownTimer = new CountDownTimer(getTotalMiliseconds(), MILLISECONDS_A_SECOND) {
                 public void onTick(long millisUntilFinished) {
                     mButtonStop.setText(String.format(Locale.getDefault(), getString(R.string
@@ -162,7 +162,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         mButtonStop.setText(Constants.STOP);
         if (mCountDownTimer != null)
             mCountDownTimer.cancel();
-        MusicPlayerUtils.stopPlaying();
+        MusicPlayerUtils.stopMusic();
     }
 
     private void onChangeTimeSleep() {
