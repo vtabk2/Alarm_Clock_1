@@ -18,16 +18,12 @@ import com.example.framgia.alarmclock.ui.alarms.AlarmBootReceiver;
 import java.util.Calendar;
 import java.util.List;
 
-import io.realm.Realm;
-
 public class AlarmUtils {
     private static AlarmManager mAlarmManager;
     private static PendingIntent mPendingIntent;
 
     public static void setupAlarmBoot(Context context) {
-        Realm realm = Realm.getDefaultInstance();
-        AlarmRepository alarmRepository = new AlarmRepository(realm);
-        List<Alarm> alarmList = alarmRepository.getAllAlarms();
+        List<Alarm> alarmList = AlarmRepository.getAllAlarms();
         for (Alarm alarm : alarmList) {
             setAlarm(context, alarm);
         }

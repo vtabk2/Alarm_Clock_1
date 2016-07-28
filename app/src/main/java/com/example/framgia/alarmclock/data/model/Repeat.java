@@ -21,20 +21,6 @@ public class Repeat extends RealmObject {
     public Repeat() {
     }
 
-    public Repeat(boolean isRepeatMonday, boolean isRepeatTuesday, boolean isRepeatWednesday,
-                  boolean isRepeatThursday, boolean isRepeatFriday, boolean isRepeatSaturday,
-                  boolean isRepeatSunday, boolean isRepeatEveryday) {
-        mIsRepeatMonday = isRepeatMonday;
-        mIsRepeatTuesday = isRepeatTuesday;
-        mIsRepeatWednesday = isRepeatWednesday;
-        mIsRepeatThursday = isRepeatThursday;
-        mIsRepeatFriday = isRepeatFriday;
-        mIsRepeatSaturday = isRepeatSaturday;
-        mIsRepeatSunday = isRepeatSunday;
-        mIsRepeatEveryday = isRepeatEveryday;
-        initRepeatDay();
-    }
-
     public boolean isRepeatMonday() {
         return mIsRepeatMonday;
     }
@@ -71,7 +57,7 @@ public class Repeat extends RealmObject {
         return mRepeatDay;
     }
 
-    private void initRepeatDay() {
+    public void initRepeatDay() {
         mRepeatDay = mIsRepeatEveryday ? Constants.EVERYDAY : getAlarmDay();
     }
 

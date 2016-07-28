@@ -5,11 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.example.framgia.alarmclock.R;
-import com.example.framgia.alarmclock.data.listener.OnCheckedChangeItemListener;
+import com.example.framgia.alarmclock.data.listener.OnClickCheckedChangeItemListener;
 import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 
 import java.util.List;
@@ -21,16 +20,16 @@ public class MusicRecyclerViewAdapter
     extends RecyclerView.Adapter<MusicRecyclerViewAdapter.MusicViewHolder> {
     private LayoutInflater mLayoutInflater;
     private List<String> mMusicList;
-    private OnCheckedChangeItemListener mOnCheckedChangeItemListener;
     private OnSelectMusicListener mOnSelectMusicListener;
+    private OnClickCheckedChangeItemListener mOnClickCheckedChangeItemListener;
 
     public MusicRecyclerViewAdapter(Context context, List<String> musicList,
-                                    OnCheckedChangeItemListener onCheckedChangeItemListener,
-                                    OnSelectMusicListener onSelectMusicListener) {
+                                    OnSelectMusicListener onSelectMusicListener,
+                                    OnClickCheckedChangeItemListener onClickCheckedChangeItemListener) {
         mLayoutInflater = LayoutInflater.from(context);
         mMusicList = musicList;
-        mOnCheckedChangeItemListener = onCheckedChangeItemListener;
         mOnSelectMusicListener = onSelectMusicListener;
+        mOnClickCheckedChangeItemListener = onClickCheckedChangeItemListener;
     }
 
     @Override
@@ -46,14 +45,12 @@ public class MusicRecyclerViewAdapter
         holder.mRadioButtonMusic.setText(currentMusic);
         holder.mRadioButtonMusic
             .setChecked(mOnSelectMusicListener.getMusicName().equals(currentMusic));
-        holder.mRadioButtonMusic.setOnCheckedChangeListener(
-            new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    mOnCheckedChangeItemListener.onCheckedChangeItem(holder, position,
-                        compoundButton, isChecked);
-                }
-            });
+        holder.mRadioButtonMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnClickCheckedChangeItemListener.onClickCheckedChangeItem(view, holder, position);
+            }
+        });
     }
 
     @Override
