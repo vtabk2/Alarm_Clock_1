@@ -1,5 +1,6 @@
 package com.example.framgia.alarmclock.ui.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,7 +76,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
                 onChangeTimeSleep();
                 break;
             case R.id.layout_sound_music:
-                // TODO: 20/07/2016
+                startActivity(new Intent(this, ListSongsActivity.class));
                 break;
         }
     }

@@ -76,5 +76,8 @@
         <activity
             android:name=".ui.activity.AdvancedActivity"
             android:theme="@style/Theme.AppCompat"/>
+        <activity
+            android:name=".ui.activity.ListSongsActivity"
+            android:theme="@style/Theme.AppCompat"/>
     </application>
 </manifest>
