@@ -6,6 +6,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -73,6 +74,7 @@
         </receiver>
 
         <service android:name="com.example.framgia.alarmclock.service.SchedulingService"/>
+
         <activity
             android:name=".ui.activity.AdvancedActivity"
             android:theme="@style/Theme.AppCompat"/>

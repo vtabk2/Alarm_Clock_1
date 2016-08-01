@@ -8,12 +8,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AnalogClock;
 import android.widget.ImageView;
 import android.widget.TextClock;
@@ -21,8 +23,11 @@ import android.widget.TextView;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.data.controller.AlarmRepository;
+import com.example.framgia.alarmclock.data.model.Alarm;
+import com.example.framgia.alarmclock.utility.AlarmUtils;
+import com.example.framgia.alarmclock.utility.MusicPlayerUtils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -32,13 +37,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AnalogClock mAnalogClockThinLine;
     private TextView mTextViewBattery, mTextViewHideHour, mTextViewHideSecond, mTextViewDay;
     private ImageView mImageViewWeather, mImageViewSettings, mImageViewHelp, mImageViewAlarm;
-    private ImageView mImageViewTimer;
+    private ImageView mImageViewTimer, mImageViewStopAlarm, mImageViewSnooze;
     private GestureDetector mGestureDetector;
     private float mAlpha;
     private boolean mIscreated;
     private boolean mSlideFingers;
     private SharedPreferences mSharedPreferences;
     private Typeface mTypeFaceDay, mTypeFaceTime;
+    private Vibrator mVibrator;
+    private Alarm mAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateData();
         showAdvanced();
         onSimpleOnGestureListener();
+        initAlarmData();
+        setupAction();
+    }
+
+    private void initAlarmData() {
+        mVibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        Intent intentAlarmData = getIntent();
+        if (intentAlarmData != null) {
+            mAlarm = AlarmRepository.getAlarmById(
+                intentAlarmData.getIntExtra(Constants.OBJECT_ID, Constants.DEFAULT_INTENT_VALUE));
+        }
     }
 
     private void updateData() {
@@ -101,14 +119,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mImageViewHelp = (ImageView) findViewById(R.id.image_help);
         mImageViewAlarm = (ImageView) findViewById(R.id.image_alarm);
         mImageViewTimer = (ImageView) findViewById(R.id.image_timer);
+        mImageViewStopAlarm = (ImageView) findViewById(R.id.image_stop_alarm);
+        mImageViewSnooze = (ImageView) findViewById(R.id.image_snooze);
     }
 
     private void initOnListener() {
-        mImageViewWeather.setOnClickListener(this);
-        mImageViewSettings.setOnClickListener(this);
         mImageViewHelp.setOnClickListener(this);
         mImageViewAlarm.setOnClickListener(this);
         mImageViewTimer.setOnClickListener(this);
+        mImageViewSnooze.setOnClickListener(this);
+        mImageViewWeather.setOnClickListener(this);
+        mImageViewSettings.setOnClickListener(this);
+        mImageViewStopAlarm.setOnClickListener(this);
     }
 
     private void initTextClocks() {
@@ -139,6 +161,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showAdvancedBattery();
         showAdvancedTypeClock();
         showAdvancedTextViewDay();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopAlarm();
+    }
+
+    private void stopAlarm() {
+        if (mVibrator.hasVibrator()) {
+            mVibrator.cancel();
+        }
+        MusicPlayerUtils.stopMusic();
     }
 
     private void onSimpleOnGestureListener() {
@@ -180,17 +215,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.image_timer:
                 openActivity(SleepTimerActivity.class);
                 break;
+            case R.id.image_stop_alarm:
+                stopAlarm();
+                mImageViewSnooze.setVisibility(View.INVISIBLE);
+                mImageViewStopAlarm.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.image_snooze:
+                updateSnooze();
+                break;
         }
     }
 
     private void openActivity(Class myClass) {
         Intent intent = new Intent(this, myClass);
         startActivity(intent);
+        stopAlarm();
     }
 
     private void showAdvancedTextViewDay() {
-        DateFormat df = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT);
-        String date = df.format(Calendar.getInstance().getTime()).toUpperCase();
+        String date = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT)
+            .format(Calendar.getInstance().getTime()).toUpperCase();
         mTextViewDay.setText(date);
         boolean showDay = mSharedPreferences.getBoolean(Constants.SHOW_DAY, true);
         mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
@@ -334,5 +378,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onTouchEvent(MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    private void playRingAndVibrate() {
+        if (mAlarm.isValid() && mVibrator.hasVibrator()) {
+            mVibrator.vibrate(new long[]{Constants.TIME_VIBRATOR, Constants.TIME_VIBRATOR},
+                Constants.VIBRATOR_REPEAT);
+        }
+        MusicPlayerUtils.playMusic(this, mAlarm.getSong().getPath());
+    }
+
+    public void setupAction() {
+        String action = getIntent().getAction();
+        if (action == null) return;
+        switch (action) {
+            case Constants.ACTION_FULLSCREEN_ACTIVITY:
+                showAlarmSnooze();
+                playRingAndVibrate();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    private void showAlarmSnooze() {
+        mImageViewSnooze.setVisibility(View.VISIBLE);
+        mImageViewStopAlarm.setVisibility(View.VISIBLE);
+    }
+
+    private void updateSnooze() {
+        mImageViewSnooze.setVisibility(View.INVISIBLE);
+        AlarmUtils.setAlarmSnooze(this, mAlarm);
+        stopAlarm();
+        finish();
     }
 }

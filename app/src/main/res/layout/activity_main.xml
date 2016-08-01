@@ -121,4 +121,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/text_day_activity_margin_bottom"
         android:textSize="@dimen/text_clock_widget_clock_text_size"/>
+
+    <ImageView
+        android:id="@+id/image_stop_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/image_timer"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_stop_alarm"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/image_snooze"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/image_snooze_activity_main_margin_top"
+        android:src="@drawable/icon_snooze"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
