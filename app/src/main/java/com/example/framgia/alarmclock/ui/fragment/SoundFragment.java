@@ -10,21 +10,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.framgia.alarmclock.R;
+import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 
 /**
  * Created by framgia on 21/07/2016.
  */
 public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
-    public static final String MOUNTAIN = "Mountain";
-    public static final String OLD_ALARM_CLOCK = "Old Alarm CLock";
-    public static final String DIGITAL = "Digital";
-    public static final String BELLS = "Bells";
-    public static final String GET_FUNKY = "Get Funky";
-    public static final String GOOD_MORNING = "Good Morning";
-    public static final String MELLOW = "Mellow";
-    public static final String ELECTRO = "Electro";
-    public static final String FUTURE = "Future";
     private RadioButton mRadioButtonMountain, mRadioButtonOldAlarmClock, mRadioButtonDigital,
         mRadioButtonBells, mRadioButtonGetFunky, mRadioButtonGoodMorning, mRadioButtonMellow,
         mRadioButtonElectro, mRadioButtonFuture;
@@ -61,31 +53,31 @@ public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChang
 
     private void setDataToViews() {
         switch (mOnSelectMusicListener.getMusicName()) {
-            case MOUNTAIN:
+            case Constants.MOUNTAIN:
                 mRadioButtonMountain.setChecked(true);
                 break;
-            case OLD_ALARM_CLOCK:
+            case Constants.OLD_ALARM_CLOCK:
                 mRadioButtonOldAlarmClock.setChecked(true);
                 break;
-            case DIGITAL:
+            case Constants.DIGITAL:
                 mRadioButtonDigital.setChecked(true);
                 break;
-            case BELLS:
+            case Constants.BELLS:
                 mRadioButtonBells.setChecked(true);
                 break;
-            case GET_FUNKY:
+            case Constants.GET_FUNKY:
                 mRadioButtonGetFunky.setChecked(true);
                 break;
-            case GOOD_MORNING:
+            case Constants.GOOD_MORNING:
                 mRadioButtonGoodMorning.setChecked(true);
                 break;
-            case MELLOW:
+            case Constants.MELLOW:
                 mRadioButtonMellow.setChecked(true);
                 break;
-            case ELECTRO:
+            case Constants.ELECTRO:
                 mRadioButtonElectro.setChecked(true);
                 break;
-            case FUTURE:
+            case Constants.FUTURE:
                 mRadioButtonFuture.setChecked(true);
                 break;
         }
@@ -95,31 +87,31 @@ public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChang
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.radio_button_mountain:
-                mOnSelectMusicListener.onSelected(MOUNTAIN, R.raw.mountain);
+                mOnSelectMusicListener.onSelected(Constants.MOUNTAIN, R.raw.mountain);
                 break;
             case R.id.radio_button_old_alarm_clock:
-                mOnSelectMusicListener.onSelected(OLD_ALARM_CLOCK, R.raw.old_alarm_clock);
+                mOnSelectMusicListener.onSelected(Constants.OLD_ALARM_CLOCK, R.raw.old_alarm_clock);
                 break;
             case R.id.radio_button_digital:
-                mOnSelectMusicListener.onSelected(DIGITAL, R.raw.digital);
+                mOnSelectMusicListener.onSelected(Constants.DIGITAL, R.raw.digital);
                 break;
             case R.id.radio_button_bells:
-                mOnSelectMusicListener.onSelected(BELLS, R.raw.bells);
+                mOnSelectMusicListener.onSelected(Constants.BELLS, R.raw.bells);
                 break;
             case R.id.radio_button_get_funky:
-                mOnSelectMusicListener.onSelected(GET_FUNKY, R.raw.get_funky);
+                mOnSelectMusicListener.onSelected(Constants.GET_FUNKY, R.raw.get_funky);
                 break;
             case R.id.radio_button_good_morning:
-                mOnSelectMusicListener.onSelected(GOOD_MORNING, R.raw.good_morning);
+                mOnSelectMusicListener.onSelected(Constants.GOOD_MORNING, R.raw.good_morning);
                 break;
             case R.id.radio_button_mellow:
-                mOnSelectMusicListener.onSelected(MELLOW, R.raw.mellow);
+                mOnSelectMusicListener.onSelected(Constants.MELLOW, R.raw.mellow);
                 break;
             case R.id.radio_button_electro:
-                mOnSelectMusicListener.onSelected(ELECTRO, R.raw.electro);
+                mOnSelectMusicListener.onSelected(Constants.ELECTRO, R.raw.electro);
                 break;
             case R.id.radio_button_future:
-                mOnSelectMusicListener.onSelected(FUTURE, R.raw.future);
+                mOnSelectMusicListener.onSelected(Constants.FUTURE, R.raw.future);
                 break;
         }
     }

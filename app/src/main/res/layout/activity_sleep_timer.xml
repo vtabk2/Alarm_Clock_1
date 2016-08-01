@@ -48,6 +48,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/text_view_music_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/timer_sleep_sound_music"
@@ -55,6 +56,7 @@
                     android:textSize="@dimen/text_size2_timer_sleep_activity"/>
 
                 <TextView
+                    android:id="@+id/text_view_number_selected_songs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/timer_sleep_sound_music_chose_default"

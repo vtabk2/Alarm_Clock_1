@@ -35,4 +35,6 @@
     <dimen name="text_clock_am_pm_main_activity_margin_left">250dp</dimen>
     <dimen name="text_clock_am_pm_main_activity_margin_bottom">45dp</dimen>
     <dimen name="text_battery_size">18sp</dimen>
+    <dimen name="button_delete_selected_song_dimen">25dp</dimen>
+    <dimen name="item_text_size">18sp</dimen>
 </resources>
