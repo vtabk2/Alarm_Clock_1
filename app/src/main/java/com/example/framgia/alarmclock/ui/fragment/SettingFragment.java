@@ -17,11 +17,12 @@ import com.example.framgia.alarmclock.ui.activity.AdvancedActivity;
 import com.example.framgia.alarmclock.ui.activity.DisplayActivity;
 import com.example.framgia.alarmclock.ui.activity.ListAlarmsActivity;
 import com.example.framgia.alarmclock.ui.activity.SleepTimerActivity;
+import com.example.framgia.alarmclock.utility.ToastUtils;
 
 /**
  * Created by framgia on 14/07/2016.
  */
-public class PageFragment extends Fragment implements View.OnClickListener {
+public class SettingFragment extends Fragment implements View.OnClickListener {
     private final static int TYPE_FUNCTIONS = 1;
     private final static int TYPE_CLOCKS = 2;
     private final static String PAGE = "page";
@@ -34,12 +35,12 @@ public class PageFragment extends Fragment implements View.OnClickListener {
     private LinearLayout mLinearLayoutDigitalYellow;
     private LinearLayout mLinearLayoutAnalog;
 
-    public static PageFragment newInstance(int page) {
+    public static SettingFragment newInstance(int page) {
         Bundle args = new Bundle();
         args.putInt(PAGE, page);
-        PageFragment fragment = new PageFragment();
-        fragment.setArguments(args);
-        return fragment;
+        SettingFragment settingFragment = new SettingFragment();
+        settingFragment.setArguments(args);
+        return settingFragment;
     }
 
     @Override
@@ -145,7 +146,7 @@ public class PageFragment extends Fragment implements View.OnClickListener {
                 openActivity(SleepTimerActivity.class);
                 break;
             case R.id.layout_weather:
-                // TODO: 14/07/2016
+                ToastUtils.showToast(getContext(), R.string.update_feature);
                 break;
             case R.id.layout_display:
                 openActivity(DisplayActivity.class);

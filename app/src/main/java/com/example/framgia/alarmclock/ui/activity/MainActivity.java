@@ -27,6 +27,7 @@ import com.example.framgia.alarmclock.data.controller.AlarmRepository;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.utility.AlarmUtils;
 import com.example.framgia.alarmclock.utility.MusicPlayerUtils;
+import com.example.framgia.alarmclock.utility.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mImageViewTimer, mImageViewStopAlarm, mImageViewSnooze;
     private GestureDetector mGestureDetector;
     private float mAlpha;
-    private boolean mIscreated;
-    private boolean mSlideFingers;
+    private boolean mIscreated, mIsSlideFingers, mIsAlarmFinish;
     private SharedPreferences mSharedPreferences;
     private Typeface mTypeFaceDay, mTypeFaceTime;
     private Vibrator mVibrator;
@@ -57,7 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showAdvanced();
         onSimpleOnGestureListener();
         initAlarmData();
+        if (savedInstanceState != null)
+            mIsAlarmFinish = savedInstanceState.getBoolean(Constants.IS_ALARM_FINISH, false);
         setupAction();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(Constants.IS_ALARM_FINISH, mIsAlarmFinish);
     }
 
     private void initAlarmData() {
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void updateData() {
         mSharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
             Context.MODE_PRIVATE);
-        mSlideFingers = mSharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
+        mIsSlideFingers = mSharedPreferences.getBoolean(Constants.SLIDE_FINGERS, true);
         mAlpha = Constants.ALPHA_MAX;
     }
 
@@ -174,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mVibrator.cancel();
         }
         MusicPlayerUtils.stopMusic();
+        mIsAlarmFinish = true;
     }
 
     private void onSimpleOnGestureListener() {
@@ -182,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                        float velocityY) {
-                    if (mSlideFingers) {
+                    if (mIsSlideFingers) {
                         float y1 = e1.getY();
                         float y2 = e2.getY();
                         if (y1 > y2) {
@@ -201,13 +210,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_weather:
-                // TODO: 12/07/2016
+                ToastUtils.showToast(getApplicationContext(), R.string.update_feature);
                 break;
             case R.id.image_settings:
                 openActivity(SettingActivity.class);
                 break;
             case R.id.image_help:
-                // TODO: 12/07/2016
+                ToastUtils.showToast(getApplicationContext(), R.string.update_feature);
                 break;
             case R.id.image_alarm:
                 openActivity(ListAlarmsActivity.class);
@@ -233,9 +242,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showAdvancedTextViewDay() {
-        String date = new SimpleDateFormat(Constants.FORMAT_DAY_SHORT)
-            .format(Calendar.getInstance().getTime()).toUpperCase();
-        mTextViewDay.setText(date);
+        mTextViewDay.setText(new SimpleDateFormat(Constants.FORMAT_DAY_SHORT)
+            .format(Calendar.getInstance().getTime()).toUpperCase());
         boolean showDay = mSharedPreferences.getBoolean(Constants.SHOW_DAY, true);
         mTextViewDay.setVisibility(showDay ? View.VISIBLE : View.INVISIBLE);
     }
@@ -393,8 +401,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (action == null) return;
         switch (action) {
             case Constants.ACTION_FULLSCREEN_ACTIVITY:
-                showAlarmSnooze();
-                playRingAndVibrate();
+                if (!mIsAlarmFinish) {
+                    showAlarmSnooze();
+                    playRingAndVibrate();
+                }
                 break;
             default:
                 break;

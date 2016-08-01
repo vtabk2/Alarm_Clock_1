@@ -88,4 +88,9 @@ public class Constants {
     public static final int TIME_VIBRATOR = 500;
     public static final int VIBRATOR_REPEAT = 0;
     public static final String ACTION_FULLSCREEN_ACTIVITY = "action full screen activity";
+    public static final String TIME_SLEEP_ON_ROTATE_CHANGE = "time sleep on rotate change";
+    public static final String TIME_ALARM_ON_ROTATE_CHANGE = "time alarm on rotate change";
+    public static final String IS_ALARM_FINISH = "is alarm finish";
+    public static final String SLEEP_TIMER_IS_PLAYING = "sleep timer is playing";
+    public static final String SLEEP_TIMER_TIME_COUNT_DOWN = "sleep timer time count down";
 }

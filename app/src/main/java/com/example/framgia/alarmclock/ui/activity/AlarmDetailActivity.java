@@ -11,16 +11,17 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.AlarmRepository;
+import com.example.framgia.alarmclock.data.listener.OnTimeSetPickerListener;
 import com.example.framgia.alarmclock.data.model.Alarm;
 import com.example.framgia.alarmclock.data.model.Repeat;
 import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
 import com.example.framgia.alarmclock.utility.AlarmUtils;
+import com.example.framgia.alarmclock.utility.ToastUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,7 +35,7 @@ import io.realm.Realm;
  * Created by framgia on 15/07/2016.
  */
 public class AlarmDetailActivity extends BaseActivity implements View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+    CompoundButton.OnCheckedChangeListener, OnTimeSetPickerListener {
     public static final int SNOOZE_TIME_CODE = 0;
     public static final int REPEAT_CODE = 1;
     public static final int SOUND_MUSIC_CODE = 2;
@@ -49,6 +50,9 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
     private int mSnoozeTime;
     private Repeat mRepeat;
     private Song mSong;
+    private TimePickerFragment mTimePickerFragment;
+    private String mTimeDefault;
+    private int mId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +62,23 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
         handleViewsOnClick();
         loadData();
         setDataToViews();
+        onChangeRotate(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.TIME_ALARM_ON_ROTATE_CHANGE,
+            mTextViewAlarmTime.getText().toString());
+    }
+
+    private void onChangeRotate(Bundle savedInstanceState) {
+        if (savedInstanceState != null)
+            mTextViewAlarmTime.setText(savedInstanceState.getString(
+                Constants.TIME_SLEEP_ON_ROTATE_CHANGE, mTimeDefault));
+        if (mTimePickerFragment == null)
+            mTimePickerFragment =
+                TimePickerFragment.newInstance(this, mTextViewAlarmTime.getText().toString());
     }
 
     private void initViews() {
@@ -92,14 +113,14 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
     private void loadData() {
         mRealm = Realm.getDefaultInstance();
         Intent intent = getIntent();
-        int id = intent.getIntExtra(Constants.OBJECT_ID, Constants.DEFAULT_INTENT_VALUE);
-        if (id == Constants.DEFAULT_INTENT_VALUE) {
+        mId = intent.getIntExtra(Constants.OBJECT_ID, Constants.DEFAULT_INTENT_VALUE);
+        if (mId == Constants.DEFAULT_INTENT_VALUE) {
             mButtonSaveNewAlarm.setVisibility(View.VISIBLE);
             createNewAlarm();
         } else {
             mButtonSaveAlarm.setVisibility(View.VISIBLE);
             mButtonDeleteAlarm.setVisibility(View.VISIBLE);
-            mAlarm = AlarmRepository.getAlarmById(id);
+            mAlarm = AlarmRepository.getAlarmById(mId);
         }
         mSnoozeTime = mAlarm.getSnoozeTime();
         mRealm.beginTransaction();
@@ -111,8 +132,9 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void setDataToViews() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.ALARM_TIME_FORMAT);
-        mTextViewAlarmTime.setText(simpleDateFormat.format(new Date(mAlarm.getTime())));
+        mTimeDefault =
+            new SimpleDateFormat(Constants.ALARM_TIME_FORMAT).format(new Date(mAlarm.getTime()));
+        mTextViewAlarmTime.setText(mTimeDefault);
         mTextViewRepeatValue.setText(mAlarm.getRepeat().getRepeatDay());
         mTextViewSoundValue.setText(mSong.getName());
         mSeekBarVolume.setProgress(mAlarm.getVolume());
@@ -150,7 +172,7 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
             date = formatter.parse(timeString);
         } catch (ParseException e) {
             date = new Date();
-            Toast.makeText(this, R.string.error_parse_time_string, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(getApplicationContext(), R.string.error_parse_time_string);
         }
         return date.getTime();
     }
@@ -190,9 +212,9 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.text_view_alarm_time:
-                TimePickerFragment timePickerFragment = new TimePickerFragment()
-                    .setTextViewTimePicker(mTextViewAlarmTime);
-                timePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
+                mTimePickerFragment =
+                    TimePickerFragment.newInstance(this, mTextViewAlarmTime.getText().toString());
+                mTimePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
                 break;
             case R.id.linear_layout_repeat:
                 openRepeatActivity();
@@ -285,5 +307,16 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onTimeSetPicker(int hourOfDay, int minute) {
+        mTextViewAlarmTime.setText(TimePickerFragment.getFormatTime(this, hourOfDay, minute));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mId == Constants.DEFAULT_INTENT_VALUE) AlarmRepository.deleteAlarm(mAlarm);
+        finish();
     }
 }

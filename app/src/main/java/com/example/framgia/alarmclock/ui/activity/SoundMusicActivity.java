@@ -2,19 +2,16 @@ package com.example.framgia.alarmclock.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 import com.example.framgia.alarmclock.ui.adapter.SoundMusicFragmentPagerAdapter;
-
-import java.io.IOException;
+import com.example.framgia.alarmclock.utility.MusicPlayerUtils;
 
 /**
  * Created by framgia on 20/07/2016.
@@ -22,7 +19,6 @@ import java.io.IOException;
 public class SoundMusicActivity extends BaseActivity implements OnSelectMusicListener {
     private String mSound;
     private String mPath;
-    private MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +36,6 @@ public class SoundMusicActivity extends BaseActivity implements OnSelectMusicLis
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_sound);
         tabLayout.setupWithViewPager(viewPager);
-        mMediaPlayer = new MediaPlayer();
     }
 
     private void loadData() {
@@ -54,25 +49,8 @@ public class SoundMusicActivity extends BaseActivity implements OnSelectMusicLis
         returnIntent.putExtra(Constants.INTENT_SOUND_MUSIC, mSound);
         returnIntent.putExtra(Constants.INTENT_SOUND_MUSIC_PATH, mPath);
         setResult(Activity.RESULT_OK, returnIntent);
-        mMediaPlayer.stop();
+        MusicPlayerUtils.stopMusic();
         finish();
-    }
-
-    private void playSong() {
-        try {
-            mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(mPath);
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
-        } catch (IOException e) {
-            Toast.makeText(this, R.string.error_play_song, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void playSound(int resId) {
-        mMediaPlayer.reset();
-        mMediaPlayer = MediaPlayer.create(this, resId);
-        mMediaPlayer.start();
     }
 
     @Override
@@ -81,21 +59,15 @@ public class SoundMusicActivity extends BaseActivity implements OnSelectMusicLis
     }
 
     @Override
+    public String getMusicName() {
+        return mSound;
+    }
+
+    @Override
     public void onSelected(String musicName, String musicPath) {
         mSound = musicName;
         mPath = musicPath;
-        playSong();
-    }
-
-    @Override
-    public void onSelected(String musicName, int resId) {
-        mSound = musicName;
-        mPath = String.valueOf(resId);
-        playSound(resId);
-    }
-
-    @Override
-    public String getMusicName() {
-        return mSound;
+        MusicPlayerUtils.stopMusic();
+        MusicPlayerUtils.playMusic(this, mPath);
     }
 }

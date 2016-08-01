@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.SongRepository;
+import com.example.framgia.alarmclock.data.listener.OnTimeSetPickerListener;
 import com.example.framgia.alarmclock.ui.fragment.TimePickerFragment;
 import com.example.framgia.alarmclock.utility.MusicPlayerUtils;
+import com.example.framgia.alarmclock.utility.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,7 +31,14 @@ import java.util.TimeZone;
  * Created by framgia on 15/07/2016.
  */
 public class SleepTimerActivity extends BaseActivity implements View.OnClickListener,
-    SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
+    SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener,
+    OnTimeSetPickerListener {
+    private static final int HOUR = 0;
+    private static final int MINUTE = 1;
+    private static final int SECONDS_AN_HOUR = 3600;
+    private static final int SECONDS_A_MINUTE = 60;
+    private static final int MILLISECONDS_A_SECOND = 1000;
+    private static String GMT_FORMAT = "GMT+00:00";
     private TextView mTextViewTimePicker;
     private Button mButtonStart, mButtonStop;
     private SeekBar mSeekBarVolume;
@@ -39,12 +48,9 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     private LinearLayout mLinearLayoutMusic;
     private CountDownTimer mCountDownTimer;
     private TextView mTextViewNumberSelectedSongs;
-    private static String GMT_FORMAT = "GMT+00:00";
-    private static final int HOUR = 0;
-    private static final int MINUTE = 1;
-    private static final int SECONDS_AN_HOUR = 3600;
-    private static final int SECONDS_A_MINUTE = 60;
-    private static final int MILLISECONDS_A_SECOND = 1000;
+    private TimePickerFragment mTimePickerFragment;
+    private boolean mIsPlaying;
+    private long mTimeCountDown;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +59,30 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         initViews();
         initOnListener();
         initSharedPreferences();
+        onChangeRotate(savedInstanceState);
+    }
+
+    private void onChangeRotate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mTextViewTimePicker.setText(savedInstanceState.getString(
+                Constants.TIME_SLEEP_ON_ROTATE_CHANGE, getString(R.string.timer_sleep_default)));
+            mIsPlaying = savedInstanceState.getBoolean(Constants.SLEEP_TIMER_IS_PLAYING);
+            if (mIsPlaying)
+                countDownTime(savedInstanceState.getLong(Constants.SLEEP_TIMER_TIME_COUNT_DOWN));
+        }
+        if (mTimePickerFragment == null)
+            mTimePickerFragment =
+                TimePickerFragment.newInstance(this, mTextViewTimePicker.getText().toString());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.TIME_SLEEP_ON_ROTATE_CHANGE,
+            mTextViewTimePicker.getText().toString());
+        outState.putBoolean(Constants.SLEEP_TIMER_IS_PLAYING, mIsPlaying);
+        if (mIsPlaying)
+            outState.putLong(Constants.SLEEP_TIMER_TIME_COUNT_DOWN, mTimeCountDown);
     }
 
     private void initOnListener() {
@@ -74,7 +104,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
             getText(R.string.timer_sleep_default).toString());
         mTextViewTimePicker.setText(time);
         mCheckBoxNoise.setChecked(
-            mSharedPreferences.getBoolean(Constants.SLEEP_TIMER_NOISE_IS_CHECKED, false));
+            mSharedPreferences.getBoolean(Constants.SLEEP_TIMER_NOISE_IS_CHECKED, true));
     }
 
     private void initViews() {
@@ -111,7 +141,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         mCheckBoxShuffle.setTextColor(isCheckedNoise ? Color.GRAY : Color.WHITE);
     }
 
-    private int getTotalMiliseconds() {
+    private long getTotalMilliseconds() {
         String[] arr = mTextViewTimePicker.getText().toString().split(":");
         return (Integer.parseInt(arr[HOUR]) * SECONDS_AN_HOUR + Integer.parseInt(arr[MINUTE]) *
             SECONDS_A_MINUTE) * MILLISECONDS_A_SECOND;
@@ -121,15 +151,17 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.start_timer_sleep:
-                onVisibility(true);
                 onStartSleepTimer();
                 break;
             case R.id.stop_timer_sleep:
+                mIsPlaying = false;
                 onVisibility(false);
                 onStopSleepTimer();
                 break;
             case R.id.text_timer_sleep:
-                onChangeTimeSleep();
+                mTimePickerFragment =
+                    TimePickerFragment.newInstance(this, mTextViewTimePicker.getText().toString());
+                mTimePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
                 break;
             case R.id.layout_sound_music:
                 startActivity(new Intent(this, ListSongsActivity.class));
@@ -139,36 +171,42 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
 
     private void onStartSleepTimer() {
         if (mCheckBoxNoise.isChecked()) {
-            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants
-                .TIME_FORMAT, Locale.getDefault());
-            simpleDateFormat.setTimeZone(TimeZone.getTimeZone(GMT_FORMAT));
             MusicPlayerUtils.playMusic(this, String.valueOf(R.raw.noise));
-            mCountDownTimer = new CountDownTimer(getTotalMiliseconds(), MILLISECONDS_A_SECOND) {
-                public void onTick(long millisUntilFinished) {
-                    mButtonStop.setText(String.format(Locale.getDefault(), getString(R.string
-                            .sleep_timer_count_down), Constants.STOP,
-                        simpleDateFormat.format(new Date(millisUntilFinished))));
-                }
-
-                public void onFinish() {
-                    onVisibility(false);
-                    onStopSleepTimer();
-                }
-            }.start();
+            countDownTime(getTotalMilliseconds());
+        } else if (SongRepository.getSize() != 0) {
+            MusicPlayerUtils.playMusic(this, SongRepository.getAllSongs().get(0).getPath());
+            countDownTime(getTotalMilliseconds());
+        } else {
+            ToastUtils.showToast(getApplicationContext(), R.string.prompt_there_is_no_song);
         }
+    }
+
+    private void countDownTime(final long milliseconds) {
+        mIsPlaying = true;
+        onVisibility(true);
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants
+            .TIME_FORMAT, Locale.getDefault());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(GMT_FORMAT));
+        mCountDownTimer = new CountDownTimer(milliseconds, MILLISECONDS_A_SECOND) {
+            public void onTick(long millisUntilFinished) {
+                mButtonStop.setText(String.format(Locale.getDefault(), getString(R.string
+                        .sleep_timer_count_down), Constants.STOP,
+                    simpleDateFormat.format(new Date(millisUntilFinished))));
+                mTimeCountDown = millisUntilFinished;
+            }
+
+            public void onFinish() {
+                mIsPlaying = false;
+                onVisibility(false);
+                onStopSleepTimer();
+            }
+        }.start();
     }
 
     private void onStopSleepTimer() {
         mButtonStop.setText(Constants.STOP);
-        if (mCountDownTimer != null)
-            mCountDownTimer.cancel();
+        if (mCountDownTimer != null) mCountDownTimer.cancel();
         MusicPlayerUtils.stopMusic();
-    }
-
-    private void onChangeTimeSleep() {
-        TimePickerFragment timePickerFragment = new TimePickerFragment()
-            .setTextViewTimePicker(mTextViewTimePicker);
-        timePickerFragment.show(getSupportFragmentManager(), Constants.TIME_PICKER);
     }
 
     private void onVisibility(boolean isStart) {
@@ -177,8 +215,8 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        // nothing
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        MusicPlayerUtils.setVolume(this, progress);
     }
 
     @Override
@@ -197,5 +235,10 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         super.onResume();
         mTextViewNumberSelectedSongs.setText(String.format
             (Locale.getDefault(), Constants.NUMBER_SELECTED_SONGS, SongRepository.getSize()));
+    }
+
+    @Override
+    public void onTimeSetPicker(int hourOfDay, int minute) {
+        mTextViewTimePicker.setText(TimePickerFragment.getFormatTime(this, hourOfDay, minute));
     }
 }
