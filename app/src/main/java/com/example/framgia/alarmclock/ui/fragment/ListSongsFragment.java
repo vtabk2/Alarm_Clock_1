@@ -18,6 +18,7 @@ import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.controller.SongRepository;
 import com.example.framgia.alarmclock.data.listener.OnClickCheckedChangeItemListener;
+import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.model.Music;
 import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.adapter.SongRecyclerViewAdapter;
@@ -31,7 +32,8 @@ import io.realm.Realm;
 /**
  * Created by framgia on 25/07/2016.
  */
-public class ListSongsFragment extends Fragment implements OnClickCheckedChangeItemListener {
+public class ListSongsFragment extends Fragment implements OnClickCheckedChangeItemListener,
+    OnFragmentIsVisible {
     private SongRecyclerViewAdapter mSongRecyclerViewAdapter;
     private Realm mRealm;
     private List<Music> mMusicList;
@@ -74,7 +76,7 @@ public class ListSongsFragment extends Fragment implements OnClickCheckedChangeI
     private void setCheckedItems() {
         mRealm.beginTransaction();
         for (Music music : mMusicList)
-            if (SongRepository.getSongByPath(music.getPath()) != null) music.setChecked(true);
+            music.setChecked(SongRepository.getSongByPath(music.getPath()) != null);
         mRealm.commitTransaction();
     }
 
@@ -109,5 +111,11 @@ public class ListSongsFragment extends Fragment implements OnClickCheckedChangeI
                 mSongRecyclerViewAdapter.notifyItemChanged(position);
                 break;
         }
+    }
+
+    @Override
+    public void fragmentIsVisible() {
+        setCheckedItems();
+        mSongRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

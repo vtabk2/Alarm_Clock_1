@@ -38,7 +38,6 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     private static final int SECONDS_AN_HOUR = 3600;
     private static final int SECONDS_A_MINUTE = 60;
     private static final int MILLISECONDS_A_SECOND = 1000;
-    private static String GMT_FORMAT = "GMT+00:00";
     private TextView mTextViewTimePicker;
     private Button mButtonStart, mButtonStop;
     private SeekBar mSeekBarVolume;
@@ -186,7 +185,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         onVisibility(true);
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants
             .TIME_FORMAT, Locale.getDefault());
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(GMT_FORMAT));
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone(Constants.GMT_FORMAT));
         mCountDownTimer = new CountDownTimer(milliseconds, MILLISECONDS_A_SECOND) {
             public void onTick(long millisUntilFinished) {
                 mButtonStop.setText(String.format(Locale.getDefault(), getString(R.string

@@ -4,16 +4,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.ui.adapter.ListSongsFragmentPagerAdapter;
+import com.example.framgia.alarmclock.ui.fragment.ListSongsFragment;
+import com.example.framgia.alarmclock.ui.fragment.SelectedSongsFragment;
 
 /**
  * Created by framgia on 25/07/2016.
  */
-public class ListSongsActivity extends AppCompatActivity {
+public class ListSongsActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+    private static final int FRAGMENT_SELECTED_SONG = 0;
+    private static final int FRAGMENT_LIST_SONGS = 1;
+    private ViewPager mViewPager;
+    private ListSongsFragmentPagerAdapter mPagerAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,23 +28,40 @@ public class ListSongsActivity extends AppCompatActivity {
 
     private void initViews() {
         getSupportActionBar().setTitle(getText(R.string.list_songs));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_sound);
-        ListSongsFragmentPagerAdapter pagerAdapter =
-            new ListSongsFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager_sound);
+        mPagerAdapter = new ListSongsFragmentPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_sound);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOnPageChangeListener(this);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        // nothing
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case FRAGMENT_SELECTED_SONG:
+                SelectedSongsFragment selectedSongsFragment = (SelectedSongsFragment) mPagerAdapter
+                    .instantiateItem(mViewPager, position);
+                if (selectedSongsFragment != null)
+                    selectedSongsFragment.fragmentIsVisible();
+                break;
+            case FRAGMENT_LIST_SONGS:
+                ListSongsFragment listSongsFragment =
+                    (ListSongsFragment) mPagerAdapter.instantiateItem
+                        (mViewPager, position);
+                if (listSongsFragment != null)
+                    listSongsFragment.fragmentIsVisible();
                 break;
         }
-        return super.onOptionsItemSelected(menuItem);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        // nothing
     }
 }
