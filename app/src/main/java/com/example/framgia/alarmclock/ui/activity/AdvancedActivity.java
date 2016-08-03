@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.utility.ToastUtils;
 
 /**
  * Created by framgia on 21/07/2016.
@@ -45,7 +47,7 @@ public class AdvancedActivity extends BaseActivity
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARE_PREFERENCES,
             MODE_PRIVATE);
         mEditor = sharedPreferences.edit();
-        mCheckBoxAutoLaunch.setChecked(sharedPreferences.getBoolean(Constants.AUTO_LAUNCH, true));
+        mCheckBoxAutoLaunch.setChecked(sharedPreferences.getBoolean(Constants.AUTO_LAUNCH, false));
         mCheckBoxShowBattery.setChecked(sharedPreferences.getBoolean(Constants.SHOW_BATTERY, true));
         mCheckBoxAutoSnooze.setChecked(sharedPreferences.getBoolean(Constants.AUTO_SNOOZE, true));
         mTypePicker = sharedPreferences.getInt(Constants.TYPE_PICKER, Constants.TYPE_ANALOG);
@@ -64,14 +66,15 @@ public class AdvancedActivity extends BaseActivity
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         switch (compoundButton.getId()) {
             case R.id.checkbox_auto_launch:
-                saveSharedPreferences(Constants.AUTO_LAUNCH, isChecked);
+                ToastUtils.showToast(getApplicationContext(), R.string.update_feature);
                 break;
             case R.id.checkbox_show_battery_indicator:
                 saveSharedPreferences(Constants.SHOW_BATTERY, isChecked);
                 break;
             case R.id.checkbox_auto_snooze:
                 saveSharedPreferences(Constants.AUTO_SNOOZE, isChecked);
-                break;
+                if (isChecked) ToastUtils.showToast(getApplicationContext(),R.string.auto_snooze_text);
+                    break;
         }
     }
 

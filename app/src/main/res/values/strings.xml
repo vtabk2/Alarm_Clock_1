@@ -90,6 +90,7 @@
     <string name="advanced_time_picker_type_analog">Analog</string>
     <string name="battery">Battery: %1$d%%</string>
     <string name="time_picker_default">%1$02d:%2$02d</string>
+    <string name="time_snooze_format">%1$d %2$s</string>
     <string name="sound_mountain">Mountain</string>
     <string name="sound_get_funky">Get Funky</string>
     <string name="sound_good_morning">Good Morning</string>
@@ -100,4 +101,6 @@
     <string name="sleep_timer_count_down">%1$s (%2$s)</string>
     <string name="update_feature">This feature will be installed in the next version !</string>
     <string name="prompt_there_is_no_song">There is no song !</string>
+    <string name="auto_snooze_text">Alarm rings for 30 secs, auto snoozes, and then repeats later,
+        if you don\'t interrupt.</string>
 </resources>

@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.controller.SongRepository;
-import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
+import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.adapter.SelectedSongsRecyclerViewAdapter;
 
@@ -48,7 +48,7 @@ public class SelectedSongsFragment extends Fragment implements OnClickItemListen
         switch (view.getId()) {
             case R.id.button_delete_selected_song:
                 SongRepository.deleteSong(mSelectedSongs.get(position));
-                mSelectedSongsRecyclerViewAdapter.notifyItemRemoved(position);
+                mSelectedSongsRecyclerViewAdapter.notifyDataSetChanged();
                 break;
         }
     }

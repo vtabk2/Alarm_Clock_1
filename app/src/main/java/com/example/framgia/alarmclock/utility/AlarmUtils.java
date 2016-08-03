@@ -58,7 +58,7 @@ public class AlarmUtils {
         calendar.set(Calendar.MINUTE, alarm.getFormattedTimeMinute());
         calendar.set(Calendar.SECOND, Constants.SECONDS_DEFAULT);
         if (calendar.before(Calendar.getInstance()))
-            calendar.roll(Calendar.DAY_OF_WEEK, Constants.DEFAULT_UP_DAY);
+            calendar.add(Calendar.DAY_OF_WEEK, Constants.DEFAULT_UP_DAY);
         // check alarm
         setAlarmByVersionAPI(alarm, calendar);
         enabledAutoBoot(context, PackageManager.COMPONENT_ENABLED_STATE_ENABLED);
@@ -112,7 +112,8 @@ public class AlarmUtils {
             PendingIntent.FLAG_UPDATE_CURRENT);
         // add time
         Calendar calendar = Calendar.getInstance();
-        calendar.roll(Calendar.MINUTE, alarm.getSnoozeTime());
+        calendar.add(Calendar.MINUTE, alarm.getSnoozeTime());
+        calendar.set(Calendar.SECOND, Constants.DEFAULT_SNOOZE_SECOND);
         // check alarm
         setAlarmByVersionAPI(alarm, calendar);
         enabledAutoBoot(context, PackageManager.COMPONENT_ENABLED_STATE_ENABLED);

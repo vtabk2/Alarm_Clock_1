@@ -143,7 +143,7 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     private long getTotalMilliseconds() {
         String[] arr = mTextViewTimePicker.getText().toString().split(":");
         return (Integer.parseInt(arr[HOUR]) * SECONDS_AN_HOUR + Integer.parseInt(arr[MINUTE]) *
-            SECONDS_A_MINUTE) * MILLISECONDS_A_SECOND;
+            SECONDS_A_MINUTE) * Constants.MILLISECONDS_A_SECOND;
     }
 
     @Override
@@ -186,10 +186,10 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants
             .TIME_FORMAT, Locale.getDefault());
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone(Constants.GMT_FORMAT));
-        mCountDownTimer = new CountDownTimer(milliseconds, MILLISECONDS_A_SECOND) {
+        mCountDownTimer = new CountDownTimer(milliseconds, Constants.MILLISECONDS_A_SECOND) {
             public void onTick(long millisUntilFinished) {
-                mButtonStop.setText(String.format(Locale.getDefault(), getString(R.string
-                        .sleep_timer_count_down), Constants.STOP,
+                mButtonStop.setText(String.format(Locale.getDefault(),
+                    getString(R.string.sleep_timer_count_down), Constants.STOP,
                     simpleDateFormat.format(new Date(millisUntilFinished))));
                 mTimeCountDown = millisUntilFinished;
             }
@@ -239,5 +239,11 @@ public class SleepTimerActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onTimeSetPicker(int hourOfDay, int minute) {
         mTextViewTimePicker.setText(TimePickerFragment.getFormatTime(this, hourOfDay, minute));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MusicPlayerUtils.stopMusic();
     }
 }

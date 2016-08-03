@@ -55,10 +55,8 @@ public class TimePickerFragment extends DialogFragment implements
         SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants
             .SHARE_PREFERENCES, Context.MODE_PRIVATE);
         int typePicker = sharedPreferences.getInt(Constants.TYPE_PICKER, Constants.TYPE_ANALOG);
-        if (typePicker == Constants.TYPE_DIGITAL) {
-            return new TimePickerDialog(getContext(),
-                R.style.myTimePickerStyle, this, hourOfDay, minute, true);
-        }
+        if (typePicker == Constants.TYPE_DIGITAL) return new TimePickerDialog(getContext(),
+            R.style.myTimePickerStyle, this, hourOfDay, minute, true);
         return new TimePickerDialog(getContext(), this, hourOfDay, minute, true);
     }
 

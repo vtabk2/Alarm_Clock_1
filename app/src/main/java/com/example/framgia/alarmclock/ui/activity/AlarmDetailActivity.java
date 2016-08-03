@@ -140,8 +140,10 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
         mSeekBarVolume.setProgress(mAlarm.getVolume());
         mCheckBoxVibration.setChecked(mAlarm.isVibrated());
         mCheckBoxFadeIn.setChecked(mAlarm.isFadeIn());
-        mTextViewSnoozeValue
-            .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
+        if (mSnoozeTime > 0) mTextViewSnoozeValue
+            .setText(String.format(getString(R.string.time_snooze_format),
+                mSnoozeTime, Constants.MINUTES));
+        else mTextViewSnoozeValue.setText(getText(R.string.snooze_never));
         mEditTextNoteValue.setText(mAlarm.getNote());
     }
 
@@ -266,8 +268,10 @@ public class AlarmDetailActivity extends BaseActivity implements View.OnClickLis
                 if (resultCode == Activity.RESULT_OK) {
                     mSnoozeTime = data.getIntExtra(Constants.INTENT_SNOOZE_TIME, Constants
                         .DEFAULT_INTENT_VALUE);
-                    mTextViewSnoozeValue
-                        .setText(String.format("%d %s", mSnoozeTime, Constants.MINUTES));
+                    if (mSnoozeTime > 0) mTextViewSnoozeValue
+                        .setText(String.format(getString(R.string.time_snooze_format),
+                            mSnoozeTime, Constants.MINUTES));
+                    else mTextViewSnoozeValue.setText(getText(R.string.snooze_never));
                 }
                 break;
             case REPEAT_CODE:

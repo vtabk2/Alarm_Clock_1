@@ -93,5 +93,9 @@ public class Constants {
     public static final String IS_ALARM_FINISH = "is alarm finish";
     public static final String SLEEP_TIMER_IS_PLAYING = "sleep timer is playing";
     public static final String SLEEP_TIMER_TIME_COUNT_DOWN = "sleep timer time count down";
+    public static final int MILLISECONDS_A_SECOND = 1000;
     public static final String GMT_FORMAT = "GMT+00:00";
+    public static final long RING_TIME = 30000L;
+    public static final int DEFAULT_SNOOZE = 0;
+    public static final int DEFAULT_SNOOZE_SECOND = 0;
 }
