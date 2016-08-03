@@ -11,12 +11,14 @@ import android.widget.RadioGroup;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
+import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 
 /**
  * Created by framgia on 21/07/2016.
  */
-public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
+public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChangeListener,
+    OnFragmentIsVisible {
     private RadioButton mRadioButtonMountain, mRadioButtonOldAlarmClock, mRadioButtonDigital,
         mRadioButtonBells, mRadioButtonGetFunky, mRadioButtonGoodMorning, mRadioButtonMellow,
         mRadioButtonElectro, mRadioButtonFuture;
@@ -80,6 +82,16 @@ public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChang
             case Constants.FUTURE:
                 mRadioButtonFuture.setChecked(true);
                 break;
+            default:
+                mRadioButtonMountain.setChecked(false);
+                mRadioButtonOldAlarmClock.setChecked(false);
+                mRadioButtonDigital.setChecked(false);
+                mRadioButtonBells.setChecked(false);
+                mRadioButtonGetFunky.setChecked(false);
+                mRadioButtonGoodMorning.setChecked(false);
+                mRadioButtonMellow.setChecked(false);
+                mRadioButtonElectro.setChecked(false);
+                mRadioButtonFuture.setChecked(false);
         }
     }
 
@@ -118,5 +130,10 @@ public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChang
                 mOnSelectMusicListener.onSelected(Constants.FUTURE, String.valueOf(R.raw.future));
                 break;
         }
+    }
+
+    @Override
+    public void fragmentIsVisible() {
+        setDataToViews();
     }
 }

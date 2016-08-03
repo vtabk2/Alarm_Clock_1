@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.Constants;
 import com.example.framgia.alarmclock.data.listener.OnClickCheckedChangeItemListener;
+import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.listener.OnSelectMusicListener;
 import com.example.framgia.alarmclock.data.model.Music;
 import com.example.framgia.alarmclock.ui.adapter.MusicRecyclerViewAdapter;
@@ -28,7 +29,8 @@ import java.util.List;
 /**
  * Created by framgia on 20/07/2016.
  */
-public class MusicFragment extends Fragment implements OnClickCheckedChangeItemListener {
+public class MusicFragment extends Fragment implements OnClickCheckedChangeItemListener,
+    OnFragmentIsVisible {
     private MusicRecyclerViewAdapter mMusicRecyclerViewAdapter;
     private List<Music> mMusicList;
     private OnSelectMusicListener mOnSelectMusicListener;
@@ -39,6 +41,7 @@ public class MusicFragment extends Fragment implements OnClickCheckedChangeItemL
         View view = inflater.inflate(R.layout.fragment_music, viewGroup, false);
         initView(view);
         requestPermission();
+        setDataToView();
         return view;
     }
 
@@ -86,6 +89,11 @@ public class MusicFragment extends Fragment implements OnClickCheckedChangeItemL
         }
     }
 
+    private void setDataToView() {
+        for (Music music : mMusicList)
+            music.setChecked(mOnSelectMusicListener.getMusicName().equals(music.getName()));
+    }
+
     @Override
     public void onClickCheckedChangeItem(View view, RecyclerView.ViewHolder holder, int position) {
         switch (view.getId()) {
@@ -99,5 +107,11 @@ public class MusicFragment extends Fragment implements OnClickCheckedChangeItemL
                 mMusicRecyclerViewAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public void fragmentIsVisible() {
+        setDataToView();
+        mMusicRecyclerViewAdapter.notifyDataSetChanged();
     }
 }

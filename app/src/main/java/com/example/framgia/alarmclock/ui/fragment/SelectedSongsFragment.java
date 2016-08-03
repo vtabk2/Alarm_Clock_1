@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.framgia.alarmclock.R;
 import com.example.framgia.alarmclock.data.controller.SongRepository;
+import com.example.framgia.alarmclock.data.listener.OnFragmentIsVisible;
 import com.example.framgia.alarmclock.data.listener.OnClickItemListener;
 import com.example.framgia.alarmclock.data.model.Song;
 import com.example.framgia.alarmclock.ui.adapter.SelectedSongsRecyclerViewAdapter;
@@ -19,7 +20,8 @@ import java.util.List;
 /**
  * Created by framgia on 29/07/2016.
  */
-public class SelectedSongsFragment extends Fragment implements OnClickItemListener {
+public class SelectedSongsFragment extends Fragment implements OnClickItemListener,
+    OnFragmentIsVisible {
     private SelectedSongsRecyclerViewAdapter mSelectedSongsRecyclerViewAdapter;
     private List<Song> mSelectedSongs;
 
@@ -49,5 +51,10 @@ public class SelectedSongsFragment extends Fragment implements OnClickItemListen
                 mSelectedSongsRecyclerViewAdapter.notifyItemRemoved(position);
                 break;
         }
+    }
+
+    @Override
+    public void fragmentIsVisible() {
+        mSelectedSongsRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
