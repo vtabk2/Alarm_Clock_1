@@ -85,33 +85,37 @@ public class SoundFragment extends Fragment implements RadioGroup.OnCheckedChang
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        switch (radioGroup.getCheckedRadioButtonId()) {
+        switch (checkedId) {
             case R.id.radio_button_mountain:
-                mOnSelectMusicListener.onSelected(Constants.MOUNTAIN, R.raw.mountain);
+                mOnSelectMusicListener
+                    .onSelected(Constants.MOUNTAIN, String.valueOf(R.raw.mountain));
                 break;
             case R.id.radio_button_old_alarm_clock:
-                mOnSelectMusicListener.onSelected(Constants.OLD_ALARM_CLOCK, R.raw.old_alarm_clock);
+                mOnSelectMusicListener.onSelected(Constants.OLD_ALARM_CLOCK,
+                    String.valueOf(R.raw.old_alarm_clock));
                 break;
             case R.id.radio_button_digital:
-                mOnSelectMusicListener.onSelected(Constants.DIGITAL, R.raw.digital);
+                mOnSelectMusicListener.onSelected(Constants.DIGITAL, String.valueOf(R.raw.digital));
                 break;
             case R.id.radio_button_bells:
-                mOnSelectMusicListener.onSelected(Constants.BELLS, R.raw.bells);
+                mOnSelectMusicListener.onSelected(Constants.BELLS, String.valueOf(R.raw.bells));
                 break;
             case R.id.radio_button_get_funky:
-                mOnSelectMusicListener.onSelected(Constants.GET_FUNKY, R.raw.get_funky);
+                mOnSelectMusicListener
+                    .onSelected(Constants.GET_FUNKY, String.valueOf(R.raw.get_funky));
                 break;
             case R.id.radio_button_good_morning:
-                mOnSelectMusicListener.onSelected(Constants.GOOD_MORNING, R.raw.good_morning);
+                mOnSelectMusicListener
+                    .onSelected(Constants.GOOD_MORNING, String.valueOf(R.raw.good_morning));
                 break;
             case R.id.radio_button_mellow:
-                mOnSelectMusicListener.onSelected(Constants.MELLOW, R.raw.mellow);
+                mOnSelectMusicListener.onSelected(Constants.MELLOW, String.valueOf(R.raw.mellow));
                 break;
             case R.id.radio_button_electro:
-                mOnSelectMusicListener.onSelected(Constants.ELECTRO, R.raw.electro);
+                mOnSelectMusicListener.onSelected(Constants.ELECTRO, String.valueOf(R.raw.electro));
                 break;
             case R.id.radio_button_future:
-                mOnSelectMusicListener.onSelected(Constants.FUTURE, R.raw.future);
+                mOnSelectMusicListener.onSelected(Constants.FUTURE, String.valueOf(R.raw.future));
                 break;
         }
     }

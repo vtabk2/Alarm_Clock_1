@@ -1,9 +1,10 @@
 package com.example.framgia.alarmclock.utility;
 
+import android.app.Activity;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.widget.Toast;
 
 import com.example.framgia.alarmclock.R;
 
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class MusicPlayerUtils {
     private static final String URI_RESOURCE = "android.resource://";
     private static MediaPlayer mMediaPlayer;
+    private final static int VOLUME_RATIO = 5;
 
     public static void playMusic(Context context, String path) {
         try {
@@ -33,8 +35,15 @@ public class MusicPlayerUtils {
                 }
             });
         } catch (IOException e) {
-            Toast.makeText(context, R.string.error_play_song, Toast.LENGTH_SHORT).show();
+            ToastUtils.showToast(context, R.string.error_play_song);
         }
+    }
+
+    public static void setVolume(Activity activity, int volume) {
+        AudioManager audioManager =
+            (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume / VOLUME_RATIO,
+            AudioManager.FLAG_PLAY_SOUND);
     }
 
     private static boolean isSound(String path) {

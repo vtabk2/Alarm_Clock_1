@@ -89,6 +89,7 @@
     <string name="advanced_time_picker_type_digital">Digital</string>
     <string name="advanced_time_picker_type_analog">Analog</string>
     <string name="battery">Battery: %1$d%%</string>
+    <string name="time_picker_default">%1$02d:%2$02d</string>
     <string name="sound_mountain">Mountain</string>
     <string name="sound_get_funky">Get Funky</string>
     <string name="sound_good_morning">Good Morning</string>
@@ -97,4 +98,6 @@
     <string name="sound_future">Future</string>
     <string name="list_songs">Songs</string>
     <string name="sleep_timer_count_down">%1$s (%2$s)</string>
+    <string name="update_feature">This feature will be installed in the next version !</string>
+    <string name="prompt_there_is_no_song">There is no song !</string>
 </resources>

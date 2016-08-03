@@ -11,9 +11,9 @@ import com.example.framgia.alarmclock.ui.fragment.SoundFragment;
  * Created by framgia on 20/07/2016.
  */
 public class SoundMusicFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final int PAGE_COUNT = 2;
-    private final int TAB_SOUND = 0;
-    private final int TAB_MUSIC = 1;
+    private final static int PAGE_COUNT = 2;
+    private final static int TAB_SOUND = 0;
+    private final static int TAB_MUSIC = 1;
     private String[] TAB_TITLES = {"SOUNDS", "MUSIC"};
 
     public SoundMusicFragmentPagerAdapter(FragmentManager fragmentManager) {
